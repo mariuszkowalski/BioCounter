@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 
+from screen_utilities import ScreenUtilities
 from tkinter import *
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
@@ -47,8 +48,9 @@ class Window:
 
 def main():
     root = Tk()
-    screen_width = root.winfo_screenwidth() - 15
-    screen_height = root.winfo_screenheight() - 70
+    screen_width, screen_height = ScreenUtilities.check_resolution(root.winfo_screenwidth(), root.winfo_screenheight())
+    screen_width -= 15
+    screen_height -= 70
     root.geometry('{}x{}+5+5'.format(screen_width, screen_height))
     root.title('Bio Counter')
     root.wm_attributes('-topmost', 0)
