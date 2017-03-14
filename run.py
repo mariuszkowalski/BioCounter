@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 
+from manage_settings import ManageSettings
+from settings_utilities import SettingsUtilities
 from screen_utilities import ScreenUtilities
 from tkinter import *
 from tkinter import ttk
@@ -8,29 +10,33 @@ from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 from tkinter import messagebox
 import codecs
+import os
 import platform
 
 
 __author__ = 'Mariusz Kowalski'
 
 
+SETTINGS_PATH = os.path.dirname(os.path.abspath(__file__)).replace('\\', '/')
+
+
 class Window:
 
-    def __init__(self, mainWidget, screen_width, screen_height):
+    def __init__(self, mainWidget, screen_width, screen_height, settings):
         '''
         Main Window of the program.
         Contains all necessary elements to navigate and use all functionalities.
 
         Args:
+            settings: instance - instance of ManageSettings class.
             mainWidget: instance - instance of the Tk() class.
             screen_width: int - width of the screen.
             screen_height: int - width of the screen.
         '''
+        self.settings = settings
         self.mainWidget = mainWidget
         self.screen_width = screen_width
         self.screen_height = screen_height
-
-        self.always_on_top = False
 
         self.status_bar_text = StringVar()
         self.status_bar_text.set('')
@@ -63,6 +69,7 @@ class Window:
         self.status_bar = ttk.Label(self.mainWidget, width=self.screen_width, anchor=W, border=0, relief=SUNKEN, textvariable=self.status_bar_text)
         self.status_bar.place(x=0, y=self.screen_height-19)
 
+        self.mainWidget.update_idletasks()
         self.build_main_gui()
 
     def build_main_gui(self):
@@ -72,10 +79,10 @@ class Window:
 
         toolbar_width = 250
         scrollbar_thickness = 18
-        canvas_frame_width = self.screen_width - toolbar_width - scrollbar_thickness
-        canvas_frame_height = self.screen_height - 38
+        canvas_frame_width = self.main_frame.winfo_width() - toolbar_width - scrollbar_thickness
+        canvas_frame_height = self.main_frame.winfo_height() - scrollbar_thickness
         notebook_width =  toolbar_width - 5
-        notebook_height = self.screen_height - 46
+        notebook_height = self.main_frame.winfo_height() - 46
 
         self.picture_frame = ttk.Frame(self.main_frame, width=self.screen_width-toolbar_width, height=self.screen_height-20)
         self.picture_frame.place(x=0, y=0)
@@ -109,12 +116,12 @@ class Window:
         Change the mode of always on top window option.
         '''
 
-        if self.always_on_top:
+        if self.settings.always_on_top:
             self.mainWidget.wm_attributes('-topmost', 0)
-            self.always_on_top = False
+            self.settings.always_on_top = False
         else:
             self.mainWidget.wm_attributes('-topmost', 1)
-            self.always_on_top = True
+            self.settings.always_on_top = True
 
     def remove_elements(self, elements):
         for element in elements:
@@ -125,16 +132,29 @@ class Window:
 
 
 def main():
+    raw_settings = SettingsUtilities.load_settings_file(SETTINGS_PATH)
+    settings = ManageSettings(**raw_settings)
+
     root = Tk()
-    screen_width, screen_height = ScreenUtilities.check_resolution(root.winfo_screenwidth(), root.winfo_screenheight())
-    screen_width -= 15
-    screen_height -= 90
+    screen_width, screen_height = settings.set_screen_resolution
+    screen_width -= settings.screen_horizontal_margin
+    screen_height -= settings.screen_vertical_margin
+
     root.geometry('{}x{}+5+5'.format(screen_width, screen_height))
     root.title('Bio Counter')
-    root.wm_attributes('-topmost', 0)
-    root.resizable(width=0, height=0)
 
-    window = Window(root, screen_width, screen_height)
+
+    if settings.always_on_top == True:
+        root.wm_attributes('-topmost', 1)
+    else:
+        root.wm_attributes('-topmost', 0)
+
+    if settings.window_is_resizable == True:
+        root.resizable(width=1, height=1)
+    else:
+        root.resizable(width=0, height=0)
+
+    window = Window(root, screen_width, screen_height, settings)
     window
 
     root.mainloop()
