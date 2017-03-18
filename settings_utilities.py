@@ -42,3 +42,26 @@ class SettingsUtilities:
                     settings[k] = False
 
         return settings
+
+    @staticmethod
+    def save_settings_file(settings_path, settings):
+        settings_path = settings_path
+        settings = settings
+
+        settings_to_write = {}
+        settings_full_path = os.path.join(settings_path, 'settings.txt').replace('\\', '/')
+        redundant_settings = ['screen_width', 'screen_height', 'adjusted_screen_width', 'adjusted_screen_height']
+
+        for k, v in vars(settings).items():
+            if k not in redundant_settings:
+                settings_to_write[k] = v
+
+        with open(settings_full_path, 'w') as file_to_write:
+            for k, v in sorted(settings_to_write.items(), key=str):
+                if isinstance(v, list):
+                    temp = '{}={}x{}\n'.format(k, v[0], v[1])
+                else:
+                    temp = '{}={}\n'.format(k, v)
+
+                file_to_write.write(temp)
+
