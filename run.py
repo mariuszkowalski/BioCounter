@@ -4,6 +4,8 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
+from tkinter.filedialog import askopenfilename
+from PIL import Image, ImageTk
 from gui.main_gui import Main_gui
 from gui.markers_gui import Markers_gui
 from gui.options_gui import Options_gui
@@ -107,7 +109,7 @@ class Window:
         self.file_menu = Menu(self.drop_down_menu, tearoff=0)
         self.drop_down_menu.add_cascade(label='File', menu=self.file_menu)
 
-        self.file_menu.add_command(label='Open file', command=self.placeholder)
+        self.file_menu.add_command(label='Open file', command=self.open_photo)
         self.file_menu.add_command(label='Save file', command=self.placeholder)
         self.file_menu.add_separator()
         self.file_menu.add_command(label='Exit', command=self.mainWidget.quit)
@@ -205,6 +207,31 @@ class Window:
             self.widget_geometries,
             self.samples,
             **self.samples_and_qualifiers_all)
+
+    def open_photo(self):
+        allowed_file_types = ['.jpg', '.png', '.tif', '.JPG', '.PNG', '.TIF']
+        self.file_name = askopenfilename(filetypes=(('Graphic files', '*.jpg *.png *tif'), ('All files', '*.*')))
+
+        try:
+            if self.file_name[-4:] not in allowed_file_types:
+                messagebox.showinfo(message='Not supported file type')
+            else:
+                self.image_object = ImageTk.PhotoImage(Image.open(self.file_name))
+
+        except AttributeError:
+            pass
+
+        except OSError:
+            messagebox.showinfo(message='Not supported file type')
+
+        else:
+            # < ! >
+            # Clear statistics.
+            #
+            # Clear markers.
+            # < ! >
+            self.main_gui.place_image_on_canvas(self.image_object)
+
 
     def change_top_mode(self):
         '''

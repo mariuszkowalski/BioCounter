@@ -20,13 +20,11 @@ class Main_gui:
         self.canvas_frame.place(x=0, y=0)
 
         self.scrollbar_x_frame = ttk.Frame(self.picture_frame,
-                                           relief=GROOVE,
                                            width=self.widget_geometries.canvas_frame_width,
                                            height=self.widget_geometries.scrollbar_thickness)
         self.scrollbar_x_frame.place(x=0, y=self.widget_geometries.canvas_frame_height)
 
         self.scrollbar_y_frame = ttk.Frame(self.picture_frame,
-                                           relief=GROOVE,
                                            width=self.widget_geometries.scrollbar_thickness,
                                            height=self.widget_geometries.canvas_frame_height)
         self.scrollbar_y_frame.place(x=self.widget_geometries.canvas_frame_width, y=0)
@@ -41,6 +39,31 @@ class Main_gui:
         self.canvas.bind('<MouseWheel>', self.use_mousewheel_on_canvas)
         self.canvas.bind('<Shift-MouseWheel>', self.use_mousewheel_and_shift_on_canvas)
         self.canvas.bind('<Control-MouseWheel>', self.use_mousewheel_and_ctrl_on_canvas)
+
+    def place_image_on_canvas(self, image_object):
+        self.image_object = image_object
+        self.image_object_width = self.image_object.width()
+        self.image_object_height = self.image_object.height()
+
+        self.canvas.create_image(self.image_object_width / 2,
+                                 self.image_object_height / 2,
+                                 tags='image',
+                                 image=self.image_object)
+
+        self.scrollbar_x = ttk.Scrollbar(self.scrollbar_x_frame, orient=HORIZONTAL)
+        self.scrollbar_x.place(x=0, y=0, relwidth=1.0)
+        self.scrollbar_x.config(command=self.canvas.xview)
+
+        self.scrollbar_y = ttk.Scrollbar(self.scrollbar_y_frame, orient=VERTICAL)
+        self.scrollbar_y.place(x=0, y=0, relheight=1.0)
+        self.scrollbar_y.config(command=self.canvas.yview)
+
+        self.canvas.config(width=self.widget_geometries.canvas_frame_width,
+                           height=self.widget_geometries.canvas_frame_height,
+                           xscrollcommand=self.scrollbar_x.set,
+                           yscrollcommand=self.scrollbar_y.set,
+                           scrollregion=(0, 0, self.image_object_width, self.image_object_height))
+        self.canvas.focus()
 
     def place_marker_on_canvas(self, event):
         print('Marker placed at {},{}'.format(event.x, event.y))
