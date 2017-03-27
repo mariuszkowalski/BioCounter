@@ -45,6 +45,8 @@ class Samples:
             8: '#{:02X}{:02X}{:02X}'.format(255, 200, 50)
         }
 
+        self.activated_marker = None
+
     def update_qualifiers(self, temp, qualifier):
         '''
         Update texts of qualifiers and qualifiers_button_texts

@@ -12,6 +12,7 @@ class Markers_gui:
         '''
         Building the all elements of the markers menu.
         '''
+
         self.markers_tab = markers_tab
         self.widget_geometries = widget_geometries
         self.samples = samples
@@ -68,7 +69,7 @@ class Markers_gui:
 
         self.sample_1_color = Label(self.sample_1_frame, width=3, bg=self.samples.colors[1])
         self.sample_1_color.place(x=210, y=29)
-        self.sample_1_color.bind('<Button-1>', lambda event, sample_number=1: self.choose_marker_color(event, sample_number))
+        self.sample_1_color.bind('<Button-1>', lambda event, mode=1: self.choose_marker_color(event, mode))
 
         #
         # Sample 2
@@ -109,7 +110,7 @@ class Markers_gui:
 
         self.sample_2_color = Label(self.sample_2_frame, width=3, bg=self.samples.colors[2])
         self.sample_2_color.place(x=210, y=29)
-        self.sample_2_color.bind('<Button-1>', lambda event, sample_number=2: self.choose_marker_color(event, sample_number))
+        self.sample_2_color.bind('<Button-1>', lambda event, mode=2: self.choose_marker_color(event, mode))
 
         #
         # Sample 3
@@ -149,7 +150,7 @@ class Markers_gui:
 
         self.sample_3_color = Label(self.sample_3_frame, width=3, bg=self.samples.colors[3])
         self.sample_3_color.place(x=210, y=29)
-        self.sample_3_color.bind('<Button-1>', lambda event, sample_number=3: self.choose_marker_color(event, sample_number))
+        self.sample_3_color.bind('<Button-1>', lambda event, mode=3: self.choose_marker_color(event, mode))
 
         #
         # Sample 4
@@ -189,7 +190,7 @@ class Markers_gui:
 
         self.sample_4_color = Label(self.sample_4_frame, width=3, bg=self.samples.colors[4])
         self.sample_4_color.place(x=210, y=29)
-        self.sample_4_color.bind('<Button-1>', lambda event, sample_number=4: self.choose_marker_color(event, sample_number))
+        self.sample_4_color.bind('<Button-1>', lambda event, mode=4: self.choose_marker_color(event, mode))
 
         #
         # Sample 5
@@ -229,7 +230,7 @@ class Markers_gui:
 
         self.sample_5_color = Label(self.sample_5_frame, width=3, bg=self.samples.colors[5])
         self.sample_5_color.place(x=210, y=29)
-        self.sample_5_color.bind('<Button-1>', lambda event, sample_number=5: self.choose_marker_color(event, sample_number))
+        self.sample_5_color.bind('<Button-1>', lambda event, mode=5: self.choose_marker_color(event, mode))
 
         #
         # Sample 6
@@ -269,7 +270,7 @@ class Markers_gui:
 
         self.sample_6_color = Label(self.sample_6_frame, width=3, bg=self.samples.colors[6])
         self.sample_6_color.place(x=210, y=29)
-        self.sample_6_color.bind('<Button-1>', lambda event, sample_number=6: self.choose_marker_color(event, sample_number))
+        self.sample_6_color.bind('<Button-1>', lambda event, mode=6: self.choose_marker_color(event, mode))
 
         #
         # Sample 7
@@ -309,7 +310,7 @@ class Markers_gui:
 
         self.sample_7_color = Label(self.sample_7_frame, width=3, bg=self.samples.colors[7])
         self.sample_7_color.place(x=210, y=29)
-        self.sample_7_color.bind('<Button-1>', lambda event, sample_number=7: self.choose_marker_color(event, sample_number))
+        self.sample_7_color.bind('<Button-1>', lambda event, mode=7: self.choose_marker_color(event, mode))
 
         #
         # Sample 8
@@ -350,7 +351,7 @@ class Markers_gui:
 
         self.sample_8_color = Label(self.sample_8_frame, width=3, bg=self.samples.colors[8])
         self.sample_8_color.place(x=210, y=29)
-        self.sample_8_color.bind('<Button-1>', lambda event, sample_number=8: self.choose_marker_color(event, sample_number))
+        self.sample_8_color.bind('<Button-1>', lambda event, mode=8: self.choose_marker_color(event, mode))
 
         # Dictionary of elements.
         self.samples_and_markers_buttons = {
@@ -400,7 +401,7 @@ class Markers_gui:
         }
 
     def activate_marker(self, event, mode, qualifier, color):
-        # print('name:{} mode:{} color:{}'.format(name, mode, color))
+        # print('mode:{} qualifier:{} color:{}'.format(mode, qualifier, color))
 
         for k, v in self.samples_and_markers_buttons.items():
             if k == 'sample_{}_marker_{}_button'.format(mode, qualifier):
@@ -408,16 +409,28 @@ class Markers_gui:
             else:
                 v.state(['!disabled'])
 
-    def choose_marker_color(self, event, sample_number):
+        self.samples.activated_marker = {
+            'mode': mode,
+            'qualifier': qualifier,
+            'color': color
+        }
+
+    def choose_marker_color(self, event, mode):
         new_color = askcolor()[1]
 
         if new_color:
-            self.samples.colors[sample_number] = new_color
+            self.samples.colors[mode] = new_color
 
             for k, v in self.samples_colors.items():
-                if k == sample_number:
-                    print('Found: {}'.format(sample_number))
+                if k == mode:
+                    print('Found: {}'.format(mode))
                     v.configure(bg=new_color)
+
+        # Update color in the activated marker.
+        if self.samples.activated_marker and self.samples.activated_marker['mode'] == mode:
+            self.samples.activated_marker['color'] = new_color
+
+        return self.samples
 
     def update_samples_names(self, event):
         self.samples.names[1] = self.sample_1_name.get()

@@ -38,6 +38,8 @@ class Window:
         self.settings = settings
         self.mainWidget = mainWidget
 
+        self.placed_markers = []
+
         self.samples = Samples()
         self.widget_geometries = Widget_geometries(self.settings)
 
@@ -188,8 +190,14 @@ class Window:
         self.notebook.add(self.statistics_tab, text='Statistics')
         self.notebook.add(self.options_tab, text='Options')
 
-        self.main_gui = Main_gui(self.picture_frame, self.widget_geometries)
+        #
+        #Initialization of main gui.
+        #
+        self.main_gui = Main_gui(self.picture_frame, self.widget_geometries, self.samples, self.placed_markers)
 
+        #
+        #Initialization of additional gui parts.
+        #
         self.markers_gui = Markers_gui(
             self.markers_tab,
             self.widget_geometries,

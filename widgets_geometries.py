@@ -6,6 +6,8 @@ class Widget_geometries:
     def __init__(self, settings):
         self.settings = settings
 
+        self.marker_size = 10
+
         self.toolbar_width = 250
         self.scrollbar_thickness = 18
         self.main_frame_width = self.settings.adjusted_screen_width
