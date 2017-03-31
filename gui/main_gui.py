@@ -14,8 +14,8 @@ class Main_gui:
         Building the picture frame and all it's elements and options frame.
         '''
         self.picture_frame = picture_frame
-        self.widget_geometries = widget_geometries
-        self.samples = samples
+        self.widget_geometries = widget_geometries[0]
+        self.samples = samples[0]
         self.placed_markers = placed_markers
 
         self.canvas_frame = ttk.Frame(self.picture_frame,
@@ -74,57 +74,58 @@ class Main_gui:
         x = active_canvas.canvasx(event.x)
         y = active_canvas.canvasy(event.y)
 
-        mode = self.samples.activated_marker['mode']
-        qualifier = self.samples.activated_marker['qualifier']
-        color = self.samples.activated_marker['color']
-        size = self.widget_geometries.marker_size
+        if self.samples.activated_marker:
+            mode = self.samples.activated_marker['mode']
+            qualifier = self.samples.activated_marker['qualifier']
+            color = self.samples.activated_marker['color']
+            size = self.widget_geometries.marker_size
 
-        shape = Shapes.calculate_shape(qualifier, x, y, size)
+            shape = Shapes.calculate_shape(qualifier, x, y, size)
 
-        if qualifier == 1:
-            self.canvas.create_polygon(shape[0],
-                                       shape[1],
-                                       shape[2],
-                                       shape[3],
-                                       shape[4],
-                                       shape[5],
-                                       tags=mode,
-                                       fill=color)
-            marker = Marker(size, mode, qualifier, color, x, y)
-            self.placed_markers.append(marker)
+            if qualifier == 1:
+                self.canvas.create_polygon(shape[0],
+                                           shape[1],
+                                           shape[2],
+                                           shape[3],
+                                           shape[4],
+                                           shape[5],
+                                           tags=mode,
+                                           fill=color)
+                marker = Marker(size, mode, qualifier, color, x, y)
+                self.placed_markers.append(marker)
 
-        elif qualifier == 2:
-            self.canvas.create_oval(shape[0],
-                                    shape[1],
-                                    shape[2],
-                                    shape[3],
-                                    width=0,
-                                    tags=mode,
-                                    fill=color)
-            marker = Marker(size, mode, qualifier, color, x, y)
-            self.placed_markers.append(marker)
+            elif qualifier == 2:
+                self.canvas.create_oval(shape[0],
+                                        shape[1],
+                                        shape[2],
+                                        shape[3],
+                                        width=0,
+                                        tags=mode,
+                                        fill=color)
+                marker = Marker(size, mode, qualifier, color, x, y)
+                self.placed_markers.append(marker)
 
-        elif qualifier == 3:
-            self.canvas.create_rectangle(shape[0],
-                                         shape[1],
-                                         shape[2],
-                                         shape[3],
-                                         width=0,
-                                         tags=mode,
-                                         fill=color)
-            marker = Marker(size, mode, qualifier, color, x, y)
-            self.placed_markers.append(marker)
+            elif qualifier == 3:
+                self.canvas.create_rectangle(shape[0],
+                                             shape[1],
+                                             shape[2],
+                                             shape[3],
+                                             width=0,
+                                             tags=mode,
+                                             fill=color)
+                marker = Marker(size, mode, qualifier, color, x, y)
+                self.placed_markers.append(marker)
 
-        elif qualifier == 4:
-            self.canvas.create_line(shape[0],
-                                    shape[1],
-                                    shape[2],
-                                    shape[3],
-                                    width=[4],
-                                    tags=mode,
-                                    fill=color)
-            marker = Marker(size, mode, qualifier, color, x, y)
-            self.placed_markers.append(marker)
+            elif qualifier == 4:
+                self.canvas.create_line(shape[0],
+                                        shape[1],
+                                        shape[2],
+                                        shape[3],
+                                        width=[4],
+                                        tags=mode,
+                                        fill=color)
+                marker = Marker(size, mode, qualifier, color, x, y)
+                self.placed_markers.append(marker)
 
     def use_mousewheel_on_canvas(self, event):
         '''

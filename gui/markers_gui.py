@@ -14,8 +14,8 @@ class Markers_gui:
         '''
 
         self.markers_tab = markers_tab
-        self.widget_geometries = widget_geometries
-        self.samples = samples
+        self.widget_geometries = widget_geometries[0]
+        self.samples = samples[0]
 
         self.sample_1_name = kwargs['sample_1_name']
         self.sample_2_name = kwargs['sample_2_name']
@@ -46,23 +46,23 @@ class Markers_gui:
         self.sample_1_marker_1_button = ttk.Button(self.sample_1_frame, width=5,
                                                    textvariable=self.qualifier_1_button_text)
         self.sample_1_marker_1_button.place(x=5, y=27)
-        self.sample_1_marker_1_button.bind('<Button-1>', lambda event, mode=1, qualifier=1,
-            color=self.samples.colors[1]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_1_marker_1_button.bind('<Button-1>', lambda event, mode=1,
+            qualifier=1: self.activate_marker(event, mode, qualifier))
 
         self.sample_1_marker_2_button = ttk.Button(self.sample_1_frame, width=5, textvariable=self.qualifier_2_button_text)
         self.sample_1_marker_2_button.place(x=47, y=27)
-        self.sample_1_marker_2_button.bind('<Button-1>', lambda event, mode=1, qualifier=2,
-            color=self.samples.colors[1]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_1_marker_2_button.bind('<Button-1>', lambda event, mode=1,
+            qualifier=2: self.activate_marker(event, mode, qualifier))
 
         self.sample_1_marker_3_button = ttk.Button(self.sample_1_frame, width=5, textvariable=self.qualifier_3_button_text)
         self.sample_1_marker_3_button.place(x=89, y=27)
-        self.sample_1_marker_3_button.bind('<Button-1>', lambda event, mode=1, qualifier=3,
-            color=self.samples.colors[1]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_1_marker_3_button.bind('<Button-1>', lambda event, mode=1,
+            qualifier=3: self.activate_marker(event, mode, qualifier))
 
         self.sample_1_marker_4_button = ttk.Button(self.sample_1_frame, width=5, textvariable=self.qualifier_4_button_text)
         self.sample_1_marker_4_button.place(x=131, y=27)
-        self.sample_1_marker_4_button.bind('<Button-1>', lambda event, mode=1, qualifier=4,
-            color=self.samples.colors[1]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_1_marker_4_button.bind('<Button-1>', lambda event, mode=1,
+            qualifier=4: self.activate_marker(event, mode, qualifier))
 
         self.color_1_label = ttk.Label(self.sample_1_frame, text='Color:')
         self.color_1_label.place(x=173, y=30)
@@ -88,22 +88,22 @@ class Markers_gui:
                                                    textvariable=self.qualifier_1_button_text)
         self.sample_2_marker_1_button.place(x=5, y=27)
         self.sample_2_marker_1_button.bind('<Button-1>', lambda event, mode=2, qualifier=1,
-            color=self.samples.colors[2]: self.activate_marker(event, mode, qualifier, color))
+            color=self.samples.colors[2]: self.activate_marker(event, mode, qualifier))
 
         self.sample_2_marker_2_button = ttk.Button(self.sample_2_frame, width=5, textvariable=self.qualifier_2_button_text)
         self.sample_2_marker_2_button.place(x=47, y=27)
-        self.sample_2_marker_2_button.bind('<Button-1>', lambda event, mode=2, qualifier=2,
-            color=self.samples.colors[2]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_2_marker_2_button.bind('<Button-1>', lambda event, mode=2,
+            qualifier=2: self.activate_marker(event, mode, qualifier))
 
         self.sample_2_marker_3_button = ttk.Button(self.sample_2_frame, width=5, textvariable=self.qualifier_3_button_text)
         self.sample_2_marker_3_button.place(x=89, y=27)
         self.sample_2_marker_3_button.bind('<Button-1>', lambda event, mode=2, qualifier=3,
-            color=self.samples.colors[2]: self.activate_marker(event, mode, qualifier, color))
+            color=self.samples.colors[2]: self.activate_marker(event, mode, qualifier))
 
         self.sample_2_marker_4_button = ttk.Button(self.sample_2_frame, width=5, textvariable=self.qualifier_4_button_text)
         self.sample_2_marker_4_button.place(x=131, y=27)
-        self.sample_2_marker_4_button.bind('<Button-1>', lambda event, mode=2, qualifier=4,
-            color=self.samples.colors[2]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_2_marker_4_button.bind('<Button-1>', lambda event, mode=2,
+            qualifier=4: self.activate_marker(event, mode, qualifier))
 
         self.color_2_label = ttk.Label(self.sample_2_frame, text='Color:')
         self.color_2_label.place(x=173, y=30)
@@ -127,23 +127,24 @@ class Markers_gui:
 
         self.sample_3_marker_1_button = ttk.Button(self.sample_3_frame, width=5, textvariable=self.qualifier_1_button_text)
         self.sample_3_marker_1_button.place(x=5, y=27)
-        self.sample_3_marker_1_button.bind('<Button-1>', lambda event, mode=3, qualifier=1,
-            color=self.samples.colors[3]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_3_marker_1_button.bind('<Button-1>', lambda event, mode=3,
+            qualifier=1: self.activate_marker(event, mode, qualifier))
 
         self.sample_3_marker_2_button = ttk.Button(self.sample_3_frame, width=5, textvariable=self.qualifier_2_button_text)
         self.sample_3_marker_2_button.place(x=47, y=27)
-        self.sample_3_marker_2_button.bind('<Button-1>', lambda event, mode=3, qualifier=2,
-            color=self.samples.colors[3]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_3_marker_2_button.bind('<Button-1>', lambda event, mode=3,
+            qualifier=2: self.activate_marker(event, mode, qualifier))
+
 
         self.sample_3_marker_3_button = ttk.Button(self.sample_3_frame, width=5, textvariable=self.qualifier_3_button_text)
         self.sample_3_marker_3_button.place(x=89, y=27)
-        self.sample_3_marker_3_button.bind('<Button-1>', lambda event, mode=3, qualifier=3,
-            color=self.samples.colors[3]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_3_marker_3_button.bind('<Button-1>', lambda event, mode=3,
+            qualifier=3:self.activate_marker(event, mode, qualifier))
 
         self.sample_3_marker_4_button = ttk.Button(self.sample_3_frame, width=5, textvariable=self.qualifier_4_button_text)
         self.sample_3_marker_4_button.place(x=131, y=27)
-        self.sample_3_marker_4_button.bind('<Button-1>', lambda event, mode=3, qualifier=4,
-            color=self.samples.colors[3]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_3_marker_4_button.bind('<Button-1>', lambda event, mode=3,
+            qualifier=4: self.activate_marker(event, mode, qualifier))
 
         self.color_3_label = ttk.Label(self.sample_3_frame, text='Color:')
         self.color_3_label.place(x=173, y=30)
@@ -167,23 +168,23 @@ class Markers_gui:
 
         self.sample_4_marker_1_button = ttk.Button(self.sample_4_frame, width=5, textvariable=self.qualifier_1_button_text)
         self.sample_4_marker_1_button.place(x=5, y=27)
-        self.sample_4_marker_1_button.bind('<Button-1>', lambda event, mode=4, qualifier=1,
-            color=self.samples.colors[4]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_4_marker_1_button.bind('<Button-1>', lambda event, mode=4,
+            qualifier=1: self.activate_marker(event, mode, qualifier))
 
         self.sample_4_marker_2_button = ttk.Button(self.sample_4_frame, width=5, textvariable=self.qualifier_2_button_text)
         self.sample_4_marker_2_button.place(x=47, y=27)
-        self.sample_4_marker_2_button.bind('<Button-1>', lambda event, mode=4, qualifier=2,
-            color=self.samples.colors[4]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_4_marker_2_button.bind('<Button-1>', lambda event, mode=4,
+            qualifier=2: self.activate_marker(event, mode, qualifier))
 
         self.sample_4_marker_3_button = ttk.Button(self.sample_4_frame, width=5, textvariable=self.qualifier_3_button_text)
         self.sample_4_marker_3_button.place(x=89, y=27)
-        self.sample_4_marker_3_button.bind('<Button-1>', lambda event, mode=4, qualifier=3,
-            color=self.samples.colors[4]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_4_marker_3_button.bind('<Button-1>', lambda event, mode=4,
+            qualifier=3: self.activate_marker(event, mode, qualifier))
 
         self.sample_4_marker_4_button = ttk.Button(self.sample_4_frame, width=5, textvariable=self.qualifier_4_button_text)
         self.sample_4_marker_4_button.place(x=131, y=27)
-        self.sample_4_marker_4_button.bind('<Button-1>', lambda event, mode=4, qualifier=4,
-            color=self.samples.colors[4]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_4_marker_4_button.bind('<Button-1>', lambda event, mode=4,
+            qualifier=4: self.activate_marker(event, mode, qualifier))
 
         self.color_4_label = ttk.Label(self.sample_4_frame, text='Color:')
         self.color_4_label.place(x=173, y=30)
@@ -207,23 +208,23 @@ class Markers_gui:
 
         self.sample_5_marker_1_button = ttk.Button(self.sample_5_frame, width=5, textvariable=self.qualifier_1_button_text)
         self.sample_5_marker_1_button.place(x=5, y=27)
-        self.sample_5_marker_1_button.bind('<Button-1>', lambda event, mode=5, qualifier=1,
-            color=self.samples.colors[5]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_5_marker_1_button.bind('<Button-1>', lambda event, mode=5,
+            qualifier=1: self.activate_marker(event, mode, qualifier))
 
         self.sample_5_marker_2_button = ttk.Button(self.sample_5_frame, width=5, textvariable=self.qualifier_2_button_text)
         self.sample_5_marker_2_button.place(x=47, y=27)
-        self.sample_5_marker_2_button.bind('<Button-1>', lambda event, mode=5, qualifier=2,
-            color=self.samples.colors[5]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_5_marker_2_button.bind('<Button-1>', lambda event, mode=5,
+            qualifier=2: self.activate_marker(event, mode, qualifier))
 
         self.sample_5_marker_3_button = ttk.Button(self.sample_5_frame, width=5, textvariable=self.qualifier_3_button_text)
         self.sample_5_marker_3_button.place(x=89, y=27)
-        self.sample_5_marker_3_button.bind('<Button-1>', lambda event, mode=5, qualifier=3,
-            color=self.samples.colors[5]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_5_marker_3_button.bind('<Button-1>', lambda event, mode=5,
+            qualifier=3: self.activate_marker(event, mode, qualifier))
 
         self.sample_5_marker_4_button = ttk.Button(self.sample_5_frame, width=5, textvariable=self.qualifier_4_button_text)
         self.sample_5_marker_4_button.place(x=131, y=27)
-        self.sample_5_marker_4_button.bind('<Button-1>', lambda event, mode=5, qualifier=4,
-            color=self.samples.colors[5]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_5_marker_4_button.bind('<Button-1>', lambda event, mode=5,
+            qualifier=4: self.activate_marker(event, mode, qualifier))
 
         self.color_5_label = ttk.Label(self.sample_5_frame, text='Color:')
         self.color_5_label.place(x=173, y=30)
@@ -247,23 +248,23 @@ class Markers_gui:
 
         self.sample_6_marker_1_button = ttk.Button(self.sample_6_frame, width=5, textvariable=self.qualifier_1_button_text)
         self.sample_6_marker_1_button.place(x=5, y=27)
-        self.sample_6_marker_1_button.bind('<Button-1>', lambda event, mode=6, qualifier=1,
-            color=self.samples.colors[6]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_6_marker_1_button.bind('<Button-1>', lambda event, mode=6,
+            qualifier=1: self.activate_marker(event, mode, qualifier))
 
         self.sample_6_marker_2_button = ttk.Button(self.sample_6_frame, width=5, textvariable=self.qualifier_2_button_text)
         self.sample_6_marker_2_button.place(x=47, y=27)
-        self.sample_6_marker_2_button.bind('<Button-1>', lambda event, mode=6, qualifier=2,
-            color=self.samples.colors[6]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_6_marker_2_button.bind('<Button-1>', lambda event, mode=6,
+            qualifier=2: self.activate_marker(event, mode, qualifier))
 
         self.sample_6_marker_3_button = ttk.Button(self.sample_6_frame, width=5, textvariable=self.qualifier_3_button_text)
         self.sample_6_marker_3_button.place(x=89, y=27)
-        self.sample_6_marker_3_button.bind('<Button-1>', lambda event, mode=6, qualifier=3,
-            color=self.samples.colors[6]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_6_marker_3_button.bind('<Button-1>', lambda event, mode=6,
+            qualifier=3: self.activate_marker(event, mode, qualifier))
 
         self.sample_6_marker_4_button = ttk.Button(self.sample_6_frame, width=5, textvariable=self.qualifier_4_button_text)
         self.sample_6_marker_4_button.place(x=131, y=27)
-        self.sample_6_marker_4_button.bind('<Button-1>', lambda event, mode=6, qualifier=4,
-            color=self.samples.colors[6]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_6_marker_4_button.bind('<Button-1>', lambda event, mode=6,
+            qualifier=4: self.activate_marker(event, mode, qualifier))
 
         self.color_6_label = ttk.Label(self.sample_6_frame, text='Color:')
         self.color_6_label.place(x=173, y=30)
@@ -287,23 +288,23 @@ class Markers_gui:
 
         self.sample_7_marker_1_button = ttk.Button(self.sample_7_frame, width=5, textvariable=self.qualifier_1_button_text)
         self.sample_7_marker_1_button.place(x=5, y=27)
-        self.sample_7_marker_1_button.bind('<Button-1>', lambda event, mode=7, qualifier=1,
-            color=self.samples.colors[7]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_7_marker_1_button.bind('<Button-1>', lambda event, mode=7,
+            qualifier=1: self.activate_marker(event, mode, qualifier))
 
         self.sample_7_marker_2_button = ttk.Button(self.sample_7_frame, width=5, textvariable=self.qualifier_2_button_text)
         self.sample_7_marker_2_button.place(x=47, y=27)
-        self.sample_7_marker_2_button.bind('<Button-1>', lambda event, mode=7, qualifier=2,
-            color=self.samples.colors[7]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_7_marker_2_button.bind('<Button-1>', lambda event, mode=7,
+            qualifier=2: self.activate_marker(event, mode, qualifier))
 
         self.sample_7_marker_3_button = ttk.Button(self.sample_7_frame, width=5, textvariable=self.qualifier_3_button_text)
         self.sample_7_marker_3_button.place(x=89, y=27)
-        self.sample_7_marker_3_button.bind('<Button-1>', lambda event, mode=7, qualifier=3,
-            color=self.samples.colors[7]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_7_marker_3_button.bind('<Button-1>', lambda event, mode=7,
+            qualifier=3: self.activate_marker(event, mode, qualifier))
 
         self.sample_7_marker_4_button = ttk.Button(self.sample_7_frame, width=5, textvariable=self.qualifier_4_button_text)
         self.sample_7_marker_4_button.place(x=131, y=27)
-        self.sample_7_marker_4_button.bind('<Button-1>', lambda event, mode=7, qualifier=4,
-            color=self.samples.colors[7]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_7_marker_4_button.bind('<Button-1>', lambda event, mode=7,
+            qualifier=4: self.activate_marker(event, mode, qualifier))
 
         self.color_7_label = ttk.Label(self.sample_7_frame, text='Color:')
         self.color_7_label.place(x=173, y=30)
@@ -325,26 +326,25 @@ class Markers_gui:
         self.sample_8_entry.bind('<Return>', self.update_samples_names)
         self.sample_8_entry.bind('<FocusOut>', self.update_samples_names)
 
-        self.sample_8_marker_1_button = ttk.Button(self.sample_8_frame, width=5,
-                                                   textvariable=self.qualifier_1_button_text)
+        self.sample_8_marker_1_button = ttk.Button(self.sample_8_frame, width=5, textvariable=self.qualifier_1_button_text)
         self.sample_8_marker_1_button.place(x=5, y=27)
-        self.sample_8_marker_1_button.bind('<Button-1>', lambda event, mode=8, qualifier=1,
-            color=self.samples.colors[8]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_8_marker_1_button.bind('<Button-1>', lambda event, mode=8,
+            qualifier=1: self.activate_marker(event, mode, qualifier))
 
         self.sample_8_marker_2_button = ttk.Button(self.sample_8_frame, width=5, textvariable=self.qualifier_2_button_text)
         self.sample_8_marker_2_button.place(x=47, y=27)
-        self.sample_8_marker_2_button.bind('<Button-1>', lambda event, mode=8, qualifier=2,
-            color=self.samples.colors[8]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_8_marker_2_button.bind('<Button-1>', lambda event, mode=8,
+            qualifier=2: self.activate_marker(event, mode, qualifier))
 
         self.sample_8_marker_3_button = ttk.Button(self.sample_8_frame, width=5, textvariable=self.qualifier_3_button_text)
         self.sample_8_marker_3_button.place(x=89, y=27)
-        self.sample_8_marker_3_button.bind('<Button-1>', lambda event, mode=8, qualifier=3,
-            color=self.samples.colors[8]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_8_marker_3_button.bind('<Button-1>', lambda event, mode=8,
+            qualifier=3: self.activate_marker(event, mode, qualifier))
 
         self.sample_8_marker_4_button = ttk.Button(self.sample_8_frame, width=5, textvariable=self.qualifier_4_button_text)
         self.sample_8_marker_4_button.place(x=131, y=27)
-        self.sample_8_marker_4_button.bind('<Button-1>', lambda event, mode=8, qualifier=4,
-            color=self.samples.colors[8]: self.activate_marker(event, mode, qualifier, color))
+        self.sample_8_marker_4_button.bind('<Button-1>', lambda event, mode=8,
+            qualifier=4: self.activate_marker(event, mode, qualifier))
 
         self.color_8_label = ttk.Label(self.sample_8_frame, text='Color:')
         self.color_8_label.place(x=173, y=30)
@@ -352,6 +352,11 @@ class Markers_gui:
         self.sample_8_color = Label(self.sample_8_frame, width=3, bg=self.samples.colors[8])
         self.sample_8_color.place(x=210, y=29)
         self.sample_8_color.bind('<Button-1>', lambda event, mode=8: self.choose_marker_color(event, mode))
+
+
+        self.debug_button_color = ttk.Button(self.markers_tab, width=10, text='Debug samples')
+        self.debug_button_color.place(x=10, y=450)
+        self.debug_button_color.bind('<Button-1>', self.debug_color_in_markers)
 
         # Dictionary of elements.
         self.samples_and_markers_buttons = {
@@ -400,7 +405,7 @@ class Markers_gui:
             8: self.sample_8_color
         }
 
-    def activate_marker(self, event, mode, qualifier, color):
+    def activate_marker(self, event, mode, qualifier):
         # print('mode:{} qualifier:{} color:{}'.format(mode, qualifier, color))
 
         for k, v in self.samples_and_markers_buttons.items():
@@ -412,7 +417,7 @@ class Markers_gui:
         self.samples.activated_marker = {
             'mode': mode,
             'qualifier': qualifier,
-            'color': color
+            'color': self.samples.colors[mode]
         }
 
     def choose_marker_color(self, event, mode):
@@ -430,7 +435,14 @@ class Markers_gui:
         if self.samples.activated_marker and self.samples.activated_marker['mode'] == mode:
             self.samples.activated_marker['color'] = new_color
 
-        return self.samples
+
+    def debug_color_in_markers(self, event):
+        print('---  C L I C K E D    I N    M A R K E R S  [ O N ]  ---')
+
+        for k, v in vars(self.samples).items():
+            print(k, '-->', v)
+
+        print('---  C L I C K E D    I N    M A R K E R S  [ O F F ]  ---')
 
     def update_samples_names(self, event):
         self.samples.names[1] = self.sample_1_name.get()

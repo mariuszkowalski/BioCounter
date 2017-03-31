@@ -40,8 +40,8 @@ class Window:
 
         self.placed_markers = []
 
-        self.samples = Samples()
-        self.widget_geometries = Widget_geometries(self.settings)
+        self.samples = [Samples()]
+        self.widget_geometries = [Widget_geometries(self.settings)]
 
         self.status_bar_text = StringVar()
         self.status_bar_text.set('')
@@ -55,34 +55,34 @@ class Window:
         self.sample_7_name = StringVar()
         self.sample_8_name = StringVar()
 
-        self.sample_1_name.set(self.samples.names[1])
-        self.sample_2_name.set(self.samples.names[2])
-        self.sample_3_name.set(self.samples.names[3])
-        self.sample_4_name.set(self.samples.names[4])
-        self.sample_5_name.set(self.samples.names[5])
-        self.sample_6_name.set(self.samples.names[6])
-        self.sample_7_name.set(self.samples.names[7])
-        self.sample_8_name.set(self.samples.names[8])
+        self.sample_1_name.set(self.samples[0].names[1])
+        self.sample_2_name.set(self.samples[0].names[2])
+        self.sample_3_name.set(self.samples[0].names[3])
+        self.sample_4_name.set(self.samples[0].names[4])
+        self.sample_5_name.set(self.samples[0].names[5])
+        self.sample_6_name.set(self.samples[0].names[6])
+        self.sample_7_name.set(self.samples[0].names[7])
+        self.sample_8_name.set(self.samples[0].names[8])
 
         self.qualifier_1 = StringVar()
         self.qualifier_2 = StringVar()
         self.qualifier_3 = StringVar()
         self.qualifier_4 = StringVar()
 
-        self.qualifier_1.set(self.samples.qualifiers[1])
-        self.qualifier_2.set(self.samples.qualifiers[2])
-        self.qualifier_3.set(self.samples.qualifiers[3])
-        self.qualifier_4.set(self.samples.qualifiers[4])
+        self.qualifier_1.set(self.samples[0].qualifiers[1])
+        self.qualifier_2.set(self.samples[0].qualifiers[2])
+        self.qualifier_3.set(self.samples[0].qualifiers[3])
+        self.qualifier_4.set(self.samples[0].qualifiers[4])
 
         self.qualifier_1_button_text = StringVar()
         self.qualifier_2_button_text = StringVar()
         self.qualifier_3_button_text = StringVar()
         self.qualifier_4_button_text = StringVar()
 
-        self.qualifier_1_button_text.set(self.samples.qualifiers_button_texts[1])
-        self.qualifier_2_button_text.set(self.samples.qualifiers_button_texts[2])
-        self.qualifier_3_button_text.set(self.samples.qualifiers_button_texts[3])
-        self.qualifier_4_button_text.set(self.samples.qualifiers_button_texts[4])
+        self.qualifier_1_button_text.set(self.samples[0].qualifiers_button_texts[1])
+        self.qualifier_2_button_text.set(self.samples[0].qualifiers_button_texts[2])
+        self.qualifier_3_button_text.set(self.samples[0].qualifiers_button_texts[3])
+        self.qualifier_4_button_text.set(self.samples[0].qualifiers_button_texts[4])
 
         self.samples_and_qualifiers_all = {
             'sample_1_name': self.sample_1_name,
@@ -164,27 +164,27 @@ class Window:
         self.mainWidget.update_idletasks()
 
         self.picture_frame = ttk.Frame(self.main_frame,
-                                       width=self.widget_geometries.picture_frame_width,
-                                       height=self.widget_geometries.picture_frame_height)
+                                       width=self.widget_geometries[0].picture_frame_width,
+                                       height=self.widget_geometries[0].picture_frame_height)
         self.picture_frame.place(x=0, y=0)
 
         self.toolbar_frame = ttk.Frame(self.main_frame,
-                                       width=self.widget_geometries.toolbar_width,
-                                       height=self.widget_geometries.picture_frame_height)
-        self.toolbar_frame.place(x=self.widget_geometries.picture_frame_width, y=0)
+                                       width=self.widget_geometries[0].toolbar_width,
+                                       height=self.widget_geometries[0].picture_frame_height)
+        self.toolbar_frame.place(x=self.widget_geometries[0].picture_frame_width, y=0)
 
         self.notebook = ttk.Notebook(self.toolbar_frame)
         self.notebook.place(x=0, y=0)
 
         self.markers_tab = ttk.Frame(self.notebook,
-                                     width=self.widget_geometries.notebook_width,
-                                     height=self.widget_geometries.notebook_height)
+                                     width=self.widget_geometries[0].notebook_width,
+                                     height=self.widget_geometries[0].notebook_height)
         self.statistics_tab = ttk.Frame(self.notebook,
-                                        width=self.widget_geometries.notebook_width,
-                                        height=self.widget_geometries.notebook_height)
+                                        width=self.widget_geometries[0].notebook_width,
+                                        height=self.widget_geometries[0].notebook_height)
         self.options_tab = ttk.Frame(self.notebook,
-                                     width=self.widget_geometries.notebook_width,
-                                     height=self.widget_geometries.notebook_height)
+                                     width=self.widget_geometries[0].notebook_width,
+                                     height=self.widget_geometries[0].notebook_height)
 
         self.notebook.add(self.markers_tab, text='Markers')
         self.notebook.add(self.statistics_tab, text='Statistics')
@@ -276,10 +276,12 @@ class Window:
             element.destroy()
 
     def debug_samples(self):
-        print('--- DEBUG [ON] ---')
-        for k, v in vars(self.samples).items():
+        print('---  C L I C K E D    I N    M E N U  [ O N ]  ---')
+
+        for k, v in vars(self.samples[0]).items():
             print(k, '-->', v)
-        print('--- DEBUG [OFF] ---')
+
+        print('---  C L I C K E D    I N    M E N U  [ O F F ]  ---')
 
     def placeholder(self):
         print('This is a simple placeholder message.')

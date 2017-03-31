@@ -9,8 +9,8 @@ class Options_gui:
 
     def __init__(self, options_tab, widget_geometries, samples, **kwargs):
         self.options_tab = options_tab
-        self.widget_geometries = widget_geometries
-        self.samples = samples
+        self.widget_geometries = widget_geometries[0]
+        self.samples = samples[0]
         self.qualifier_1 = kwargs['qualifier_1']
         self.qualifier_2 = kwargs['qualifier_2']
         self.qualifier_3 = kwargs['qualifier_3']
