@@ -8,7 +8,7 @@ from tkinter.colorchooser import askcolor
 
 class Markers_gui:
 
-    def __init__(self, markers_tab, widget_geometries, samples, **kwargs):
+    def __init__(self, markers_tab, widget_geometries, samples, statistics, **kwargs):
         '''
         Building the all elements of the markers menu.
         '''
@@ -16,6 +16,7 @@ class Markers_gui:
         self.markers_tab = markers_tab
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
+        self.statistics = statistics[0]
 
         self.sample_1_name = kwargs['sample_1_name']
         self.sample_2_name = kwargs['sample_2_name']

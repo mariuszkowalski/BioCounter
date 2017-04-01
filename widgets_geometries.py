@@ -28,3 +28,8 @@ class Widget_geometries:
         self.qualifier_single_frame_width = self.qualifiers_options_frame_width - 8
         self.qualifier_single_frame_height = 47
         self.qualifier_single_frame_spacing = 48
+
+        self.statistics_column_offset = 40
+        self.statistics_sample_row_offset = 3
+        self.statistics_label_x = 7
+        self.statistics_label_y = 6
