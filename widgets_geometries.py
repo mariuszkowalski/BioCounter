@@ -31,5 +31,7 @@ class Widget_geometries:
 
         self.statistics_column_offset = 40
         self.statistics_sample_row_offset = 3
+        self.statistics_percent_row_offset = 27
         self.statistics_label_x = 7
+        self.statistics_percent_label_y = 30
         self.statistics_label_y = 6

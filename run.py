@@ -14,6 +14,7 @@ from manage_settings import ManageSettings
 from samples import Samples
 from settings_utilities import SettingsUtilities
 from statistics import Statistics
+from texts import Texts
 from widgets_geometries import Widget_geometries
 import os
 import platform
@@ -44,206 +45,10 @@ class Window:
         self.statistics = [Statistics()]
         self.samples = [Samples()]
         self.widget_geometries = [Widget_geometries(self.settings)]
+        self.texts = [Texts(self.samples, self.statistics)]
 
         self.status_bar_text = StringVar()
         self.status_bar_text.set('')
-
-        self.sample_1_name = StringVar()
-        self.sample_2_name = StringVar()
-        self.sample_3_name = StringVar()
-        self.sample_4_name = StringVar()
-        self.sample_5_name = StringVar()
-        self.sample_6_name = StringVar()
-        self.sample_7_name = StringVar()
-        self.sample_8_name = StringVar()
-
-        self.sample_1_name.set(self.samples[0].names[1])
-        self.sample_2_name.set(self.samples[0].names[2])
-        self.sample_3_name.set(self.samples[0].names[3])
-        self.sample_4_name.set(self.samples[0].names[4])
-        self.sample_5_name.set(self.samples[0].names[5])
-        self.sample_6_name.set(self.samples[0].names[6])
-        self.sample_7_name.set(self.samples[0].names[7])
-        self.sample_8_name.set(self.samples[0].names[8])
-
-        self.qualifier_1 = StringVar()
-        self.qualifier_2 = StringVar()
-        self.qualifier_3 = StringVar()
-        self.qualifier_4 = StringVar()
-
-        self.qualifier_1.set(self.samples[0].qualifiers[1])
-        self.qualifier_2.set(self.samples[0].qualifiers[2])
-        self.qualifier_3.set(self.samples[0].qualifiers[3])
-        self.qualifier_4.set(self.samples[0].qualifiers[4])
-
-        self.qualifier_1_button_text = StringVar()
-        self.qualifier_2_button_text = StringVar()
-        self.qualifier_3_button_text = StringVar()
-        self.qualifier_4_button_text = StringVar()
-
-        self.qualifier_1_button_text.set(self.samples[0].qualifiers_button_texts[1])
-        self.qualifier_2_button_text.set(self.samples[0].qualifiers_button_texts[2])
-        self.qualifier_3_button_text.set(self.samples[0].qualifiers_button_texts[3])
-        self.qualifier_4_button_text.set(self.samples[0].qualifiers_button_texts[4])
-
-        #
-        # Statistics tab
-        #
-        self.quantity_sample_1_qualifier_1 = StringVar()
-        self.quantity_sample_1_qualifier_2 = StringVar()
-        self.quantity_sample_1_qualifier_3 = StringVar()
-        self.quantity_sample_1_qualifier_4 = StringVar()
-        self.quantity_sample_1_qualifier_sum = StringVar()
-
-        self.quantity_sample_2_qualifier_1 = StringVar()
-        self.quantity_sample_2_qualifier_2 = StringVar()
-        self.quantity_sample_2_qualifier_3 = StringVar()
-        self.quantity_sample_2_qualifier_4 = StringVar()
-        self.quantity_sample_2_qualifier_sum = StringVar()
-
-        self.quantity_sample_3_qualifier_1 = StringVar()
-        self.quantity_sample_3_qualifier_2 = StringVar()
-        self.quantity_sample_3_qualifier_3 = StringVar()
-        self.quantity_sample_3_qualifier_4 = StringVar()
-        self.quantity_sample_3_qualifier_sum = StringVar()
-
-        self.quantity_sample_4_qualifier_1 = StringVar()
-        self.quantity_sample_4_qualifier_2 = StringVar()
-        self.quantity_sample_4_qualifier_3 = StringVar()
-        self.quantity_sample_4_qualifier_4 = StringVar()
-        self.quantity_sample_4_qualifier_sum = StringVar()
-
-        self.quantity_sample_5_qualifier_1 = StringVar()
-        self.quantity_sample_5_qualifier_2 = StringVar()
-        self.quantity_sample_5_qualifier_3 = StringVar()
-        self.quantity_sample_5_qualifier_4 = StringVar()
-        self.quantity_sample_5_qualifier_sum = StringVar()
-
-        self.quantity_sample_6_qualifier_1 = StringVar()
-        self.quantity_sample_6_qualifier_2 = StringVar()
-        self.quantity_sample_6_qualifier_3 = StringVar()
-        self.quantity_sample_6_qualifier_4 = StringVar()
-        self.quantity_sample_6_qualifier_sum = StringVar()
-
-        self.quantity_sample_7_qualifier_1 = StringVar()
-        self.quantity_sample_7_qualifier_2 = StringVar()
-        self.quantity_sample_7_qualifier_3 = StringVar()
-        self.quantity_sample_7_qualifier_4 = StringVar()
-        self.quantity_sample_7_qualifier_sum = StringVar()
-
-        self.quantity_sample_8_qualifier_1 = StringVar()
-        self.quantity_sample_8_qualifier_2 = StringVar()
-        self.quantity_sample_8_qualifier_3 = StringVar()
-        self.quantity_sample_8_qualifier_4 = StringVar()
-        self.quantity_sample_8_qualifier_sum = StringVar()
-
-        self.quantity_sample_1_qualifier_1.set(self.statistics[0].stats[1][1])
-        self.quantity_sample_1_qualifier_2.set(self.statistics[0].stats[1][2])
-        self.quantity_sample_1_qualifier_3.set(self.statistics[0].stats[1][3])
-        self.quantity_sample_1_qualifier_4.set(self.statistics[0].stats[1][4])
-        self.quantity_sample_1_qualifier_sum.set(self.statistics[0].stats[1][5])
-
-        self.quantity_sample_2_qualifier_1.set(self.statistics[0].stats[2][1])
-        self.quantity_sample_2_qualifier_2.set(self.statistics[0].stats[2][2])
-        self.quantity_sample_2_qualifier_3.set(self.statistics[0].stats[2][3])
-        self.quantity_sample_2_qualifier_4.set(self.statistics[0].stats[2][4])
-        self.quantity_sample_2_qualifier_sum.set(self.statistics[0].stats[2][5])
-
-        self.quantity_sample_3_qualifier_1.set(self.statistics[0].stats[3][1])
-        self.quantity_sample_3_qualifier_2.set(self.statistics[0].stats[3][2])
-        self.quantity_sample_3_qualifier_3.set(self.statistics[0].stats[3][3])
-        self.quantity_sample_3_qualifier_4.set(self.statistics[0].stats[3][4])
-        self.quantity_sample_3_qualifier_sum.set(self.statistics[0].stats[3][5])
-
-        self.quantity_sample_4_qualifier_1.set(self.statistics[0].stats[4][1])
-        self.quantity_sample_4_qualifier_2.set(self.statistics[0].stats[4][2])
-        self.quantity_sample_4_qualifier_3.set(self.statistics[0].stats[4][3])
-        self.quantity_sample_4_qualifier_4.set(self.statistics[0].stats[4][4])
-        self.quantity_sample_4_qualifier_sum.set(self.statistics[0].stats[4][5])
-
-        self.quantity_sample_5_qualifier_1.set(self.statistics[0].stats[5][1])
-        self.quantity_sample_5_qualifier_2.set(self.statistics[0].stats[5][2])
-        self.quantity_sample_5_qualifier_3.set(self.statistics[0].stats[5][3])
-        self.quantity_sample_5_qualifier_4.set(self.statistics[0].stats[5][4])
-        self.quantity_sample_5_qualifier_sum.set(self.statistics[0].stats[5][5])
-
-        self.quantity_sample_6_qualifier_1.set(self.statistics[0].stats[6][1])
-        self.quantity_sample_6_qualifier_2.set(self.statistics[0].stats[6][2])
-        self.quantity_sample_6_qualifier_3.set(self.statistics[0].stats[6][3])
-        self.quantity_sample_6_qualifier_4.set(self.statistics[0].stats[6][4])
-        self.quantity_sample_6_qualifier_sum.set(self.statistics[0].stats[6][5])
-
-        self.quantity_sample_7_qualifier_1.set(self.statistics[0].stats[7][1])
-        self.quantity_sample_7_qualifier_2.set(self.statistics[0].stats[7][2])
-        self.quantity_sample_7_qualifier_3.set(self.statistics[0].stats[7][3])
-        self.quantity_sample_7_qualifier_4.set(self.statistics[0].stats[7][4])
-        self.quantity_sample_7_qualifier_sum.set(self.statistics[0].stats[7][5])
-
-        self.quantity_sample_8_qualifier_1.set(self.statistics[0].stats[8][1])
-        self.quantity_sample_8_qualifier_2.set(self.statistics[0].stats[8][2])
-        self.quantity_sample_8_qualifier_3.set(self.statistics[0].stats[8][3])
-        self.quantity_sample_8_qualifier_4.set(self.statistics[0].stats[8][4])
-        self.quantity_sample_8_qualifier_sum.set(self.statistics[0].stats[8][5])
-
-
-        self.samples_and_qualifiers_all = {
-            'sample_1_name': self.sample_1_name,
-            'sample_2_name': self.sample_2_name,
-            'sample_3_name': self.sample_3_name,
-            'sample_4_name': self.sample_4_name,
-            'sample_5_name': self.sample_5_name,
-            'sample_6_name': self.sample_6_name,
-            'sample_7_name': self.sample_7_name,
-            'sample_8_name': self.sample_8_name,
-            'qualifier_1': self.qualifier_1,
-            'qualifier_2': self.qualifier_2,
-            'qualifier_3': self.qualifier_3,
-            'qualifier_4': self.qualifier_4,
-            'qualifier_1_button_text': self.qualifier_1_button_text,
-            'qualifier_2_button_text': self.qualifier_2_button_text,
-            'qualifier_3_button_text': self.qualifier_3_button_text,
-            'qualifier_4_button_text': self.qualifier_4_button_text,
-            'quantity_sample_1_qualifier_1': self.quantity_sample_1_qualifier_1,
-            'quantity_sample_1_qualifier_2': self.quantity_sample_1_qualifier_2,
-            'quantity_sample_1_qualifier_3': self.quantity_sample_1_qualifier_3,
-            'quantity_sample_1_qualifier_4': self.quantity_sample_1_qualifier_4,
-            'quantity_sample_1_qualifier_sum': self.quantity_sample_1_qualifier_sum,
-            'quantity_sample_2_qualifier_1': self.quantity_sample_2_qualifier_1,
-            'quantity_sample_2_qualifier_2': self.quantity_sample_2_qualifier_2,
-            'quantity_sample_2_qualifier_3': self.quantity_sample_2_qualifier_3,
-            'quantity_sample_2_qualifier_4': self.quantity_sample_2_qualifier_4,
-            'quantity_sample_2_qualifier_sum': self.quantity_sample_2_qualifier_sum,
-            'quantity_sample_3_qualifier_1': self.quantity_sample_3_qualifier_1,
-            'quantity_sample_3_qualifier_2': self.quantity_sample_3_qualifier_2,
-            'quantity_sample_3_qualifier_3': self.quantity_sample_3_qualifier_3,
-            'quantity_sample_3_qualifier_4': self.quantity_sample_3_qualifier_4,
-            'quantity_sample_3_qualifier_sum': self.quantity_sample_3_qualifier_sum,
-            'quantity_sample_4_qualifier_1': self.quantity_sample_4_qualifier_1,
-            'quantity_sample_4_qualifier_2': self.quantity_sample_4_qualifier_2,
-            'quantity_sample_4_qualifier_3': self.quantity_sample_4_qualifier_3,
-            'quantity_sample_4_qualifier_4': self.quantity_sample_4_qualifier_4,
-            'quantity_sample_4_qualifier_sum': self.quantity_sample_4_qualifier_sum,
-            'quantity_sample_5_qualifier_1': self.quantity_sample_5_qualifier_1,
-            'quantity_sample_5_qualifier_2': self.quantity_sample_5_qualifier_2,
-            'quantity_sample_5_qualifier_3': self.quantity_sample_5_qualifier_3,
-            'quantity_sample_5_qualifier_4': self.quantity_sample_5_qualifier_4,
-            'quantity_sample_5_qualifier_sum': self.quantity_sample_5_qualifier_sum,
-            'quantity_sample_6_qualifier_1': self.quantity_sample_6_qualifier_1,
-            'quantity_sample_6_qualifier_2': self.quantity_sample_6_qualifier_2,
-            'quantity_sample_6_qualifier_3': self.quantity_sample_6_qualifier_3,
-            'quantity_sample_6_qualifier_4': self.quantity_sample_6_qualifier_4,
-            'quantity_sample_6_qualifier_sum': self.quantity_sample_6_qualifier_sum,
-            'quantity_sample_7_qualifier_1': self.quantity_sample_7_qualifier_1,
-            'quantity_sample_7_qualifier_2': self.quantity_sample_7_qualifier_2,
-            'quantity_sample_7_qualifier_3': self.quantity_sample_7_qualifier_3,
-            'quantity_sample_7_qualifier_4': self.quantity_sample_7_qualifier_4,
-            'quantity_sample_7_qualifier_sum': self.quantity_sample_7_qualifier_sum,
-            'quantity_sample_8_qualifier_1': self.quantity_sample_8_qualifier_1,
-            'quantity_sample_8_qualifier_2': self.quantity_sample_8_qualifier_2,
-            'quantity_sample_8_qualifier_3': self.quantity_sample_8_qualifier_3,
-            'quantity_sample_8_qualifier_4': self.quantity_sample_8_qualifier_4,
-            'quantity_sample_8_qualifier_sum': self.quantity_sample_8_qualifier_sum,
-        }
 
         #Menus
         self.drop_down_menu = Menu(self.mainWidget)
@@ -345,20 +150,23 @@ class Window:
             self.widget_geometries,
             self.samples,
             self.statistics,
-            **self.samples_and_qualifiers_all)
+            self.texts
+            )
 
         self.statistics_gui = Statistics_gui(
             self.statistics_tab,
             self.widget_geometries,
             self.samples,
             self.statistics,
-            **self.samples_and_qualifiers_all)
+            self.texts
+            )
 
         self.options_gui = Options_gui(
             self.options_tab,
             self.widget_geometries,
             self.samples,
-            **self.samples_and_qualifiers_all)
+            self.texts
+            )
 
     def open_photo(self):
         allowed_file_types = ['.jpg', '.png', '.tif', '.JPG', '.PNG', '.TIF']
