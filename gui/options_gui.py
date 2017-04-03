@@ -30,7 +30,11 @@ class Options_gui:
         self.qualifier_1_label = ttk.Label(self.qualifier_1_frame, text='Qualifier 1:')
         self.qualifier_1_label.place(x=5, y=0)
 
-        self.qualifier_1_entry = ttk.Entry(self.qualifier_1_frame, width=35, justify=CENTER, textvariable=self.texts.qualifier_1)
+        self.qualifier_1_entry = ttk.Entry(
+            self.qualifier_1_frame,
+            width=35,
+            justify=CENTER,
+            textvariable=self.texts.qualifier_1)
         self.qualifier_1_entry.place(x=5, y=20)
         self.qualifier_1_entry.bind('<Return>', lambda event, qualifier=1: self.update_qualifiers(event, qualifier))
         self.qualifier_1_entry.bind('<FocusOut>', lambda event, qualifier=1: self.update_qualifiers(event, qualifier))
@@ -45,7 +49,11 @@ class Options_gui:
         self.qualifier_2_label = ttk.Label(self.qualifier_2_frame, text='Qualifier 2:')
         self.qualifier_2_label.place(x=5, y=0)
 
-        self.qualifier_2_entry = ttk.Entry(self.qualifier_2_frame, width=35, justify=CENTER, textvariable=self.texts.qualifier_2)
+        self.qualifier_2_entry = ttk.Entry(
+            self.qualifier_2_frame,
+            width=35,
+            justify=CENTER,
+            textvariable=self.texts.qualifier_2)
         self.qualifier_2_entry.place(x=5, y=20)
         self.qualifier_2_entry.bind('<Return>', lambda event, qualifier=2: self.update_qualifiers(event, qualifier))
         self.qualifier_2_entry.bind('<FocusOut>', lambda event, qualifier=2: self.update_qualifiers(event, qualifier))
@@ -60,7 +68,11 @@ class Options_gui:
         self.qualifier_3_label = ttk.Label(self.qualifier_3_frame, text='Qualifier 3:')
         self.qualifier_3_label.place(x=5, y=0)
 
-        self.qualifier_3_entry = ttk.Entry(self.qualifier_3_frame, width=35, justify=CENTER, textvariable=self.texts.qualifier_3)
+        self.qualifier_3_entry = ttk.Entry(
+            self.qualifier_3_frame,
+            width=35,
+            justify=CENTER,
+            textvariable=self.texts.qualifier_3)
         self.qualifier_3_entry.place(x=5, y=20)
         self.qualifier_3_entry.bind('<Return>', lambda event, qualifier=3: self.update_qualifiers(event, qualifier))
         self.qualifier_3_entry.bind('<FocusOut>', lambda event, qualifier=3: self.update_qualifiers(event, qualifier))
@@ -75,7 +87,11 @@ class Options_gui:
         self.qualifier_4_label = ttk.Label(self.qualifier_4_frame, text='Qualifier 4:')
         self.qualifier_4_label.place(x=5, y=0)
 
-        self.qualifier_4_entry = ttk.Entry(self.qualifier_4_frame, width=35, justify=CENTER, textvariable=self.texts.qualifier_4)
+        self.qualifier_4_entry = ttk.Entry(
+            self.qualifier_4_frame,
+            width=35,
+            justify=CENTER,
+            textvariable=self.texts.qualifier_4)
         self.qualifier_4_entry.place(x=5, y=20)
         self.qualifier_4_entry.bind('<Return>', lambda event, qualifier=4: self.update_qualifiers(event, qualifier))
         self.qualifier_4_entry.bind('<FocusOut>', lambda event, qualifier=4: self.update_qualifiers(event, qualifier))
@@ -90,20 +106,63 @@ class Options_gui:
         self.qualifier_preview_label = ttk.Label(self.qualifier_preview_frame, text='Preview:')
         self.qualifier_preview_label.place(x=5, y=0)
 
-        self.qualifier_1_preview = ttk.Button(self.qualifier_preview_frame, width=5, textvariable=self.texts.qualifier_1_button_text)
+        self.qualifier_1_preview = ttk.Button(
+            self.qualifier_preview_frame,
+            width=5,
+            textvariable=self.texts.qualifier_1_button_text)
         self.qualifier_1_preview.place(x=5, y=21)
 
-        self.qualifier_2_preview = ttk.Button(self.qualifier_preview_frame, width=5, textvariable=self.texts.qualifier_2_button_text)
+        self.qualifier_2_preview = ttk.Button(
+            self.qualifier_preview_frame,
+            width=5,
+            textvariable=self.texts.qualifier_2_button_text)
         self.qualifier_2_preview.place(x=47, y=21)
 
-        self.qualifier_3_preview = ttk.Button(self.qualifier_preview_frame, width=5, textvariable=self.texts.qualifier_3_button_text)
+        self.qualifier_3_preview = ttk.Button(
+            self.qualifier_preview_frame,
+            width=5,
+            textvariable=self.texts.qualifier_3_button_text)
         self.qualifier_3_preview.place(x=89, y=21)
 
-        self.qualifier_4_preview = ttk.Button(self.qualifier_preview_frame, width=5, textvariable=self.texts.qualifier_4_button_text)
+        self.qualifier_4_preview = ttk.Button(
+            self.qualifier_preview_frame,
+            width=5,
+            textvariable=self.texts.qualifier_4_button_text)
         self.qualifier_4_preview.place(x=131, y=21)
 
         # Change marker size
+        self.markers_option_frame = ttk.LabelFrame(
+            self.options_tab,
+            width=self.widget_geometries.markers_options_frame_width,
+            height=self.widget_geometries.markers_options_frame_height,
+            text='Change marker size')
+        self.markers_option_frame.place(x=5, y=270)
 
+        self.marker_size_label = ttk.Label(
+            self.markers_option_frame,
+            text='Size of marker:')
+        self.marker_size_label.place(x=5, y=2)
+
+        self.marker_size_value_label = Label(
+            self.markers_option_frame,
+            width=3,
+            bg='white',
+            textvariable=self.texts.marker_size)
+        self.marker_size_value_label.place(x=88, y=2)
+
+        self.decrease_marker_size_button = ttk.Button(
+            self.markers_option_frame,
+            width=3,
+            text='-')
+        self.decrease_marker_size_button.place(x=118, y=0)
+        self.decrease_marker_size_button.bind('<Button-1>', self.decrease_marker_size)
+
+        self.increase_marker_size_button = ttk.Button(
+            self.markers_option_frame,
+            width=3,
+            text='+')
+        self.increase_marker_size_button.place(x=148, y=0)
+        self.increase_marker_size_button.bind('<Button-1>', self.increase_marker_size)
 
     def update_qualifiers(self, event, qualifier):
         temp = {
@@ -127,3 +186,26 @@ class Options_gui:
         elif qualifier == 4:
             self.texts.qualifier_4.set(self.samples.qualifiers[4])
             self.texts.qualifier_4_button_text.set(self.samples.qualifiers_button_texts[4])
+
+    def decrease_marker_size(self, event):
+
+        if self.widget_geometries.marker_size > 4:
+            self.widget_geometries.marker_size -= 1
+            self.texts.marker_size.set(self.widget_geometries.marker_size)
+
+        if self.widget_geometries.marker_size == 4:
+            self.decrease_marker_size_button.state(['disabled'])
+
+        if self.widget_geometries.marker_size < 20:
+            self.increase_marker_size_button.state(['!disabled'])
+
+    def increase_marker_size(self, event):
+        if self.widget_geometries.marker_size < 20:
+            self.widget_geometries.marker_size += 1
+            self.texts.marker_size.set(self.widget_geometries.marker_size)
+
+        if self.widget_geometries.marker_size == 20:
+            self.increase_marker_size_button.state(['disabled'])
+
+        if self.widget_geometries.marker_size > 4:
+            self.decrease_marker_size_button.state(['!disabled'])

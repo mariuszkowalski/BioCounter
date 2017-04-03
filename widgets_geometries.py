@@ -23,8 +23,14 @@ class Widget_geometries:
         self.sample_frame_width = self.notebook_width
         self.sample_frame_height = 53
 
+        # Option tab
         self.qualifiers_options_frame_width = 245 - 10
         self.qualifiers_options_frame_height = 265
+
+        self.markers_options_frame_width = 245 - 10
+        self.markers_options_frame_height = 50
+
+        # Statistics tab
         self.qualifier_single_frame_width = self.qualifiers_options_frame_width - 8
         self.qualifier_single_frame_height = 47
         self.qualifier_single_frame_spacing = 48

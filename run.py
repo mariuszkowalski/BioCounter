@@ -45,7 +45,7 @@ class Window:
         self.statistics = [Statistics()]
         self.samples = [Samples()]
         self.widget_geometries = [Widget_geometries(self.settings)]
-        self.texts = [Texts(self.samples, self.statistics)]
+        self.texts = [Texts(self.samples, self.statistics, self.widget_geometries)]
 
         self.status_bar_text = StringVar()
         self.status_bar_text.set('')

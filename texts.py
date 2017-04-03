@@ -6,10 +6,14 @@ from tkinter import *
 
 class Texts:
     
-    def __init__(self, samples, statistics):
+    def __init__(self, samples, statistics, widget_geometries):
         self.samples = samples[0]
         self.statistics = statistics[0]
-        
+        self.widget_geometries = widget_geometries[0]
+
+        self.marker_size = StringVar()
+        self.marker_size.set(self.widget_geometries.marker_size)
+
         self.sample_1_name = StringVar()
         self.sample_2_name = StringVar()
         self.sample_3_name = StringVar()
