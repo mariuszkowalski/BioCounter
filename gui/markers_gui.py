@@ -4,15 +4,16 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter.colorchooser import askcolor
-
+from gui.main_gui import Main_gui
 
 class Markers_gui:
 
-    def __init__(self, markers_tab, widget_geometries, samples, statistics, texts):
+    def __init__(self, main_gui, markers_tab, widget_geometries, samples, statistics, texts):
         '''
         Building the all elements of the markers menu.
         '''
 
+        self.main_gui = main_gui
         self.markers_tab = markers_tab
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
@@ -476,9 +477,23 @@ class Markers_gui:
         self.sample_8_color.place(x=210, y=29)
         self.sample_8_color.bind('<Button-1>', lambda event, mode=8: self.choose_marker_color(event, mode))
 
+        # Clear markers button
+        self.clear_all_markers_frame = ttk.Frame(
+            self.markers_tab,
+            width=self.widget_geometries.clear_all_markers_frame_width,
+            height=self.widget_geometries.clear_all_markers_frame_height)
+        self.clear_all_markers_frame.place(x=0, y=(self.widget_geometries.sample_frame_height * 8) + 5)
 
+        self.clear_all_markers_button = ttk.Button(
+            self.clear_all_markers_frame,
+            width=30,
+            text='Clear all markers')
+        self.clear_all_markers_button.place(x=24, y=2)
+        self.clear_all_markers_button.bind('<Button-1>', self.clear_all_markers)
+
+        # Debug button.
         self.debug_button_color = ttk.Button(self.markers_tab, width=10, text='Debug samples')
-        self.debug_button_color.place(x=10, y=450)
+        self.debug_button_color.place(x=10, y=500)
         self.debug_button_color.bind('<Button-1>', self.debug_color_in_markers)
 
         # Dictionary of elements.
@@ -554,10 +569,11 @@ class Markers_gui:
                     print('Found: {}'.format(mode))
                     v.configure(bg=new_color)
 
+        self.main_gui.replace_markers_of_changed_color(mode)
+
         # Update color in the activated marker.
         if self.samples.activated_marker and self.samples.activated_marker['mode'] == mode:
             self.samples.activated_marker['color'] = new_color
-
 
     def debug_color_in_markers(self, event):
         print('---  C L I C K E D    I N    M A R K E R S  [ O N ]  ---')
@@ -566,6 +582,9 @@ class Markers_gui:
             print(k, '-->', v)
 
         print('---  C L I C K E D    I N    M A R K E R S  [ O F F ]  ---')
+
+    def clear_all_markers(self, event):
+        self.main_gui.clear_all_markers_from_canvas()
 
     def update_samples_names(self, event):
         self.samples.names[1] = self.texts.sample_1_name.get()

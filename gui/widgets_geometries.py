@@ -23,6 +23,9 @@ class Widget_geometries:
         self.sample_frame_width = self.notebook_width
         self.sample_frame_height = 53
 
+        self.clear_all_markers_frame_width = self.notebook_width
+        self.clear_all_markers_frame_height = 30
+
         # Option tab
         self.qualifiers_options_frame_width = 245 - 10
         self.qualifiers_options_frame_height = 265

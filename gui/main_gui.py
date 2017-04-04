@@ -9,14 +9,13 @@ from shapes import Shapes
 
 class Main_gui:
 
-    def __init__(self, picture_frame, widget_geometries, samples, placed_markers):
+    def __init__(self, picture_frame, widget_geometries, samples):
         '''
         Building the picture frame and all it's elements and options frame.
         '''
         self.picture_frame = picture_frame
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
-        self.placed_markers = placed_markers
 
         self.canvas_frame = ttk.Frame(self.picture_frame,
                                       width=self.widget_geometries.canvas_frame_width,
@@ -80,6 +79,29 @@ class Main_gui:
             color = self.samples.activated_marker['color']
             size = self.widget_geometries.marker_size
 
+            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y)
+
+            marker = Marker(size, mode, qualifier, x, y)
+            self.samples.placed_markers.append(marker)
+
+    def replace_markers_of_changed_color(self, mode):
+        markers_to_delete = self.canvas.find_all()
+
+        for element in markers_to_delete:
+            if self.canvas.gettags(element)[0] == str(mode):
+               self.canvas.delete(element)
+
+        for current_marker in self.samples.placed_markers:
+            if mode == current_marker.mode:
+                size = current_marker.size
+                qualifier = current_marker.qualifier
+                color = self.samples.colors[mode]
+                x = current_marker.position_x
+                y = current_marker.position_y
+
+                self.draw_marker_on_canvas(size, color, mode, qualifier, x, y)
+
+    def draw_marker_on_canvas(self, size, color, mode, qualifier, x, y):
             shape = Shapes.calculate_shape(qualifier, x, y, size)
 
             if qualifier == 1:
@@ -91,8 +113,6 @@ class Main_gui:
                                            shape[5],
                                            tags=mode,
                                            fill=color)
-                marker = Marker(size, mode, qualifier, color, x, y)
-                self.placed_markers.append(marker)
 
             elif qualifier == 2:
                 self.canvas.create_oval(shape[0],
@@ -102,8 +122,6 @@ class Main_gui:
                                         width=0,
                                         tags=mode,
                                         fill=color)
-                marker = Marker(size, mode, qualifier, color, x, y)
-                self.placed_markers.append(marker)
 
             elif qualifier == 3:
                 self.canvas.create_rectangle(shape[0],
@@ -113,8 +131,6 @@ class Main_gui:
                                              width=0,
                                              tags=mode,
                                              fill=color)
-                marker = Marker(size, mode, qualifier, color, x, y)
-                self.placed_markers.append(marker)
 
             elif qualifier == 4:
                 self.canvas.create_line(shape[0],
@@ -124,8 +140,10 @@ class Main_gui:
                                         width=[4],
                                         tags=mode,
                                         fill=color)
-                marker = Marker(size, mode, qualifier, color, x, y)
-                self.placed_markers.append(marker)
+
+    def clear_all_markers_from_canvas(self):
+        self.canvas.delete('all')
+        self.samples.placed_markers = []
 
     def use_mousewheel_on_canvas(self, event):
         '''

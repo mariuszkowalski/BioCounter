@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 
+import os
+import platform
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
@@ -10,15 +12,12 @@ from gui.main_gui import Main_gui
 from gui.markers_gui import Markers_gui
 from gui.options_gui import Options_gui
 from gui.statistics_gui import Statistics_gui
+from gui.texts import Texts
+from gui.widgets_geometries import Widget_geometries
 from manage_settings import ManageSettings
 from samples import Samples
 from settings_utilities import SettingsUtilities
 from statistics import Statistics
-from texts import Texts
-from widgets_geometries import Widget_geometries
-import os
-import platform
-
 
 __author__ = 'Mariusz Kowalski'
 
@@ -39,8 +38,6 @@ class Window:
         '''
         self.settings = settings
         self.mainWidget = mainWidget
-
-        self.placed_markers = []
 
         self.statistics = [Statistics()]
         self.samples = [Samples()]
@@ -73,7 +70,6 @@ class Window:
         self.window_options_menu.add_separator()
 
         self.window_options_menu.add_cascade(label='Change resolution', menu=self.resolution_menu)
-        self.resolution_menu.add_command(label='800x600', command=lambda: self.change_resolution([800, 600]))
         self.resolution_menu.add_command(label='1200x900', command=lambda: self.change_resolution([1200, 900]))
         self.resolution_menu.add_command(label='1600x1200', command=lambda: self.change_resolution([1600, 1200]))
         self.resolution_menu.add_command(label='1280x720', command=lambda: self.change_resolution([1280, 720]))
@@ -92,6 +88,7 @@ class Window:
         self.drop_down_menu.add_cascade(label='Debug', menu=self.debug_menu)
 
         self.debug_menu.add_command(label='Debug samples', command=self.debug_samples)
+        self.debug_menu.add_command(label='Debug markers', command=self.debug_markers)
 
         #Main frame.
         self.main_frame = ttk.Frame(self.mainWidget,
@@ -140,12 +137,13 @@ class Window:
         #
         #Initialization of main gui.
         #
-        self.main_gui = Main_gui(self.picture_frame, self.widget_geometries, self.samples, self.placed_markers)
+        self.main_gui = [Main_gui(self.picture_frame, self.widget_geometries, self.samples)]
 
         #
         #Initialization of additional gui parts.
         #
         self.markers_gui = Markers_gui(
+            self.main_gui[0],
             self.markers_tab,
             self.widget_geometries,
             self.samples,
@@ -187,10 +185,12 @@ class Window:
         else:
             # < ! >
             # Clear statistics.
+            self.statistics[0].clear_all()
             #
             # Clear markers.
+            self.samples[0].placed_markers = []
             # < ! >
-            self.main_gui.place_image_on_canvas(self.image_object)
+            self.main_gui[0].place_image_on_canvas(self.image_object)
 
 
     def change_top_mode(self):
@@ -226,6 +226,14 @@ class Window:
     def remove_elements(self, elements):
         for element in elements:
             element.destroy()
+
+    def debug_markers(self):
+        print('Debug markers pressed.')
+        if len(self.samples[0].placed_markers) != 0:
+            for element in self.samples[0].placed_markers:
+                print('X: {}, Y: {}'.format(element.position_x ,element.position_y))
+        else:
+            print('No placed markers')
 
     def debug_samples(self):
         print('---  C L I C K E D    I N    M E N U  [ O N ]  ---')

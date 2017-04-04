@@ -47,6 +47,8 @@ class Samples:
 
         self.activated_marker = None
 
+        self.placed_markers = []
+
     def update_qualifiers(self, temp, qualifier):
         '''
         Update texts of qualifiers and qualifiers_button_texts
