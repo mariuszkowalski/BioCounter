@@ -114,19 +114,28 @@ class Statistics:
             }
         }
 
+    def change_stat(self, mode, qualifier, increase=True):
+        if increase:
+            self.stats[mode][qualifier] += 1 * 1
+        else:
+            self.stats[mode][qualifier] += 1 * -1
+
+        self.calculate_all()
+
     def calculate_all(self):
         for k_1 in self.stats.keys():
             # Reset sum value
             self.stats[k_1][5] = 0
 
-            for k_2, v_2 in self.stats[k_1].items():
+            for k_2 in self.stats[k_1].keys():
                 if k_2 != 5:
-                    self.stats[k_2][5] += v_2
+                    self.stats[k_1][5] += self.stats[k_1][k_2]
 
         for k_1 in self.percents.keys():
 
             for k_2, v_2 in self.percents[k_1].items():
-                self.percents[k_1][k_2] = round(int(self.stats[k_1][k_2]) / int(self.stats[k_1][5]), 2)
+                if self.stats[k_1][5] > 0:
+                    self.percents[k_1][k_2] = round((int(self.stats[k_1][k_2]) / int(self.stats[k_1][5]) * 100), 2)
 
     def clear_all(self):
         for k_1 in self.stats.keys():

@@ -89,6 +89,7 @@ class Window:
 
         self.debug_menu.add_command(label='Debug samples', command=self.debug_samples)
         self.debug_menu.add_command(label='Debug markers', command=self.debug_markers)
+        self.debug_menu.add_command(label='Debug statistics', command=self.debug_statistics)
 
         #Main frame.
         self.main_frame = ttk.Frame(self.mainWidget,
@@ -137,7 +138,12 @@ class Window:
         #
         #Initialization of main gui.
         #
-        self.main_gui = [Main_gui(self.picture_frame, self.widget_geometries, self.samples)]
+        self.main_gui = [Main_gui(
+            self.picture_frame,
+            self.widget_geometries,
+            self.samples,
+            self.statistics,
+            self.texts)]
 
         #
         #Initialization of additional gui parts.
@@ -226,6 +232,12 @@ class Window:
     def remove_elements(self, elements):
         for element in elements:
             element.destroy()
+
+    def debug_statistics(self):
+        print('Debug statistics pressed.')
+
+        for k, v in self.statistics[0].stats.items():
+            print(k, '-->', v)
 
     def debug_markers(self):
         print('Debug markers pressed.')

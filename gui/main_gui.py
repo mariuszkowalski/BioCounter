@@ -9,13 +9,15 @@ from shapes import Shapes
 
 class Main_gui:
 
-    def __init__(self, picture_frame, widget_geometries, samples):
+    def __init__(self, picture_frame, widget_geometries, samples, statistics, texts):
         '''
         Building the picture frame and all it's elements and options frame.
         '''
         self.picture_frame = picture_frame
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
+        self.statistics = statistics[0]
+        self.texts = texts[0]
 
         self.canvas_frame = ttk.Frame(self.picture_frame,
                                       width=self.widget_geometries.canvas_frame_width,
@@ -84,6 +86,9 @@ class Main_gui:
             marker = Marker(size, mode, qualifier, x, y)
             self.samples.placed_markers.append(marker)
 
+            self.statistics.change_stat(mode, qualifier, True)
+            self.texts.update_statistic_texts()
+
     def replace_markers_of_changed_color(self, mode):
         markers_to_delete = self.canvas.find_all()
 
@@ -143,6 +148,8 @@ class Main_gui:
 
     def clear_all_markers_from_canvas(self):
         self.canvas.delete('all')
+        self.statistics.clear_all()
+        self.texts.update_statistic_texts()
         self.samples.placed_markers = []
 
     def use_mousewheel_on_canvas(self, event):
