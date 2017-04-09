@@ -41,6 +41,7 @@ class Main_gui:
                              highlightthickness=0)
         self.canvas.place(x=0, y=0)
         self.canvas.bind('<Button-1>', self.place_marker_on_canvas)
+        self.canvas.bind('<Button-3>', self.remove_marker_from_canvas)
         self.canvas.bind('<MouseWheel>', self.use_mousewheel_on_canvas)
         self.canvas.bind('<Shift-MouseWheel>', self.use_mousewheel_and_shift_on_canvas)
         self.canvas.bind('<Control-MouseWheel>', self.use_mousewheel_and_ctrl_on_canvas)
@@ -83,11 +84,36 @@ class Main_gui:
 
             self.draw_marker_on_canvas(size, color, mode, qualifier, x, y)
 
-            marker = Marker(size, mode, qualifier, x, y)
+            canvas_index = self.canvas.find_all()[-1]
+            print('Whole canvas index: {}'.format(self.canvas.find_all()))
+            print('Canvas index to assign: {}'.format(canvas_index))
+
+            marker = Marker(canvas_index, size, mode, qualifier, x, y)
             self.samples.placed_markers.append(marker)
 
             self.statistics.change_stat(mode, qualifier, True)
             self.texts.update_statistic_texts()
+
+    def remove_marker_from_canvas(self, event):
+        active_canvas = event.widget
+        x = active_canvas.canvasx(event.x)
+        y = active_canvas.canvasy(event.y)
+
+        markers_to_remove = self.canvas.find_overlapping(x-2, y-2, x+2, y+2)
+
+        for element in markers_to_remove:
+            self.canvas.delete(element)
+
+        for i, element in enumerate(self.samples.placed_markers):
+            if element.canvas_index in markers_to_remove:
+
+                mode = element.mode
+                qualifier = element.qualifier
+
+                self.statistics.change_stat(mode, qualifier, False)
+                self.texts.update_statistic_texts()
+
+                del self.samples.placed_markers[i]
 
     def replace_markers_of_changed_color(self, mode):
         markers_to_delete = self.canvas.find_all()
@@ -105,6 +131,9 @@ class Main_gui:
                 y = current_marker.position_y
 
                 self.draw_marker_on_canvas(size, color, mode, qualifier, x, y)
+
+                new_index = self.canvas.find_all()[-1]
+                current_marker.canvas_index = new_index
 
     def draw_marker_on_canvas(self, size, color, mode, qualifier, x, y):
             shape = Shapes.calculate_shape(qualifier, x, y, size)
