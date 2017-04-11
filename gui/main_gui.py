@@ -85,8 +85,6 @@ class Main_gui:
             self.draw_marker_on_canvas(size, color, mode, qualifier, x, y)
 
             canvas_index = self.canvas.find_all()[-1]
-            print('Whole canvas index: {}'.format(self.canvas.find_all()))
-            print('Canvas index to assign: {}'.format(canvas_index))
 
             marker = Marker(canvas_index, size, mode, qualifier, x, y)
             self.samples.placed_markers.append(marker)
@@ -134,6 +132,23 @@ class Main_gui:
 
                 new_index = self.canvas.find_all()[-1]
                 current_marker.canvas_index = new_index
+
+    def redraw_all_markers(self):
+        self.canvas.delete('all')
+
+        for current_marker in self.samples.placed_markers:
+            current_marker.size = self.widget_geometries.marker_size
+            size = current_marker.size
+            mode = current_marker.mode
+            qualifier = current_marker.qualifier
+            color = self.samples.colors[current_marker.mode]
+            x = current_marker.position_x
+            y = current_marker.position_y
+
+            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y)
+
+            new_index = self.canvas.find_all()[-1]
+            current_marker.canvas_index = new_index
 
     def draw_marker_on_canvas(self, size, color, mode, qualifier, x, y):
             shape = Shapes.calculate_shape(qualifier, x, y, size)

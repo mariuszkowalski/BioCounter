@@ -166,6 +166,7 @@ class Window:
             )
 
         self.options_gui = Options_gui(
+            self.main_gui[0],
             self.options_tab,
             self.widget_geometries,
             self.samples,

@@ -7,7 +7,8 @@ from tkinter import ttk
 
 class Options_gui:
 
-    def __init__(self, options_tab, widget_geometries, samples, texts):
+    def __init__(self, main_gui, options_tab, widget_geometries, samples, texts):
+        self.main_gui = main_gui
         self.options_tab = options_tab
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
@@ -192,6 +193,7 @@ class Options_gui:
         if self.widget_geometries.marker_size > 4:
             self.widget_geometries.marker_size -= 1
             self.texts.marker_size.set(self.widget_geometries.marker_size)
+            self.main_gui.redraw_all_markers()
 
         if self.widget_geometries.marker_size == 4:
             self.decrease_marker_size_button.state(['disabled'])
@@ -199,10 +201,12 @@ class Options_gui:
         if self.widget_geometries.marker_size < 20:
             self.increase_marker_size_button.state(['!disabled'])
 
+
     def increase_marker_size(self, event):
         if self.widget_geometries.marker_size < 20:
             self.widget_geometries.marker_size += 1
             self.texts.marker_size.set(self.widget_geometries.marker_size)
+            self.main_gui.redraw_all_markers()
 
         if self.widget_geometries.marker_size == 20:
             self.increase_marker_size_button.state(['disabled'])
