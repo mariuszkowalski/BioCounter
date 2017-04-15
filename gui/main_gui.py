@@ -5,6 +5,7 @@ from tkinter import *
 from tkinter import ttk
 from marker import Marker
 from shapes import Shapes
+from PIL import Image, ImageTk
 
 
 class Main_gui:
@@ -18,6 +19,9 @@ class Main_gui:
         self.samples = samples[0]
         self.statistics = statistics[0]
         self.texts = texts[0]
+
+        self.raw_image_object = None
+        self.resized_image_object = None
 
         self.canvas_frame = ttk.Frame(self.picture_frame,
                                       width=self.widget_geometries.canvas_frame_width,
@@ -46,10 +50,13 @@ class Main_gui:
         self.canvas.bind('<Shift-MouseWheel>', self.use_mousewheel_and_shift_on_canvas)
         self.canvas.bind('<Control-MouseWheel>', self.use_mousewheel_and_ctrl_on_canvas)
 
-    def place_image_on_canvas(self, image_object):
-        self.image_object = image_object
+    def place_image_on_canvas(self, raw_image_object):
+        self.raw_image_object = raw_image_object
+        self.image_object = ImageTk.PhotoImage(self.raw_image_object)
+
         self.image_object_width = self.image_object.width()
         self.image_object_height = self.image_object.height()
+        self.image_scale = 1.0
 
         self.canvas.create_image(self.image_object_width / 2,
                                  self.image_object_height / 2,
@@ -191,6 +198,14 @@ class Main_gui:
                                         fill=color)
 
     def clear_all_markers_from_canvas(self):
+        '''
+        Method removes all markers form canvas, but also removes all other elements from canvas.
+        This is due to 'all' argument in canvas.delete() method.
+
+        Return:
+             No return in method
+        '''
+
         self.canvas.delete('all')
         self.statistics.clear_all()
         self.texts.update_statistic_texts()
@@ -218,5 +233,52 @@ class Main_gui:
         '''
         Zoom in and out the canvas.
         '''
+        if self.image_object:
+            print('Scroll and ctrl on canvas {}'.format(int(event.delta / 60)))
+            print('Scale: {}'.format(self.image_scale))
+            scrolled = int(event.delta / 60)
 
-        print('Scroll and ctrl on canvas {}'.format(int(event.delta / 60)))
+            if scrolled < 0:
+                self.image_scale /= abs(scrolled)
+
+                if self.image_scale < 0.5:
+                    self.image_scale = 0.5
+                else:
+                    self.scale_image(event.x, event.y)
+
+            elif scrolled > 0:
+                self.image_scale *= abs(scrolled)
+
+                if self.image_scale > 4:
+                    self.image_scale = 4
+                else:
+                    self.scale_image(event.x, event.y)
+
+    def scale_image(self, x, y):
+        '''
+        Scales the loaded image according to given scale.
+        Removes all placed markers, recalculates positioning and redraws markers.
+
+        Args:
+            x: int - x coordinates of the scaling
+            y: int - y coordinates of the scaling
+
+        Return:
+            No return in method
+        '''
+
+        self.clear_all_markers_from_canvas()
+
+        new_size = int(self.image_object_width * self.image_scale), int(self.image_object_height * self.image_scale)
+        self.resized_raw_image_object = self.raw_image_object.resize(new_size)
+
+        self.resized_image_object = ImageTk.PhotoImage(self.resized_raw_image_object)
+        self.resized_image_object_width = self.resized_image_object.width()
+        self.resized_image_object_height = self.resized_image_object.height()
+
+        self.canvas.create_image(self.resized_image_object_width / 2,
+                                 self.resized_image_object_height / 2,
+                                 tags='resized_image',
+                                 image=self.resized_image_object)
+
+        self.canvas.config(scrollregion=(0, 0, self.resized_image_object_width, self.resized_image_object_height))

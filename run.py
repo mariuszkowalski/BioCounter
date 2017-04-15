@@ -181,7 +181,7 @@ class Window:
             if self.file_name[-4:] not in allowed_file_types:
                 messagebox.showinfo(message='Not supported file type')
             else:
-                self.image_object = ImageTk.PhotoImage(Image.open(self.file_name))
+                self.image_object = Image.open(self.file_name)
 
         except AttributeError:
             pass
