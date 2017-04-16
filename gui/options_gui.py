@@ -8,6 +8,17 @@ from tkinter import ttk
 class Options_gui:
 
     def __init__(self, main_gui, options_tab, widget_geometries, samples, texts):
+        '''
+        Building all elements of the options menu.
+
+        Args:
+            main_gui: instance - class Main_gui from gui
+            options_tab: instance - module Tkinter class ttk.Frame
+            widget_geometries: instance - class Widget_geometries
+            samples: instance - class Samples
+            texts: instance - class Texts
+        '''
+
         self.main_gui = main_gui
         self.options_tab = options_tab
         self.widget_geometries = widget_geometries[0]
@@ -166,6 +177,17 @@ class Options_gui:
         self.increase_marker_size_button.bind('<Button-1>', self.increase_marker_size)
 
     def update_qualifiers(self, event, qualifier):
+        '''
+        Updates the text of the qualifier passed through the given Entry.
+
+        Args:
+            qualifier: int - qualifier of the marker activated
+                integer in range 1-4
+
+        Return:
+            No return in the method.
+        '''
+
         temp = {
             1: self.texts.qualifier_1.get(),
             2: self.texts.qualifier_2.get(),
@@ -189,27 +211,34 @@ class Options_gui:
             self.texts.qualifier_4_button_text.set(self.samples.qualifiers_button_texts[4])
 
     def decrease_marker_size(self, event):
+        '''
+        Decreases the marker size, the 4 is the lowest size possible.
+        '''
 
-        if self.widget_geometries.marker_size > 4:
+        if self.widget_geometries.marker_size > self.widget_geometries.min_marker_size:
             self.widget_geometries.marker_size -= 1
             self.texts.marker_size.set(self.widget_geometries.marker_size)
             self.main_gui.redraw_all_markers()
 
-        if self.widget_geometries.marker_size == 4:
+        if self.widget_geometries.marker_size == self.widget_geometries.min_marker_size:
             self.decrease_marker_size_button.state(['disabled'])
 
-        if self.widget_geometries.marker_size < 20:
+        if self.widget_geometries.marker_size < self.widget_geometries.max_marker_size:
             self.increase_marker_size_button.state(['!disabled'])
 
 
     def increase_marker_size(self, event):
-        if self.widget_geometries.marker_size < 20:
+        '''
+        Increases the marker size, the 20 is the biggest size possible.
+        '''
+
+        if self.widget_geometries.marker_size < self.widget_geometries.max_marker_size:
             self.widget_geometries.marker_size += 1
             self.texts.marker_size.set(self.widget_geometries.marker_size)
             self.main_gui.redraw_all_markers()
 
-        if self.widget_geometries.marker_size == 20:
+        if self.widget_geometries.marker_size == self.widget_geometries.max_marker_size:
             self.increase_marker_size_button.state(['disabled'])
 
-        if self.widget_geometries.marker_size > 4:
+        if self.widget_geometries.marker_size > self.widget_geometries.min_marker_size:
             self.decrease_marker_size_button.state(['!disabled'])

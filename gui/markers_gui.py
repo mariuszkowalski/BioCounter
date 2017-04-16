@@ -10,7 +10,15 @@ class Markers_gui:
 
     def __init__(self, main_gui, markers_tab, widget_geometries, samples, statistics, texts):
         '''
-        Building the all elements of the markers menu.
+        Building all elements of the markers menu.
+
+        Args:
+            main_gui: instance - class Main_gui from gui
+            markers_tab: instance - module Tkinter class ttk.Frame
+            widget_geometries instance - class Widget_geometries
+            samples: instance - class Samples
+            statistics: instance - class Statistics
+            texts: instance - class Texts
         '''
 
         self.main_gui = main_gui
@@ -544,7 +552,19 @@ class Markers_gui:
         }
 
     def activate_marker(self, event, mode, qualifier):
-        # print('mode:{} qualifier:{} color:{}'.format(mode, qualifier, color))
+        '''
+        Registers which marker button has been pressed and holds information necessary
+        to place correct marker in the canvas.
+
+        Args:
+            mode: int - mode of the marker activated
+                integer in range 1-8
+            qualifier: int - qualifier of the marker activated
+                integer in range 1-4
+
+        Return:
+            No return in the method
+        '''
 
         for k, v in self.samples_and_markers_buttons.items():
             if k == 'sample_{}_marker_{}_button'.format(mode, qualifier):
@@ -559,6 +579,19 @@ class Markers_gui:
         }
 
     def choose_marker_color(self, event, mode):
+        '''
+        Activates the pick color dialog box and assigns the choose color to
+        the given marker. Calls for redraw of all the markers that has been
+        assigned the new color.
+
+        Args:
+            mode: int - mode of the marker activated
+                integer in range 1-8
+
+        Return:
+            No return in the method
+        '''
+
         new_color = askcolor()[1]
 
         if new_color:
@@ -576,6 +609,10 @@ class Markers_gui:
             self.samples.activated_marker['color'] = new_color
 
     def debug_color_in_markers(self, event):
+        '''
+        Debug method shows all elements form the instance of class Samples.
+        '''
+
         print('---  C L I C K E D    I N    M A R K E R S  [ O N ]  ---')
 
         for k, v in vars(self.samples).items():
@@ -584,9 +621,17 @@ class Markers_gui:
         print('---  C L I C K E D    I N    M A R K E R S  [ O F F ]  ---')
 
     def clear_all_markers(self, event):
+        '''
+        Clears all markers from the canvas and all other elements.
+        '''
+
         self.main_gui.clear_all_markers_from_canvas()
 
     def update_samples_names(self, event):
+        '''
+        Updates the samples names assigned in the Entry fields.
+        '''
+
         self.samples.names[1] = self.texts.sample_1_name.get()
         self.samples.names[2] = self.texts.sample_2_name.get()
         self.samples.names[3] = self.texts.sample_3_name.get()

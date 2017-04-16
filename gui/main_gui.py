@@ -13,7 +13,15 @@ class Main_gui:
     def __init__(self, picture_frame, widget_geometries, samples, statistics, texts):
         '''
         Building the picture frame and all it's elements and options frame.
+
+        Args:
+            picture_frame: instance - module Tkinter class ttk.Frame
+            widget_geometries instance - class Widget_geometries
+            samples: instance - class Samples
+            statistics: instance - class Statistics
+            texts: instance - class Texts
         '''
+
         self.picture_frame = picture_frame
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
@@ -51,6 +59,16 @@ class Main_gui:
         self.canvas.bind('<Control-MouseWheel>', self.use_mousewheel_and_ctrl_on_canvas)
 
     def place_image_on_canvas(self, raw_image_object):
+        '''
+        Places image oo center of the canvas.
+
+        Args:
+            raw_image_object: instance - the module PIL class Image.
+
+        Return:
+            No return in the method
+        '''
+
         self.raw_image_object = raw_image_object
         self.image_object = ImageTk.PhotoImage(self.raw_image_object)
 
@@ -79,6 +97,12 @@ class Main_gui:
         self.canvas.focus()
 
     def place_marker_on_canvas(self, event):
+        '''
+        Places activated marker with the correct mode and qualifier in the canvas
+        using the coordinates from the event, recalculated to the corresponding
+        coordinate on canvas.
+        '''
+
         active_canvas = event.widget
         x = active_canvas.canvasx(event.x)
         y = active_canvas.canvasy(event.y)
@@ -99,28 +123,19 @@ class Main_gui:
             self.statistics.change_stat(mode, qualifier, True)
             self.texts.update_statistic_texts()
 
-    def remove_marker_from_canvas(self, event):
-        active_canvas = event.widget
-        x = active_canvas.canvasx(event.x)
-        y = active_canvas.canvasy(event.y)
-
-        markers_to_remove = self.canvas.find_overlapping(x-2, y-2, x+2, y+2)
-
-        for element in markers_to_remove:
-            self.canvas.delete(element)
-
-        for i, element in enumerate(self.samples.placed_markers):
-            if element.canvas_index in markers_to_remove:
-
-                mode = element.mode
-                qualifier = element.qualifier
-
-                self.statistics.change_stat(mode, qualifier, False)
-                self.texts.update_statistic_texts()
-
-                del self.samples.placed_markers[i]
-
     def replace_markers_of_changed_color(self, mode):
+        '''
+        Deletes markers that has changed color from the canvas and
+        creates those again with new color assigned.
+
+        Args:
+            mode: int - mode of the marker activated
+                integer in range 1-8
+
+        Return:
+            No return in the method
+        '''
+
         markers_to_delete = self.canvas.find_all()
 
         for element in markers_to_delete:
@@ -141,6 +156,11 @@ class Main_gui:
                 current_marker.canvas_index = new_index
 
     def redraw_all_markers(self):
+        '''
+        Deletes all the markers placed on the canvas and all the other elements and
+        redraws all the markers from the list.
+        '''
+
         self.canvas.delete('all')
 
         for current_marker in self.samples.placed_markers:
@@ -157,45 +177,89 @@ class Main_gui:
             new_index = self.canvas.find_all()[-1]
             current_marker.canvas_index = new_index
 
+    def remove_marker_from_canvas(self, event):
+        '''
+        Removes given marker from canvas which is overlapping with the test area.
+        '''
+
+        active_canvas = event.widget
+        x = active_canvas.canvasx(event.x)
+        y = active_canvas.canvasy(event.y)
+
+        markers_to_remove = self.canvas.find_overlapping(x-2, y-2, x+2, y+2)
+
+        for element in markers_to_remove:
+            self.canvas.delete(element)
+
+        for i, element in enumerate(self.samples.placed_markers):
+            if element.canvas_index in markers_to_remove:
+
+                mode = element.mode
+                qualifier = element.qualifier
+
+                self.statistics.change_stat(mode, qualifier, False)
+                self.texts.update_statistic_texts()
+
+                del self.samples.placed_markers[i]
+
     def draw_marker_on_canvas(self, size, color, mode, qualifier, x, y):
-            shape = Shapes.calculate_shape(qualifier, x, y, size)
+        '''
+        Draws the marker on the canvas, using the passed parameters.
 
-            if qualifier == 1:
-                self.canvas.create_polygon(shape[0],
-                                           shape[1],
-                                           shape[2],
-                                           shape[3],
-                                           shape[4],
-                                           shape[5],
-                                           tags=mode,
-                                           fill=color)
+        Args:
+            size: int - contains the current size of the marker specified
+            color: string -  this is passed in the format:
+                "'#{:02X}{:02X}{:02X}'.format(255, 100, 100)"
+                the numbers corresponds to the RGB color palette
+            mode: int - mode of the marker activated
+                integer in range 1-8
+            qualifier: int - qualifier of the marker activated
+                integer in range 1-4
+            x: int - horizontal position of the marker
+            y: int - vertical position of the marker
 
-            elif qualifier == 2:
-                self.canvas.create_oval(shape[0],
-                                        shape[1],
-                                        shape[2],
-                                        shape[3],
-                                        width=0,
-                                        tags=mode,
-                                        fill=color)
+        Return:
+            No return in the method
+        '''
 
-            elif qualifier == 3:
-                self.canvas.create_rectangle(shape[0],
-                                             shape[1],
-                                             shape[2],
-                                             shape[3],
-                                             width=0,
-                                             tags=mode,
-                                             fill=color)
+        shape = Shapes.calculate_shape(qualifier, x, y, size)
 
-            elif qualifier == 4:
-                self.canvas.create_line(shape[0],
-                                        shape[1],
-                                        shape[2],
-                                        shape[3],
-                                        width=[4],
-                                        tags=mode,
-                                        fill=color)
+        if qualifier == 1:
+            self.canvas.create_polygon(shape[0],
+                                       shape[1],
+                                       shape[2],
+                                       shape[3],
+                                       shape[4],
+                                       shape[5],
+                                       tags=mode,
+                                       fill=color)
+
+        elif qualifier == 2:
+            self.canvas.create_oval(shape[0],
+                                    shape[1],
+                                    shape[2],
+                                    shape[3],
+                                    width=0,
+                                    tags=mode,
+                                    fill=color)
+
+        elif qualifier == 3:
+            self.canvas.create_rectangle(shape[0],
+                                         shape[1],
+                                         shape[2],
+                                         shape[3],
+                                         width=0,
+                                         tags=mode,
+                                         fill=color)
+
+        elif qualifier == 4:
+            self.canvas.create_line(shape[0],
+                                    shape[1],
+                                    shape[2],
+                                    shape[3],
+                                    width=[4],
+                                    tags=mode,
+                                    fill=color)
 
     def clear_all_markers_from_canvas(self):
         '''
@@ -203,7 +267,7 @@ class Main_gui:
         This is due to 'all' argument in canvas.delete() method.
 
         Return:
-             No return in method
+             No return in the method
         '''
 
         self.canvas.delete('all')
@@ -264,7 +328,7 @@ class Main_gui:
             y: int - y coordinates of the scaling
 
         Return:
-            No return in method
+            No return in the method
         '''
 
         self.clear_all_markers_from_canvas()

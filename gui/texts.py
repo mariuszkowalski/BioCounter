@@ -7,6 +7,15 @@ from tkinter import *
 class Texts:
     
     def __init__(self, samples, statistics, widget_geometries):
+        '''
+        Contains all the texts used in the program.
+
+        Args:
+            samples: instance - class Samples
+            statistics: instance - class Statistics
+            widget_geometries: instance - class Widget_geometries
+        '''
+
         self.samples = samples[0]
         self.statistics = statistics[0]
         self.widget_geometries = widget_geometries[0]
@@ -232,6 +241,11 @@ class Texts:
         self.quantity_sample_8_qualifier_4_percent.set(self.statistics.percents[8][4])
 
     def update_statistic_texts(self):
+        '''
+        Updates all the statistics texts in the Entries.
+        Entries are read only type.
+        '''
+
         self.quantity_sample_1_qualifier_1.set(self.statistics.stats[1][1])
         self.quantity_sample_1_qualifier_2.set(self.statistics.stats[1][2])
         self.quantity_sample_1_qualifier_3.set(self.statistics.stats[1][3])

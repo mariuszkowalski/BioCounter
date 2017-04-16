@@ -4,9 +4,18 @@
 class Widget_geometries:
 
     def __init__(self, settings):
+        '''
+        Class container for the all dimensions of all elements used in the GUI.
+
+        Args:
+            settings: instance - class Settings
+        '''
+
         self.settings = settings
 
         self.marker_size = 10
+        self.min_marker_size = 4
+        self.max_marker_size = 20
 
         self.toolbar_width = 250
         self.scrollbar_thickness = 18
