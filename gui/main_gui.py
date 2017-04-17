@@ -31,6 +31,7 @@ class Main_gui:
         self.valid_marker_tags = ['1', '2', '3', '4', '5', '6', '7', '8']
 
         self.image_scale = 1.0
+        self.old_image_scale = None
         self.raw_image_object = None
         self.resized_image_object = None
 
@@ -130,8 +131,9 @@ class Main_gui:
             color = self.samples.activated_marker['color']
             size = self.widget_geometries.marker_size
             image_scale = self.image_scale
+            old_scale = self.old_image_scale
 
-            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale)
+            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, old_scale)###############
 
             canvas_index = self.canvas.find_all()[-1]
 
@@ -169,8 +171,9 @@ class Main_gui:
                 x = current_marker.position_x
                 y = current_marker.position_y
                 image_scale = self.image_scale
+                old_scale = self.old_image_scale
 
-                self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale)
+                self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, old_scale)################
 
                 new_index = self.canvas.find_all()[-1]
                 current_marker.canvas_index = new_index
@@ -197,8 +200,9 @@ class Main_gui:
             x = current_marker.position_x
             y = current_marker.position_y
             image_scale = self.image_scale
+            old_scale = self.old_image_scale
 
-            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale)
+            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, old_scale)###################
 
             new_index = self.canvas.find_all()[-1]
             current_marker.canvas_index = new_index
@@ -230,7 +234,7 @@ class Main_gui:
 
                 del self.samples.placed_markers[i]
 
-    def draw_marker_on_canvas(self, size, color, mode, qualifier, x, y, image_scale):
+    def draw_marker_on_canvas(self, size, color, mode, qualifier, x, y, image_scale, old_scale):
         '''
         Draws the marker on the canvas, using the passed parameters.
 
@@ -251,6 +255,7 @@ class Main_gui:
             No return in the method
         '''
 
+        image_scale = Shapes.calculate_scale_factor(old_scale, image_scale)
         shape = Shapes.calculate_shape(qualifier, x, y, size, image_scale)
 
         if qualifier == 1:
@@ -333,9 +338,8 @@ class Main_gui:
         Zoom in and out the canvas.
         '''
         if self.image_object:
-            print('Scroll and ctrl on canvas {}'.format(int(event.delta / 60)))
-            print('Scale: {}'.format(self.image_scale))
             scrolled = int(event.delta / 60)
+            self.old_image_scale = self.image_scale
 
             if scrolled < 0:
                 self.image_scale /= abs(scrolled)
@@ -352,6 +356,9 @@ class Main_gui:
                     self.image_scale = 4
                 else:
                     self.scale_image(event.x, event.y)
+
+        factor = Shapes.calculate_scale_factor(self.old_image_scale, self.image_scale)
+        print('old scale:{}, scale:{}, factor:{}'.format(self.old_image_scale, self.image_scale, factor))
 
     def scale_image(self, x, y):
         '''

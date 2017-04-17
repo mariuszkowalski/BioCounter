@@ -64,3 +64,13 @@ class Shapes:
             ]
 
         return shape
+
+    @staticmethod
+    def calculate_scale_factor(old_scale, scale):
+        if old_scale:
+            if scale > old_scale:
+                return 2.0
+            else:
+                return 0.5
+        else:
+            return 1.0
