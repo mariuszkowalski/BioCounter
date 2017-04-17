@@ -4,19 +4,23 @@
 class Shapes:
 
     @staticmethod
-    def calculate_shape(qualifier, position_x, position_y, size):
+    def calculate_shape(qualifier, position_x, position_y, size, image_scale):
         '''
         Calculate position of vertexes of defined marker shapes.
 
         Args:
-            qualifier: int - activated qualifier, defines shape .
+            qualifier: int - activated qualifier, defines shape.
             position_x: int - position x of the left mouse button event.
             position_y: int - position y of the left mouse button event.
             size: int - defined size of the marker in pixels.
+            image_scale: float - current scale of the loaded image.
 
         Return:
             list: contains coordinates for each vertex of given shape.
         '''
+
+        position_x *= image_scale
+        position_y *= image_scale
 
         shape = []
 

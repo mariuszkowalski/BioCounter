@@ -28,29 +28,41 @@ class Main_gui:
         self.statistics = statistics[0]
         self.texts = texts[0]
 
+        self.valid_marker_tags = ['1', '2', '3', '4', '5', '6', '7', '8']
+
+        self.image_scale = 1.0
         self.raw_image_object = None
         self.resized_image_object = None
 
-        self.canvas_frame = ttk.Frame(self.picture_frame,
-                                      width=self.widget_geometries.canvas_frame_width,
-                                      height=self.widget_geometries.canvas_frame_height)
+        self.canvas_frame = ttk.Frame(
+            self.picture_frame,
+            width=self.widget_geometries.canvas_frame_width,
+            height=self.widget_geometries.canvas_frame_height)
         self.canvas_frame.place(x=0, y=0)
 
-        self.scrollbar_x_frame = ttk.Frame(self.picture_frame,
-                                           width=self.widget_geometries.canvas_frame_width,
-                                           height=self.widget_geometries.scrollbar_thickness)
+        self.scrollbar_x_frame = ttk.Frame(
+            self.picture_frame,
+            width=self.widget_geometries.canvas_frame_width,
+            height=self.widget_geometries.scrollbar_thickness)
         self.scrollbar_x_frame.place(x=0, y=self.widget_geometries.canvas_frame_height)
 
-        self.scrollbar_y_frame = ttk.Frame(self.picture_frame,
-                                           width=self.widget_geometries.scrollbar_thickness,
-                                           height=self.widget_geometries.canvas_frame_height)
+        self.scrollbar_y_frame = ttk.Frame(
+            self.picture_frame,
+            width=self.widget_geometries.scrollbar_thickness,
+            height=self.widget_geometries.canvas_frame_height)
         self.scrollbar_y_frame.place(x=self.widget_geometries.canvas_frame_width, y=0)
 
-        self.canvas = Canvas(self.canvas_frame,
-                             width=self.widget_geometries.canvas_frame_width,
-                             height=self.widget_geometries.canvas_frame_height,
-                             borderwidth=0,
-                             highlightthickness=0)
+        self.canvas = Canvas(
+            self.canvas_frame,
+            width=self.widget_geometries.canvas_frame_width,
+            height=self.widget_geometries.canvas_frame_height,
+            borderwidth=0,
+            highlightthickness=0,
+            scrollregion = (
+                0,
+                0,
+                self.widget_geometries.canvas_frame_width,
+                self.widget_geometries.canvas_frame_height))
         self.canvas.place(x=0, y=0)
         self.canvas.bind('<Button-1>', self.place_marker_on_canvas)
         self.canvas.bind('<Button-3>', self.remove_marker_from_canvas)
@@ -74,12 +86,12 @@ class Main_gui:
 
         self.image_object_width = self.image_object.width()
         self.image_object_height = self.image_object.height()
-        self.image_scale = 1.0
 
-        self.canvas.create_image(self.image_object_width / 2,
-                                 self.image_object_height / 2,
-                                 tags='image',
-                                 image=self.image_object)
+        self.canvas.create_image(
+            self.image_object_width / 2,
+            self.image_object_height / 2,
+            tags='image',
+            image=self.image_object)
 
         self.scrollbar_x = ttk.Scrollbar(self.scrollbar_x_frame, orient=HORIZONTAL)
         self.scrollbar_x.place(x=0, y=0, relwidth=1.0)
@@ -89,11 +101,16 @@ class Main_gui:
         self.scrollbar_y.place(x=0, y=0, relheight=1.0)
         self.scrollbar_y.config(command=self.canvas.yview)
 
-        self.canvas.config(width=self.widget_geometries.canvas_frame_width,
-                           height=self.widget_geometries.canvas_frame_height,
-                           xscrollcommand=self.scrollbar_x.set,
-                           yscrollcommand=self.scrollbar_y.set,
-                           scrollregion=(0, 0, self.image_object_width, self.image_object_height))
+        self.canvas.config(
+            width=self.widget_geometries.canvas_frame_width,
+            height=self.widget_geometries.canvas_frame_height,
+            xscrollcommand=self.scrollbar_x.set,
+            yscrollcommand=self.scrollbar_y.set,
+            scrollregion=(
+                0,
+                0,
+                self.image_object_width,
+                self.image_object_height))
         self.canvas.focus()
 
     def place_marker_on_canvas(self, event):
@@ -112,8 +129,9 @@ class Main_gui:
             qualifier = self.samples.activated_marker['qualifier']
             color = self.samples.activated_marker['color']
             size = self.widget_geometries.marker_size
+            image_scale = self.image_scale
 
-            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y)
+            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale)
 
             canvas_index = self.canvas.find_all()[-1]
 
@@ -139,8 +157,9 @@ class Main_gui:
         markers_to_delete = self.canvas.find_all()
 
         for element in markers_to_delete:
+            # Checks only for one mode, of an marker that changed color.
             if self.canvas.gettags(element)[0] == str(mode):
-               self.canvas.delete(element)
+                self.canvas.delete(element)
 
         for current_marker in self.samples.placed_markers:
             if mode == current_marker.mode:
@@ -149,8 +168,9 @@ class Main_gui:
                 color = self.samples.colors[mode]
                 x = current_marker.position_x
                 y = current_marker.position_y
+                image_scale = self.image_scale
 
-                self.draw_marker_on_canvas(size, color, mode, qualifier, x, y)
+                self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale)
 
                 new_index = self.canvas.find_all()[-1]
                 current_marker.canvas_index = new_index
@@ -161,7 +181,12 @@ class Main_gui:
         redraws all the markers from the list.
         '''
 
-        self.canvas.delete('all')
+        markers_to_delete = self.canvas.find_all()
+
+        for element in markers_to_delete:
+            # Checks for all valid marker tags.
+            if self.canvas.gettags(element)[0] in self.valid_marker_tags:
+                self.canvas.delete(element)
 
         for current_marker in self.samples.placed_markers:
             current_marker.size = self.widget_geometries.marker_size
@@ -171,8 +196,9 @@ class Main_gui:
             color = self.samples.colors[current_marker.mode]
             x = current_marker.position_x
             y = current_marker.position_y
+            image_scale = self.image_scale
 
-            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y)
+            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale)
 
             new_index = self.canvas.find_all()[-1]
             current_marker.canvas_index = new_index
@@ -189,7 +215,9 @@ class Main_gui:
         markers_to_remove = self.canvas.find_overlapping(x-2, y-2, x+2, y+2)
 
         for element in markers_to_remove:
-            self.canvas.delete(element)
+            # Checks for all valid marker tags.
+            if self.canvas.gettags(element)[0] in self.valid_marker_tags:
+                self.canvas.delete(element)
 
         for i, element in enumerate(self.samples.placed_markers):
             if element.canvas_index in markers_to_remove:
@@ -202,7 +230,7 @@ class Main_gui:
 
                 del self.samples.placed_markers[i]
 
-    def draw_marker_on_canvas(self, size, color, mode, qualifier, x, y):
+    def draw_marker_on_canvas(self, size, color, mode, qualifier, x, y, image_scale):
         '''
         Draws the marker on the canvas, using the passed parameters.
 
@@ -217,12 +245,13 @@ class Main_gui:
                 integer in range 1-4
             x: int - horizontal position of the marker
             y: int - vertical position of the marker
+            image_scale: float - current scale of the loaded image.
 
         Return:
             No return in the method
         '''
 
-        shape = Shapes.calculate_shape(qualifier, x, y, size)
+        shape = Shapes.calculate_shape(qualifier, x, y, size, image_scale)
 
         if qualifier == 1:
             self.canvas.create_polygon(shape[0],
@@ -270,7 +299,13 @@ class Main_gui:
              No return in the method
         '''
 
-        self.canvas.delete('all')
+        markers_to_delete = self.canvas.find_all()
+
+        for element in markers_to_delete:
+            # Checks for all valid marker tags.
+            if self.canvas.gettags(element)[0] in self.valid_marker_tags:
+                self.canvas.delete(element)
+
         self.statistics.clear_all()
         self.texts.update_statistic_texts()
         self.samples.placed_markers = []
@@ -331,7 +366,7 @@ class Main_gui:
             No return in the method
         '''
 
-        self.clear_all_markers_from_canvas()
+        self.canvas.delete('all')
 
         new_size = int(self.image_object_width * self.image_scale), int(self.image_object_height * self.image_scale)
         self.resized_raw_image_object = self.raw_image_object.resize(new_size)
@@ -340,9 +375,17 @@ class Main_gui:
         self.resized_image_object_width = self.resized_image_object.width()
         self.resized_image_object_height = self.resized_image_object.height()
 
-        self.canvas.create_image(self.resized_image_object_width / 2,
-                                 self.resized_image_object_height / 2,
-                                 tags='resized_image',
-                                 image=self.resized_image_object)
+        self.canvas.create_image(
+            self.resized_image_object_width / 2,
+            self.resized_image_object_height / 2,
+            tags='resized_image',
+            image=self.resized_image_object)
 
-        self.canvas.config(scrollregion=(0, 0, self.resized_image_object_width, self.resized_image_object_height))
+        self.canvas.config(
+            scrollregion=(
+                0,
+                0,
+                self.resized_image_object_width,
+                self.resized_image_object_height))
+
+        self.redraw_all_markers()
