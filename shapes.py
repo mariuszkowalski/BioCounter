@@ -4,7 +4,7 @@
 class Shapes:
 
     @staticmethod
-    def calculate_shape(qualifier, position_x, position_y, size, image_scale):
+    def calculate_shape(qualifier, position_x, position_y, size, image_scale, redraw):
         '''
         Calculate position of vertexes of defined marker shapes.
 
@@ -19,8 +19,15 @@ class Shapes:
             list: contains coordinates for each vertex of given shape.
         '''
 
-        position_x *= image_scale
-        position_y *= image_scale
+
+        if redraw:
+            print('BEFORE // REDRAW = TRUE // x:{}, y:{}, SCALE:{}'.format(position_x, position_y, image_scale))
+            position_x *= image_scale
+            position_y *= image_scale
+            print('AFTER // REDRAW = TRUE // x:{}, y:{}, SCALE:{}'.format(position_x, position_y, image_scale))
+
+        else:
+            print('REDRAW = FALSE // x:{}, y:{}, SCALE:{}'.format(position_x, position_y, image_scale))
 
         shape = []
 
@@ -64,13 +71,3 @@ class Shapes:
             ]
 
         return shape
-
-    @staticmethod
-    def calculate_scale_factor(old_scale, scale):
-        if old_scale:
-            if scale > old_scale:
-                return 2.0
-            else:
-                return 0.5
-        else:
-            return 1.0

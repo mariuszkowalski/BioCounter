@@ -6,6 +6,7 @@ from tkinter import ttk
 from marker import Marker
 from shapes import Shapes
 from PIL import Image, ImageTk
+from marker_utilities import MarkerUtilities
 
 
 class Main_gui:
@@ -131,13 +132,19 @@ class Main_gui:
             color = self.samples.activated_marker['color']
             size = self.widget_geometries.marker_size
             image_scale = self.image_scale
-            old_scale = self.old_image_scale
 
-            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, old_scale)###############
+            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, False)##############
 
             canvas_index = self.canvas.find_all()[-1]
 
-            marker = Marker(canvas_index, size, mode, qualifier, x, y)
+            #
+            # Does know what scale is...
+            #
+            adjusted_x, adjusted_y = MarkerUtilities.adjust_recorded_position(x, y, image_scale)
+
+            print('SCALE: {}; CLICK: {}, {}; MARKER SET: {}, {}; ADJUSTED: {}, {}'.format(image_scale, event.x, event.y, x, y, adjusted_x, adjusted_y))
+
+            marker = Marker(canvas_index, size, mode, qualifier, adjusted_x, adjusted_y)
             self.samples.placed_markers.append(marker)
 
             self.statistics.change_stat(mode, qualifier, True)
@@ -171,9 +178,8 @@ class Main_gui:
                 x = current_marker.position_x
                 y = current_marker.position_y
                 image_scale = self.image_scale
-                old_scale = self.old_image_scale
 
-                self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, old_scale)################
+                self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, True)################
 
                 new_index = self.canvas.find_all()[-1]
                 current_marker.canvas_index = new_index
@@ -200,9 +206,10 @@ class Main_gui:
             x = current_marker.position_x
             y = current_marker.position_y
             image_scale = self.image_scale
-            old_scale = self.old_image_scale
 
-            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, old_scale)###################
+            print(' ---- REDRAW ---- ')
+            print('MARKER DATA // {}, {}'.format(x, y))
+            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, True)###################
 
             new_index = self.canvas.find_all()[-1]
             current_marker.canvas_index = new_index
@@ -234,7 +241,7 @@ class Main_gui:
 
                 del self.samples.placed_markers[i]
 
-    def draw_marker_on_canvas(self, size, color, mode, qualifier, x, y, image_scale, old_scale):
+    def draw_marker_on_canvas(self, size, color, mode, qualifier, x, y, image_scale, redraw):
         '''
         Draws the marker on the canvas, using the passed parameters.
 
@@ -255,8 +262,7 @@ class Main_gui:
             No return in the method
         '''
 
-        image_scale = Shapes.calculate_scale_factor(old_scale, image_scale)
-        shape = Shapes.calculate_shape(qualifier, x, y, size, image_scale)
+        shape = Shapes.calculate_shape(qualifier, x, y, size, image_scale, redraw)
 
         if qualifier == 1:
             self.canvas.create_polygon(shape[0],
@@ -339,7 +345,6 @@ class Main_gui:
         '''
         if self.image_object:
             scrolled = int(event.delta / 60)
-            self.old_image_scale = self.image_scale
 
             if scrolled < 0:
                 self.image_scale /= abs(scrolled)
@@ -356,9 +361,6 @@ class Main_gui:
                     self.image_scale = 4
                 else:
                     self.scale_image(event.x, event.y)
-
-        factor = Shapes.calculate_scale_factor(self.old_image_scale, self.image_scale)
-        print('old scale:{}, scale:{}, factor:{}'.format(self.old_image_scale, self.image_scale, factor))
 
     def scale_image(self, x, y):
         '''
