@@ -12,11 +12,11 @@ class Options_gui:
         Building all elements of the options menu.
 
         Args:
-            main_gui: instance - class Main_gui from gui
-            options_tab: instance - module Tkinter class ttk.Frame
-            widget_geometries: instance - class Widget_geometries
-            samples: instance - class Samples
-            texts: instance - class Texts
+            main_gui: instance - class Main_gui from gui.
+            options_tab: instance - module Tkinter class ttk.Frame.
+            widget_geometries: instance - class Widget_geometries.
+            samples: instance - class Samples.
+            texts: instance - class Texts.
         '''
 
         self.main_gui = main_gui
@@ -181,7 +181,7 @@ class Options_gui:
         Updates the text of the qualifier passed through the given Entry.
 
         Args:
-            qualifier: int - qualifier of the marker activated
+            qualifier: int - qualifier of the marker activated.
                 integer in range 1-4
 
         Return:

@@ -10,13 +10,13 @@ class Marker:
         Args:
             canvas_index: int - number of the marker on the canvas, corresponds
                 to the order of placing all elements in the canvas.
-            size: int - contains the current size of the marker specified
-            mode: int - mode of the marker activated
+            size: int - contains the current size of the marker specified.
+            mode: int - mode of the marker activated.
                 integer in range 1-8
-            qualifier: int - qualifier of the marker activated
+            qualifier: int - qualifier of the marker activated.
                 integer in range 1-4
-            position_x: int - horizontal position of the marker
-            position_y: int - vertical position of the marker
+            position_x: int - horizontal position of the marker.
+            position_y: int - vertical position of the marker.
         '''
 
         self.canvas_index = canvas_index

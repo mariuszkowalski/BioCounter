@@ -8,7 +8,7 @@ class Widget_geometries:
         Class container for the all dimensions of all elements used in the GUI.
 
         Args:
-            settings: instance - class Settings
+            settings: instance - class Settings.
         '''
 
         self.settings = settings

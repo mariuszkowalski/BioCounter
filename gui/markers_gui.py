@@ -13,12 +13,12 @@ class Markers_gui:
         Building all elements of the markers menu.
 
         Args:
-            main_gui: instance - class Main_gui from gui
-            markers_tab: instance - module Tkinter class ttk.Frame
-            widget_geometries instance - class Widget_geometries
-            samples: instance - class Samples
-            statistics: instance - class Statistics
-            texts: instance - class Texts
+            main_gui: instance - class Main_gui from gui.
+            markers_tab: instance - module Tkinter class ttk.Frame.
+            widget_geometries instance - class Widget_geometries.
+            samples: instance - class Samples.
+            statistics: instance - class Statistics.
+            texts: instance - class Texts.
         '''
 
         self.main_gui = main_gui
@@ -557,13 +557,13 @@ class Markers_gui:
         to place correct marker in the canvas.
 
         Args:
-            mode: int - mode of the marker activated
+            mode: int - mode of the marker activated.
                 integer in range 1-8
-            qualifier: int - qualifier of the marker activated
+            qualifier: int - qualifier of the marker activated.
                 integer in range 1-4
 
         Return:
-            No return in the method
+            No return in the method.
         '''
 
         for k, v in self.samples_and_markers_buttons.items():
@@ -585,11 +585,11 @@ class Markers_gui:
         assigned the new color.
 
         Args:
-            mode: int - mode of the marker activated
+            mode: int - mode of the marker activated.
                 integer in range 1-8
 
         Return:
-            No return in the method
+            No return in the method.
         '''
 
         new_color = askcolor()[1]

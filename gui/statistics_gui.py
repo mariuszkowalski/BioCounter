@@ -9,14 +9,14 @@ class Statistics_gui:
 
     def __init__(self, statistics_tab, widget_geometries, samples, statistics, texts):
         '''
-        Building all elements of the statistics menu.
+        Building all elements of the analysis menu.
 
         Args:
-            statistics_tab: instance - module Tkinter class ttk.Frame
-            widget_geometries: instance - class Widget_geometries
-            samples: instance - class Samples
-            statistics: instance - class Statistics
-            texts: instance - class Texts
+            statistics_tab: instance - module Tkinter class ttk.Frame.
+            widget_geometries: instance - class Widget_geometries.
+            samples: instance - class Samples.
+            statistics: instance - class Statistics.
+            texts: instance - class Texts.
         '''
 
         self.statistics_tab = statistics_tab

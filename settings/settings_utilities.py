@@ -45,6 +45,17 @@ class SettingsUtilities:
 
     @staticmethod
     def save_settings_file(settings_path, settings):
+        '''
+        Gathers all settings and writes the setting files.
+
+        Args:
+            settings_path: string - path to the settings file.
+            settings: instance - class ManageSettings.
+
+        Return:
+            No return in method.
+        '''
+        
         settings_path = settings_path
         settings = settings
 

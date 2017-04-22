@@ -11,9 +11,9 @@ class Texts:
         Contains all the texts used in the program.
 
         Args:
-            samples: instance - class Samples
-            statistics: instance - class Statistics
-            widget_geometries: instance - class Widget_geometries
+            samples: instance - class Samples.
+            statistics: instance - class Statistics.
+            widget_geometries: instance - class Widget_geometries.
         '''
 
         self.samples = samples[0]
@@ -242,7 +242,7 @@ class Texts:
 
     def update_statistic_texts(self):
         '''
-        Updates all the statistics texts in the Entries.
+        Updates all the analysis texts in the Entries.
         Entries are read only type.
         '''
 

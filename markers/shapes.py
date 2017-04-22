@@ -14,20 +14,15 @@ class Shapes:
             position_y: int - position y of the left mouse button event.
             size: int - defined size of the marker in pixels.
             image_scale: float - current scale of the loaded image.
+            redraw: boolean - information if the marker is redraw or placed first time.
 
         Return:
             list: contains coordinates for each vertex of given shape.
         '''
 
-
         if redraw:
-            print('BEFORE // REDRAW = TRUE // x:{}, y:{}, SCALE:{}'.format(position_x, position_y, image_scale))
             position_x *= image_scale
             position_y *= image_scale
-            print('AFTER // REDRAW = TRUE // x:{}, y:{}, SCALE:{}'.format(position_x, position_y, image_scale))
-
-        else:
-            print('REDRAW = FALSE // x:{}, y:{}, SCALE:{}'.format(position_x, position_y, image_scale))
 
         shape = []
 

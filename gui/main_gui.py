@@ -18,11 +18,11 @@ class Main_gui:
         Building the picture frame and all it's elements and options frame.
 
         Args:
-            picture_frame: instance - module Tkinter class ttk.Frame
-            widget_geometries instance - class Widget_geometries
-            samples: instance - class Samples
-            statistics: instance - class Statistics
-            texts: instance - class Texts
+            picture_frame: instance - module Tkinter class ttk.Frame.
+            widget_geometries instance - class Widget_geometries.
+            samples: instance - class Samples.
+            statistics: instance - class Statistics.
+            texts: instance - class Texts.
         '''
 
         self.picture_frame = picture_frame
@@ -79,7 +79,7 @@ class Main_gui:
         Places image oo center of the canvas.
 
         Args:
-            raw_image_object: instance - the module PIL class Image.
+            raw_image_object: instance - the module PIL class Image
 
         Return:
             No return in the method
@@ -135,16 +135,12 @@ class Main_gui:
             size = self.widget_geometries.marker_size
             image_scale = self.image_scale
 
-            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, False)##############
+            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, False)
 
             canvas_index = self.canvas.find_all()[-1]
 
-            #
-            # Does know what scale is...
-            #
+            #Adjust recorded position according to set image scale.
             adjusted_x, adjusted_y = MarkerUtilities.adjust_recorded_position(x, y, image_scale)
-
-            print('SCALE: {}; CLICK: {}, {}; MARKER SET: {}, {}; ADJUSTED: {}, {}'.format(image_scale, event.x, event.y, x, y, adjusted_x, adjusted_y))
 
             marker = Marker(canvas_index, size, mode, qualifier, adjusted_x, adjusted_y)
             self.samples.placed_markers.append(marker)
@@ -158,11 +154,11 @@ class Main_gui:
         creates those again with new color assigned.
 
         Args:
-            mode: int - mode of the marker activated
+            mode: int - mode of the marker activated.
                 integer in range 1-8
 
         Return:
-            No return in the method
+            No return in the method.
         '''
 
         markers_to_delete = self.canvas.find_all()
@@ -181,7 +177,7 @@ class Main_gui:
                 y = current_marker.position_y
                 image_scale = self.image_scale
 
-                self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, True)################
+                self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, True)
 
                 new_index = self.canvas.find_all()[-1]
                 current_marker.canvas_index = new_index
@@ -209,9 +205,7 @@ class Main_gui:
             y = current_marker.position_y
             image_scale = self.image_scale
 
-            print(' ---- REDRAW ---- ')
-            print('MARKER DATA // {}, {}'.format(x, y))
-            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, True)###################
+            self.draw_marker_on_canvas(size, color, mode, qualifier, x, y, image_scale, True)
 
             new_index = self.canvas.find_all()[-1]
             current_marker.canvas_index = new_index
@@ -248,20 +242,21 @@ class Main_gui:
         Draws the marker on the canvas, using the passed parameters.
 
         Args:
-            size: int - contains the current size of the marker specified
+            size: int - contains the current size of the marker specified.
             color: string -  this is passed in the format:
                 "'#{:02X}{:02X}{:02X}'.format(255, 100, 100)"
-                the numbers corresponds to the RGB color palette
-            mode: int - mode of the marker activated
+                the numbers corresponds to the RGB color palette.
+            mode: int - mode of the marker activated.
                 integer in range 1-8
-            qualifier: int - qualifier of the marker activated
+            qualifier: int - qualifier of the marker activated.
                 integer in range 1-4
-            x: int - horizontal position of the marker
-            y: int - vertical position of the marker
+            x: int - horizontal position of the marker.
+            y: int - vertical position of the marker.
             image_scale: float - current scale of the loaded image.
+            redraw: boolean - information if the marker is redraw or placed first time.
 
         Return:
-            No return in the method
+            No return in the method.
         '''
 
         shape = Shapes.calculate_shape(qualifier, x, y, size, image_scale, redraw)
@@ -309,7 +304,7 @@ class Main_gui:
         This is due to 'all' argument in canvas.delete() method.
 
         Return:
-             No return in the method
+             No return in the method.
         '''
 
         markers_to_delete = self.canvas.find_all()
@@ -345,6 +340,7 @@ class Main_gui:
         '''
         Zoom in and out the canvas.
         '''
+
         if self.image_object:
             scrolled = int(event.delta / 60)
 
@@ -370,11 +366,11 @@ class Main_gui:
         Removes all placed markers, recalculates positioning and redraws markers.
 
         Args:
-            x: int - x coordinates of the scaling
-            y: int - y coordinates of the scaling
+            x: int - x coordinates of the scaling.
+            y: int - y coordinates of the scaling.
 
         Return:
-            No return in the method
+            No return in the method.
         '''
 
         self.canvas.delete('all')

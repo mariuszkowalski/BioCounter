@@ -19,12 +19,12 @@ from gui.widgets_geometries import Widget_geometries
 from samples import Samples
 from settings.manage_settings import ManageSettings
 from settings.settings_utilities import SettingsUtilities
-from statistics import Statistics
+from analysis.statistics import Statistics
 
 __author__ = 'Mariusz Kowalski'
 
 
-SETTINGS_PATH = os.path.dirname(os.path.abspath(__file__)).replace('\\', '/')
+SETTINGS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'settings').replace('\\', '/')
 
 
 class Window:
@@ -38,6 +38,7 @@ class Window:
             settings: instance - instance of ManageSettings class.
             mainWidget: instance - instance of the Tk() class.
         '''
+
         self.settings = settings
         self.mainWidget = mainWidget
 
@@ -91,7 +92,7 @@ class Window:
 
         self.debug_menu.add_command(label='Debug samples', command=self.debug_samples)
         self.debug_menu.add_command(label='Debug markers', command=self.debug_markers)
-        self.debug_menu.add_command(label='Debug statistics', command=self.debug_statistics)
+        self.debug_menu.add_command(label='Debug analysis', command=self.debug_statistics)
 
         #Main frame.
         self.main_frame = ttk.Frame(self.mainWidget,
@@ -193,7 +194,7 @@ class Window:
 
         else:
             # < ! >
-            # Clear statistics.
+            # Clear analysis.
             self.statistics[0].clear_all()
             #
             # Clear markers.
@@ -220,7 +221,7 @@ class Window:
         After the change happens the settings file is updated.
 
         args:
-            new_resolution; list - a list containing two integers for the new window resolution x and y
+            new_resolution; list - a list containing two integers for the new window resolution x and y.
         '''
         if self.settings.set_screen_resolution != new_resolution:
             self.settings.set_screen_resolution = new_resolution
@@ -237,7 +238,7 @@ class Window:
             element.destroy()
 
     def debug_statistics(self):
-        print('Debug statistics pressed.')
+        print('Debug analysis pressed.')
 
         for k, v in self.statistics[0].stats.items():
             print(k, '-->', v)
