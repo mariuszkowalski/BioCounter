@@ -3,10 +3,12 @@
 
 from tkinter import *
 from tkinter import ttk
-from marker import Marker
-from shapes import Shapes
-from PIL import Image, ImageTk
-from marker_utilities import MarkerUtilities
+
+from PIL import ImageTk
+
+from markers.marker import Marker
+from markers.marker_utilities import MarkerUtilities
+from markers.shapes import Shapes
 
 
 class Main_gui:

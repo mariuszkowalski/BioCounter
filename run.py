@@ -7,16 +7,18 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename
-from PIL import Image, ImageTk
+
+from PIL import Image
+
 from gui.main_gui import Main_gui
 from gui.markers_gui import Markers_gui
 from gui.options_gui import Options_gui
 from gui.statistics_gui import Statistics_gui
 from gui.texts import Texts
 from gui.widgets_geometries import Widget_geometries
-from manage_settings import ManageSettings
 from samples import Samples
-from settings_utilities import SettingsUtilities
+from settings.manage_settings import ManageSettings
+from settings.settings_utilities import SettingsUtilities
 from statistics import Statistics
 
 __author__ = 'Mariusz Kowalski'
