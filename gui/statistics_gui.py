@@ -2,7 +2,10 @@
 
 
 from tkinter import *
+from tkinter import messagebox
 from tkinter import ttk
+from tkinter.filedialog import asksaveasfilename
+from analysis.export_statistics import ExportStatistics
 
 
 class Statistics_gui:
@@ -24,6 +27,8 @@ class Statistics_gui:
         self.samples = samples[0]
         self.statistics = statistics[0]
         self.texts = texts[0]
+
+        self.filename_to_export = None
 
         self.statistic_qualifier_sum_text = StringVar()
         self.statistic_qualifier_sum_text.set('Sum')
@@ -962,3 +967,43 @@ class Statistics_gui:
         self.statistics_8_qualifier_4_percent.place(
             x=4 * self.widget_geometries.statistics_column_offset,
             y=self.widget_geometries.statistics_percent_row_offset)
+
+        #
+        # Export statistics
+        #
+        self.export_statistics_frame = ttk.LabelFrame(
+            self.statistics_tab,
+            relief=GROOVE,
+            width=self.widget_geometries.markers_options_frame_width,
+            height=self.widget_geometries.markers_options_frame_height,
+            text='Export statistics')
+        self.export_statistics_frame.place(x=5, y=self.widget_geometries.sample_frame_height * 8 + 30)
+
+        self.decrease_marker_size_button = ttk.Button(
+            self.export_statistics_frame,
+            width=14,
+            text='Export as *.csv')
+        self.decrease_marker_size_button.place(x=5, y=0)
+        self.decrease_marker_size_button.bind('<Button-1>', self.export_statistics_file)
+
+    def export_statistics_file(self, event):
+        allowed_file_types = ['.csv', '.CSV']
+        self.filename_to_export = asksaveasfilename(
+            defaultextension='.csv',
+            filetypes=(('Coma Separated Values', '*.csv *.CSV'), ('All files', '*.*')))
+
+        try:
+            if len(self.filename_to_export) > 0 and self.filename_to_export[-4:] not in allowed_file_types:
+                raise AttributeError
+            elif len(self.filename_to_export) == 0:
+                raise OSError
+
+        except AttributeError:
+            messagebox.showinfo(message='Not supported file type')
+
+        except OSError:
+            messagebox.showinfo(message='Export file not selected')
+
+        else:
+            #If everything ok, process with files.
+            ExportStatistics.export_to_csv(self.filename_to_export, self.samples, self.statistics)

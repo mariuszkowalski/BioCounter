@@ -19,10 +19,7 @@ class MarkerUtilities:
             position_y: float - absolute position y of the marker.
         '''
         
-        if scale > 1.0:
-            position_x /= scale
-            position_y /= scale
-        elif scale < 1.0:
+        if scale != 1.0:
             position_x /= scale
             position_y /= scale
 

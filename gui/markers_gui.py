@@ -499,11 +499,6 @@ class Markers_gui:
         self.clear_all_markers_button.place(x=24, y=2)
         self.clear_all_markers_button.bind('<Button-1>', self.clear_all_markers)
 
-        # Debug button.
-        self.debug_button_color = ttk.Button(self.markers_tab, width=10, text='Debug samples')
-        self.debug_button_color.place(x=10, y=500)
-        self.debug_button_color.bind('<Button-1>', self.debug_color_in_markers)
-
         # Dictionary of elements.
         self.samples_and_markers_buttons = {
             'sample_1_marker_1_button': self.sample_1_marker_1_button,
@@ -607,18 +602,6 @@ class Markers_gui:
         # Update color in the activated marker.
         if self.samples.activated_marker and self.samples.activated_marker['mode'] == mode:
             self.samples.activated_marker['color'] = new_color
-
-    def debug_color_in_markers(self, event):
-        '''
-        Debug method shows all elements form the instance of class Samples.
-        '''
-
-        print('---  C L I C K E D    I N    M A R K E R S  [ O N ]  ---')
-
-        for k, v in vars(self.samples).items():
-            print(k, '-->', v)
-
-        print('---  C L I C K E D    I N    M A R K E R S  [ O F F ]  ---')
 
     def clear_all_markers(self, event):
         '''
