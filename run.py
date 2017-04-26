@@ -196,7 +196,6 @@ class Window:
             # < ! >
             # Clear analysis.
             self.statistics[0].clear_all()
-            #
             # Clear markers.
             self.samples[0].placed_markers = []
             # < ! >
