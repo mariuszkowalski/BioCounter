@@ -59,7 +59,7 @@ class Window:
         self.drop_down_menu.add_cascade(label='File', menu=self.file_menu)
 
         self.file_menu.add_command(label='Open file', command=self.open_photo, accelerator='Ctrl+o')
-        self.file_menu.add_command(label='Save file', command=self.placeholder)
+        self.file_menu.add_command(label='Save file', command=self.save_photo)
         self.file_menu.add_separator()
         self.file_menu.add_command(label='Exit', command=self.mainWidget.quit)
 
@@ -206,6 +206,8 @@ class Window:
             # < ! >
             self.main_gui[0].place_image_on_canvas(self.image_object)
 
+    def save_photo(self):
+        print('Photo save.')
 
     def change_top_mode(self):
         '''
