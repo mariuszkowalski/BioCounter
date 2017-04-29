@@ -168,6 +168,7 @@ class Options_gui:
             text='-')
         self.decrease_marker_size_button.place(x=118, y=0)
         self.decrease_marker_size_button.bind('<Button-1>', self.decrease_marker_size)
+        self.decrease_marker_size_button.bind('<Control-j>', self.decrease_marker_size)
 
         self.increase_marker_size_button = ttk.Button(
             self.markers_option_frame,
@@ -175,6 +176,7 @@ class Options_gui:
             text='+')
         self.increase_marker_size_button.place(x=148, y=0)
         self.increase_marker_size_button.bind('<Button-1>', self.increase_marker_size)
+        self.increase_marker_size_button.bind('<Control-k>', self.increase_marker_size)
 
     def update_qualifiers(self, event, qualifier):
         '''
