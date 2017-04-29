@@ -58,7 +58,7 @@ class Window:
         self.file_menu = Menu(self.drop_down_menu, tearoff=0)
         self.drop_down_menu.add_cascade(label='File', menu=self.file_menu)
 
-        self.file_menu.add_command(label='Open file', command=self.open_photo)
+        self.file_menu.add_command(label='Open file', command=self.open_photo, accelerator='Ctrl+o')
         self.file_menu.add_command(label='Save file', command=self.placeholder)
         self.file_menu.add_separator()
         self.file_menu.add_command(label='Exit', command=self.mainWidget.quit)
@@ -69,7 +69,12 @@ class Window:
 
         self.resolution_menu = Menu(self.window_options_menu, tearoff=0)
 
-        self.window_options_menu.add_checkbutton(label='Always on top', onvalue=True, offvalue=False, command=self.change_top_mode)
+        self.window_options_menu.add_checkbutton(
+            label='Always on top',
+            onvalue=True,
+            offvalue=False,
+            accelerator='Ctrl+t',
+            command=self.change_top_mode)
         self.window_options_menu.add_separator()
 
         self.window_options_menu.add_cascade(label='Change resolution', menu=self.resolution_menu)
