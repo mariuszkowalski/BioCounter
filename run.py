@@ -6,10 +6,11 @@ import platform
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
-from tkinter.filedialog import askopenfilename
+from tkinter.filedialog import askopenfilename, asksaveasfilename
 
-from PIL import Image
+from PIL import Image, ImageDraw, ImageTk, ImageGrab
 
+from gui.export_canvas_utilities import ExportCanvasUtilities
 from gui.main_gui import Main_gui
 from gui.markers_gui import Markers_gui
 from gui.options_gui import Options_gui
@@ -58,8 +59,8 @@ class Window:
         self.file_menu = Menu(self.drop_down_menu, tearoff=0)
         self.drop_down_menu.add_cascade(label='File', menu=self.file_menu)
 
-        self.file_menu.add_command(label='Open file', command=self.open_photo, accelerator='Ctrl+o')
-        self.file_menu.add_command(label='Save file', command=self.save_photo)
+        self.file_menu.add_command(label='Open file', command=self.open_photo, accelerator='Ctrl+O')
+        self.file_menu.add_command(label='Save file', command=self.save_photo, accelerator='Ctrl+S')
         self.file_menu.add_separator()
         self.file_menu.add_command(label='Exit', command=self.mainWidget.quit)
 
@@ -73,8 +74,8 @@ class Window:
             label='Always on top',
             onvalue=True,
             offvalue=False,
-            accelerator='Ctrl+t',
-            command=self.change_top_mode)
+            command=self.change_top_mode,
+            accelerator='Ctrl+T')
         self.window_options_menu.add_separator()
 
         self.window_options_menu.add_cascade(label='Change resolution', menu=self.resolution_menu)
@@ -105,6 +106,9 @@ class Window:
                                     height=self.settings.adjusted_screen_height-20,
                                     padding=(0, 0, 0, 0))
         self.main_frame.place(x=0, y=0)
+        self.main_frame.bind_all('<Control-o>', self.open_photo_event_handler)
+        self.main_frame.bind_all('<Control-t>', self.change_top_mode_event_handler)
+        self.main_frame.bind_all('<Control-s>', self.save_photo_event_handler)
 
         self.status_bar = ttk.Label(self.mainWidget,
                                     width=self.settings.adjusted_screen_width,
@@ -181,21 +185,26 @@ class Window:
             self.texts
             )
 
+    def open_photo_event_handler(self, event):
+        self.open_photo()
+
     def open_photo(self):
         allowed_file_types = ['.jpg', '.png', '.tif', '.JPG', '.PNG', '.TIF']
         self.file_name = askopenfilename(filetypes=(('Graphic files', '*.jpg *.png *tif'), ('All files', '*.*')))
 
         try:
-            if self.file_name[-4:] not in allowed_file_types:
-                messagebox.showinfo(message='Not supported file type')
+            if len(self.file_name) == 0:
+                raise OSError
+            elif len(self.file_name) > 0 and self.file_name[-4:] not in allowed_file_types:
+                raise AttributeError
             else:
                 self.image_object = Image.open(self.file_name)
 
         except AttributeError:
-            pass
+            messagebox.showinfo(message='Not supported file type')
 
         except OSError:
-            messagebox.showinfo(message='Not supported file type')
+            messagebox.showinfo(message='File not selected')
 
         else:
             # < ! >
@@ -206,8 +215,69 @@ class Window:
             # < ! >
             self.main_gui[0].place_image_on_canvas(self.image_object)
 
+    def save_photo_event_handler(self, event):
+        self.save_photo()
+
     def save_photo(self):
-        print('Photo save.')
+        extension = None
+
+        if self.check_if_image_object_exists():
+
+            allowed_file_types = [self.file_name[-4:].lower(), self.file_name[-4:].upper()]
+            allowed_file_types_text = ' '.join(allowed_file_types)
+            extension = self.file_name[-4:].lower()
+
+            raw_file_name_to_save = asksaveasfilename(
+                filetypes=(
+                    ('Graphic files', allowed_file_types_text), ('All files', '*.*')))
+
+            self.file_name_to_save = '{}{}'.format(raw_file_name_to_save, extension)
+
+        try:
+            if len(self.file_name_to_save) > 0 and self.check_if_image_object_exists():
+                print('Ok to save')
+
+        except AttributeError:
+            pass
+
+        except OSError:
+            pass
+
+        else:
+            image_to_save = self.main_gui[0].raw_image_object
+
+            image_ready_to_save = ExportCanvasUtilities.place_elements(
+                image_to_save=image_to_save,
+                processed_image=self.main_gui[0].raw_image_object,
+                placed_markers=self.samples[0].placed_markers,
+                colors=self.samples[0].colors)
+
+            if extension[1:] == 'jpg':
+                image_ready_to_save.save(self.file_name_to_save, 'JPEG', quality=90)
+
+            elif extension[1:] == 'png':
+                image_ready_to_save.save(self.file_name_to_save, 'PNG', quality=90)
+
+            elif extension[1:] == 'tif':
+                image_ready_to_save.save(self.file_name_to_save, 'TIF', quality=90)
+
+
+    def check_if_image_object_exists(self):
+        #Attribute self.image_object has to exist first
+        try:
+            if self.image_object:
+                pass
+
+        except AttributeError:
+            messagebox.showinfo(message='No file to save')
+
+        else:
+            return True
+
+        return False
+
+    def change_top_mode_event_handler(self, event):
+        self.change_top_mode()
 
     def change_top_mode(self):
         '''
