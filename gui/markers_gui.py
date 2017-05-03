@@ -4,7 +4,6 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter.colorchooser import askcolor
-from gui.main_gui import Main_gui
 
 class Markers_gui:
 

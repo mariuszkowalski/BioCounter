@@ -3,9 +3,7 @@
 
 from tkinter import *
 from tkinter import ttk
-
 from PIL import ImageTk
-
 from markers.marker import Marker
 from markers.marker_utilities import MarkerUtilities
 from markers.shapes import Shapes

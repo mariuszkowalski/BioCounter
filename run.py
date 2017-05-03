@@ -7,9 +7,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename, asksaveasfilename
-
-from PIL import Image, ImageDraw, ImageTk, ImageGrab
-
+from PIL import Image
 from gui.export_canvas_utilities import ExportCanvasUtilities
 from gui.main_gui import Main_gui
 from gui.markers_gui import Markers_gui
@@ -210,6 +208,7 @@ class Window:
             # < ! >
             # Clear analysis.
             self.statistics[0].clear_all()
+            self.texts[0].update_statistic_texts()
             # Clear markers.
             self.samples[0].placed_markers = []
             # < ! >
@@ -231,11 +230,11 @@ class Window:
                 filetypes=(
                     ('Graphic files', allowed_file_types_text), ('All files', '*.*')))
 
-            self.file_name_to_save = '{}{}'.format(raw_file_name_to_save, extension)
+            self.file_name_to_save = ExportCanvasUtilities.format_export_file_name(raw_file_name_to_save, extension)
 
         try:
             if len(self.file_name_to_save) > 0 and self.check_if_image_object_exists():
-                print('Ok to save')
+                print(self.file_name_to_save)
 
         except AttributeError:
             pass
@@ -248,7 +247,6 @@ class Window:
 
             image_ready_to_save = ExportCanvasUtilities.place_elements(
                 image_to_save=image_to_save,
-                processed_image=self.main_gui[0].raw_image_object,
                 placed_markers=self.samples[0].placed_markers,
                 colors=self.samples[0].colors)
 
