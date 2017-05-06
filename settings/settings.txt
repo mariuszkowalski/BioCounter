@@ -2,5 +2,5 @@ always_on_top=False
 default_screen_resolution=1366x768
 screen_horizontal_margin=15
 screen_vertical_margin=100
-set_screen_resolution=1280x720
+set_screen_resolution=1366x768
 window_is_resizable=False

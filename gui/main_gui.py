@@ -17,7 +17,7 @@ class Main_gui:
 
         Args:
             picture_frame: instance - module Tkinter class ttk.Frame.
-            widget_geometries instance - class Widget_geometries.
+            widget_geometries: instance - class Widget_geometries.
             samples: instance - class Samples.
             statistics: instance - class Statistics.
             texts: instance - class Texts.
@@ -32,7 +32,8 @@ class Main_gui:
         self.valid_marker_tags = ['1', '2', '3', '4', '5', '6', '7', '8']
 
         self.image_scale = 1.0
-        self.old_image_scale = None
+        # Prevents scrolling error.
+        self.image_object = None
         self.raw_image_object = None
         self.resized_image_object = None
 
@@ -322,8 +323,6 @@ class Main_gui:
         '''
 
         self.canvas.yview_scroll(int(-1 * (event.delta / 120)), 'units')
-        print('Scroll y.')
-
 
     def use_mousewheel_and_shift_on_canvas(self, event):
         '''
@@ -331,8 +330,6 @@ class Main_gui:
         '''
 
         self.canvas.xview_scroll(int(-1 * (event.delta / 120)), 'units')
-        print('Scroll and shift on canvas.')
-
 
     def use_mousewheel_and_ctrl_on_canvas(self, event):
         '''

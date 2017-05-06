@@ -8,6 +8,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 from PIL import Image
+from gui.about_gui import About_gui
 from gui.export_canvas_utilities import ExportCanvasUtilities
 from gui.main_gui import Main_gui
 from gui.markers_gui import Markers_gui
@@ -19,6 +20,7 @@ from samples import Samples
 from settings.manage_settings import ManageSettings
 from settings.settings_utilities import SettingsUtilities
 from analysis.statistics import Statistics
+
 
 __author__ = 'Mariusz Kowalski'
 
@@ -58,7 +60,7 @@ class Window:
         self.drop_down_menu.add_cascade(label='File', menu=self.file_menu)
 
         self.file_menu.add_command(label='Open file', command=self.open_photo, accelerator='Ctrl+O')
-        self.file_menu.add_command(label='Save file', command=self.save_photo, accelerator='Ctrl+S')
+        self.file_menu.add_command(label='Save as', command=self.save_photo, accelerator='Ctrl+S')
         self.file_menu.add_separator()
         self.file_menu.add_command(label='Exit', command=self.mainWidget.quit)
 
@@ -88,7 +90,7 @@ class Window:
         self.about_menu = Menu(self.drop_down_menu, tearoff=0)
         self.drop_down_menu.add_cascade(label='About', menu=self.about_menu)
 
-        self.about_menu.add_command(label='Info', command=self.placeholder)
+        self.about_menu.add_command(label='Info', command=self.show_about_window)
 
         #Debug menu.
         self.debug_menu = Menu(self.drop_down_menu, tearoff=0)
@@ -133,13 +135,16 @@ class Window:
 
         self.markers_tab = ttk.Frame(self.notebook,
                                      width=self.widget_geometries[0].notebook_width,
-                                     height=self.widget_geometries[0].notebook_height)
+                                     height=self.widget_geometries[0].notebook_height,
+                                     takefocus=True)
         self.statistics_tab = ttk.Frame(self.notebook,
                                         width=self.widget_geometries[0].notebook_width,
-                                        height=self.widget_geometries[0].notebook_height)
+                                        height=self.widget_geometries[0].notebook_height,
+                                        takefocus=True)
         self.options_tab = ttk.Frame(self.notebook,
                                      width=self.widget_geometries[0].notebook_width,
-                                     height=self.widget_geometries[0].notebook_height)
+                                     height=self.widget_geometries[0].notebook_height,
+                                     takefocus=True)
 
         self.notebook.add(self.markers_tab, text='Markers')
         self.notebook.add(self.statistics_tab, text='Statistics')
@@ -205,13 +210,12 @@ class Window:
             messagebox.showinfo(message='File not selected')
 
         else:
-            # < ! >
             # Clear analysis.
             self.statistics[0].clear_all()
             self.texts[0].update_statistic_texts()
             # Clear markers.
             self.samples[0].placed_markers = []
-            # < ! >
+            # Place loaded image on the canvas.
             self.main_gui[0].place_image_on_canvas(self.image_object)
 
     def save_photo_event_handler(self, event):
@@ -251,13 +255,16 @@ class Window:
                 colors=self.samples[0].colors)
 
             if extension[1:] == 'jpg':
+                # Compression less than 95 is not recommended.
                 image_ready_to_save.save(self.file_name_to_save, 'JPEG', quality=90)
 
             elif extension[1:] == 'png':
-                image_ready_to_save.save(self.file_name_to_save, 'PNG', quality=90)
+                # 0 - no compression, 1 - best speed, 9 - best compression.
+                image_ready_to_save.save(self.file_name_to_save, 'PNG', compress_level=7)
 
             elif extension[1:] == 'tif':
-                image_ready_to_save.save(self.file_name_to_save, 'TIF', quality=90)
+                # Compressions available in pillow - None, tiff_deflate, tiff_adobe_deflate.
+                image_ready_to_save.save(self.file_name_to_save, 'TIFF', compression='None')
 
 
     def check_if_image_object_exists(self):
@@ -332,6 +339,10 @@ class Window:
             print(k, '-->', v)
 
         print('---  C L I C K E D    I N    M E N U  [ O F F ]  ---')
+
+    def show_about_window(self):
+        self.about_gui = About_gui(
+            self.widget_geometries)
 
     def placeholder(self):
         print('This is a simple placeholder message.')

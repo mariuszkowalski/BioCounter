@@ -53,3 +53,9 @@ class Widget_geometries:
         self.statistics_label_x = 7
         self.statistics_percent_label_y = 30
         self.statistics_label_y = 6
+
+        # About window
+        self.about_window_width = 255
+        self.about_window_height = 150
+        self.about_window_x = int(self.settings.adjusted_screen_width / 2 - self.about_window_width / 2)
+        self.about_window_y = int(self.settings.adjusted_screen_height / 2 - self.about_window_height / 2)
