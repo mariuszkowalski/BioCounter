@@ -10,23 +10,25 @@ from analysis.export_statistics import ExportStatistics
 
 class Statistics_gui:
 
-    def __init__(self, statistics_tab, widget_geometries, samples, statistics, texts):
+    def __init__(self, main_gui, statistics_tab, widget_geometries, samples, statistics, texts, statuses):
         '''
         Building all elements of the analysis menu.
-
+ instance - class Texts.
         Args:
             statistics_tab: instance - module Tkinter class ttk.Frame.
             widget_geometries: instance - class Widget_geometries.
             samples: instance - class Samples.
             statistics: instance - class Statistics.
-            texts: instance - class Texts.
+            texts:
         '''
 
+        self.main_gui = main_gui
         self.statistics_tab = statistics_tab
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
         self.statistics = statistics[0]
         self.texts = texts[0]
+        self.statuses = statuses[0]
 
         self.filename_to_export = None
 

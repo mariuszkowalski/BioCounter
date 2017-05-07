@@ -20,6 +20,9 @@ class Texts:
         self.statistics = statistics[0]
         self.widget_geometries = widget_geometries[0]
 
+        self.status_bar_text = StringVar()
+        self.status_bar_text.set('')
+
         self.marker_size = StringVar()
         self.marker_size.set(self.widget_geometries.marker_size)
 

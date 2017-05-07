@@ -11,7 +11,7 @@ from markers.shapes import Shapes
 
 class Main_gui:
 
-    def __init__(self, picture_frame, widget_geometries, samples, statistics, texts):
+    def __init__(self, picture_frame, widget_geometries, samples, statistics, texts, statuses):
         '''
         Building the picture frame and all it's elements and options frame.
 
@@ -23,11 +23,14 @@ class Main_gui:
             texts: instance - class Texts.
         '''
 
+        self.job_queue = None
+
         self.picture_frame = picture_frame
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
         self.statistics = statistics[0]
         self.texts = texts[0]
+        self.statuses = statuses[0]
 
         self.valid_marker_tags = ['1', '2', '3', '4', '5', '6', '7', '8']
 
@@ -316,6 +319,14 @@ class Main_gui:
         self.statistics.clear_all()
         self.texts.update_statistic_texts()
         self.samples.placed_markers = []
+
+        self.texts.status_bar_text.set(self.statuses.markers_cleared)
+
+        if self.job_queue:
+            self.canvas_frame.after_cancel(self.job_queue)
+            self.job_queue = self.canvas_frame.after(2000, self.statuses.clear_status_bar_text)
+        else:
+            self.job_queue = self.canvas_frame.after(2000, self.statuses.clear_status_bar_text)
 
     def use_mousewheel_on_canvas(self, event):
         '''

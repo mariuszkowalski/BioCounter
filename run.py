@@ -14,6 +14,7 @@ from gui.main_gui import Main_gui
 from gui.markers_gui import Markers_gui
 from gui.options_gui import Options_gui
 from gui.statistics_gui import Statistics_gui
+from gui.statuses import Statuses
 from gui.texts import Texts
 from gui.widgets_geometries import Widget_geometries
 from samples import Samples
@@ -47,9 +48,7 @@ class Window:
         self.samples = [Samples()]
         self.widget_geometries = [Widget_geometries(self.settings)]
         self.texts = [Texts(self.samples, self.statistics, self.widget_geometries)]
-
-        self.status_bar_text = StringVar()
-        self.status_bar_text.set('')
+        self.statuses = [Statuses(self.texts, self.widget_geometries)]
 
         #Menus
         self.drop_down_menu = Menu(self.mainWidget)
@@ -115,7 +114,7 @@ class Window:
                                     anchor=W,
                                     border=0,
                                     relief=SUNKEN,
-                                    textvariable=self.status_bar_text)
+                                    textvariable=self.texts[0].status_bar_text)
         self.status_bar.place(x=0, y=self.settings.adjusted_screen_height-19)
 
         self.mainWidget.update_idletasks()
@@ -158,7 +157,8 @@ class Window:
             self.widget_geometries,
             self.samples,
             self.statistics,
-            self.texts)]
+            self.texts,
+            self.statuses)]
 
         #
         #Initialization of additional gui parts.
@@ -169,15 +169,18 @@ class Window:
             self.widget_geometries,
             self.samples,
             self.statistics,
-            self.texts
+            self.texts,
+            self.statuses
             )
 
         self.statistics_gui = Statistics_gui(
+            self.main_gui[0],
             self.statistics_tab,
             self.widget_geometries,
             self.samples,
             self.statistics,
-            self.texts
+            self.texts,
+            self.statuses
             )
 
         self.options_gui = Options_gui(
@@ -185,7 +188,8 @@ class Window:
             self.options_tab,
             self.widget_geometries,
             self.samples,
-            self.texts
+            self.texts,
+            self.statuses
             )
 
     def open_photo_event_handler(self, event):
@@ -304,6 +308,7 @@ class Window:
         args:
             new_resolution; list - a list containing two integers for the new window resolution x and y.
         '''
+
         if self.settings.set_screen_resolution != new_resolution:
             self.settings.set_screen_resolution = new_resolution
             self.settings.calculate_additional_settings()

@@ -7,7 +7,7 @@ from tkinter import ttk
 
 class Options_gui:
 
-    def __init__(self, main_gui, options_tab, widget_geometries, samples, texts):
+    def __init__(self, main_gui, options_tab, widget_geometries, samples, texts, statuses):
         '''
         Building all elements of the options menu.
 
@@ -24,6 +24,7 @@ class Options_gui:
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
         self.texts = texts[0]
+        self.statuses = statuses[0]
 
         # Qualifier 1
         self.qualifiers_options_frame = ttk.LabelFrame(
@@ -228,6 +229,13 @@ class Options_gui:
         if self.widget_geometries.marker_size < self.widget_geometries.max_marker_size:
             self.increase_marker_size_button.state(['!disabled'])
 
+        self.texts.status_bar_text.set(self.statuses.show_markers_size_change_message())
+
+        if self.main_gui.job_queue:
+            self.main_gui.canvas_frame.after_cancel(self.main_gui.job_queue)
+            self.main_gui.job_queue = self.main_gui.canvas_frame.after(2000, self.statuses.clear_status_bar_text)
+        else:
+            self.main_gui.job_queue = self.main_gui.canvas_frame.after(2000, self.statuses.clear_status_bar_text)
 
     def increase_marker_size(self, event):
         '''
@@ -244,3 +252,11 @@ class Options_gui:
 
         if self.widget_geometries.marker_size > self.widget_geometries.min_marker_size:
             self.decrease_marker_size_button.state(['!disabled'])
+
+        self.texts.status_bar_text.set(self.statuses.show_markers_size_change_message())
+
+        if self.main_gui.job_queue:
+            self.main_gui.canvas_frame.after_cancel(self.main_gui.job_queue)
+            self.main_gui.job_queue = self.main_gui.canvas_frame.after(2000, self.statuses.clear_status_bar_text)
+        else:
+            self.main_gui.job_queue = self.main_gui.canvas_frame.after(2000, self.statuses.clear_status_bar_text)
