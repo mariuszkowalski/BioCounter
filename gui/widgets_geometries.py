@@ -59,3 +59,9 @@ class Widget_geometries:
         self.about_window_height = 150
         self.about_window_x = int(self.settings.adjusted_screen_width / 2 - self.about_window_width / 2)
         self.about_window_y = int(self.settings.adjusted_screen_height / 2 - self.about_window_height / 2)
+
+        # Jpg export window
+        self.jpg_export_window_width = 260
+        self.jpg_export_window_height = 120
+        self.jpg_export_window_x = int(self.settings.adjusted_screen_width / 2 - self.jpg_export_window_width / 2)
+        self.jpg_export_window_y = int(self.settings.adjusted_screen_height / 2 - self.jpg_export_window_height / 2)

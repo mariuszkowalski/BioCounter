@@ -7,8 +7,10 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename, asksaveasfilename
+
 from PIL import Image
-from gui.about_gui import About_gui
+
+from analysis.statistics import Statistics
 from gui.export_canvas_utilities import ExportCanvasUtilities
 from gui.main_gui import Main_gui
 from gui.markers_gui import Markers_gui
@@ -17,11 +19,12 @@ from gui.statistics_gui import Statistics_gui
 from gui.statuses import Statuses
 from gui.texts import Texts
 from gui.widgets_geometries import Widget_geometries
+
+from gui.misc.about_gui import About_gui
+from gui.misc.jpg_export_gui import Jpg_export
 from samples import Samples
 from settings.manage_settings import ManageSettings
 from settings.settings_utilities import SettingsUtilities
-from analysis.statistics import Statistics
-
 
 __author__ = 'Mariusz Kowalski'
 
@@ -98,6 +101,7 @@ class Window:
         self.debug_menu.add_command(label='Debug samples', command=self.debug_samples)
         self.debug_menu.add_command(label='Debug markers', command=self.debug_markers)
         self.debug_menu.add_command(label='Debug analysis', command=self.debug_statistics)
+        self.debug_menu.add_command(label='Debug jpg export window', command=self.debug_jpg_export_window)
 
         #Main frame.
         self.main_frame = ttk.Frame(self.mainWidget,
@@ -259,6 +263,10 @@ class Window:
                 colors=self.samples[0].colors)
 
             if extension[1:] == 'jpg':
+                self.jpg_export = Jpg_export(
+                    self.widget_geometries,
+                    self.samples,
+                    self.texts)
                 # Compression less than 95 is not recommended.
                 image_ready_to_save.save(self.file_name_to_save, 'JPEG', quality=90)
 
@@ -333,7 +341,7 @@ class Window:
         print('Debug markers pressed.')
         if len(self.samples[0].placed_markers) != 0:
             for element in self.samples[0].placed_markers:
-                print('X: {}, Y: {}'.format(element.position_x ,element.position_y))
+                print('X: {}, Y: {}'.format(element.position_x, element.position_y))
         else:
             print('No placed markers')
 
@@ -344,6 +352,12 @@ class Window:
             print(k, '-->', v)
 
         print('---  C L I C K E D    I N    M E N U  [ O F F ]  ---')
+
+    def debug_jpg_export_window(self):
+        self.jpg_export = Jpg_export(
+            self.widget_geometries,
+            self.samples,
+            self.texts)
 
     def show_about_window(self):
         self.about_gui = About_gui(

@@ -8,6 +8,7 @@ class Samples:
         Holds names for the samples and qualifiers.
         '''
         self.max_button_chars = 3
+        self.jpg_quality = 95
 
         self.names = {
             1: 'Sample 1',

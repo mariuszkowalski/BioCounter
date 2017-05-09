@@ -26,6 +26,9 @@ class Texts:
         self.marker_size = StringVar()
         self.marker_size.set(self.widget_geometries.marker_size)
 
+        self.jpg_quality_text = StringVar()
+        self.jpg_quality_text.set(self.samples.jpg_quality)
+
         self.sample_1_name = StringVar()
         self.sample_2_name = StringVar()
         self.sample_3_name = StringVar()
