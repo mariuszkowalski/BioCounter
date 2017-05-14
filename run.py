@@ -264,11 +264,14 @@ class Window:
 
             if extension[1:] == 'jpg':
                 self.jpg_export = Jpg_export(
+                    self.mainWidget,
                     self.widget_geometries,
                     self.samples,
                     self.texts)
+                print('JPG QUALITY: {q}'.format(q=self.samples[0].jpg_quality))
+
                 # Compression less than 95 is not recommended.
-                image_ready_to_save.save(self.file_name_to_save, 'JPEG', quality=90)
+                image_ready_to_save.save(self.file_name_to_save, 'JPEG', quality=self.samples[0].jpg_quality)
 
             elif extension[1:] == 'png':
                 # 0 - no compression, 1 - best speed, 9 - best compression.
@@ -355,6 +358,7 @@ class Window:
 
     def debug_jpg_export_window(self):
         self.jpg_export = Jpg_export(
+            self.mainWidget,
             self.widget_geometries,
             self.samples,
             self.texts)

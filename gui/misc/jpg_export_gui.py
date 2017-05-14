@@ -5,18 +5,20 @@ from tkinter import *
 from tkinter import ttk
 
 
-class Jpg_export:
+class Jpg_export(Toplevel):
 
-    def __init__(self, widget_geometries, samples, texts):
+    def __init__(self, main_widget, widget_geometries, samples, texts):
+        Toplevel.__init__(self, main_widget)
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
         self.texts = texts[0]
 
-        self.slider_value = IntVar()
+        self.transient(main_widget)
 
-        self.top_jpg_export_window = Toplevel()
-        self.top_jpg_export_window.focus()
-        self.top_jpg_export_window.title('Export jpg')
+        self.main_widget = main_widget
+        self.previous_quality = self.samples.jpg_quality
+
+        self.title('Export jpg')
 
         window_geometry = '{}x{}+{}+{}'.format(
             self.widget_geometries.jpg_export_window_width,
@@ -24,14 +26,29 @@ class Jpg_export:
             self.widget_geometries.jpg_export_window_x,
             self.widget_geometries.jpg_export_window_y)
 
-        self.top_jpg_export_window.geometry(window_geometry)
-        self.top_jpg_export_window.resizable(width=0, height=0)
+        self.geometry(window_geometry)
+        self.resizable(width=0, height=0)
 
         self.top_jpg_export_main_frame = ttk.Frame(
-            self.top_jpg_export_window,
+            self,
             width=self.widget_geometries.jpg_export_window_width,
             height=self.widget_geometries.jpg_export_window_height)
         self.top_jpg_export_main_frame.place(x=0, y=0)
+        self.initial_focus = self.top_jpg_export_main_frame
+
+        self.build_window_elements()
+        self.button_box()
+        self.grab_set()
+
+        if not self.initial_focus:
+            self.initial_focus = self
+
+        self.protocol('WM_DELETE_WINDOW', self.pressed_cancel)
+
+        self.initial_focus.focus_set()
+        self.wait_window(self)
+
+    def build_window_elements(self):
 
         self.jpg_quality_label = ttk.Label(
             self.top_jpg_export_main_frame,
@@ -61,15 +78,40 @@ class Jpg_export:
             from_=10,
             to=100,
             value=self.samples.jpg_quality,
-            #variable=self.slider_value,
             command=self.update_jpg_quality)
         self.jpg_quality_slider.place(x=15, y=35)
 
+    def button_box(self):
+
         self.confirm_quality_button = ttk.Button(
             self.top_jpg_export_main_frame,
-            text='OK')
-        self.confirm_quality_button.place(x=85, y=87)
+            text='OK',
+            default=ACTIVE)
+        self.confirm_quality_button.place(x=50, y=87)
+        self.confirm_quality_button.bind('<Button-1>', self.pressed_ok)
+        self.bind('<Return>', self.pressed_ok)
+
+        self.cancel_quality_button = ttk.Button(
+            self.top_jpg_export_main_frame,
+            text='Cancel')
+        self.cancel_quality_button.place(x=130, y=87)
+        self.cancel_quality_button.bind('<Button-1>', self.pressed_cancel_handler)
+        self.bind('<Escape>', self.pressed_cancel_handler)
 
     def update_jpg_quality(self, value):
         self.samples.jpg_quality = int(float(value))
         self.texts.jpg_quality_text.set(int(float(value)))
+
+    def pressed_ok(self, event):
+        self.withdraw()
+        self.update_idletasks()
+        self.destroy()
+
+    def pressed_cancel_handler(self, event):
+        self.pressed_cancel()
+
+    def pressed_cancel(self):
+        self.samples.jpg_quality = self.previous_quality
+        self.texts.jpg_quality_text.set(self.previous_quality)
+        self.main_widget.focus_set()
+        self.destroy()
