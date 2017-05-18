@@ -365,6 +365,7 @@ class Window:
 
     def show_about_window(self):
         self.about_gui = About_gui(
+            self.mainWidget,
             self.widget_geometries)
 
     def placeholder(self):
