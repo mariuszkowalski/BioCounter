@@ -32,6 +32,9 @@ class Texts:
         self.png_quality_text = StringVar()
         self.png_quality_text.set(self.samples.png_quality)
 
+        self.tif_compression_text = StringVar()
+        self.tif_compression_text.set(self.samples.tif_compression)
+
         self.sample_1_name = StringVar()
         self.sample_2_name = StringVar()
         self.sample_3_name = StringVar()

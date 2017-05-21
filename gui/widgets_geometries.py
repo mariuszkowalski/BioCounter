@@ -71,3 +71,9 @@ class Widget_geometries:
         self.png_export_window_height = 150
         self.png_export_window_x = int(self.settings.adjusted_screen_width / 2 - self.jpg_export_window_width / 2)
         self.png_export_window_y = int(self.settings.adjusted_screen_height / 2 - self.jpg_export_window_height / 2)
+
+        # Tif export window
+        self.tif_export_window_width = 260
+        self.tif_export_window_height = 150
+        self.tif_export_window_x = int(self.settings.adjusted_screen_width / 2 - self.jpg_export_window_width / 2)
+        self.tif_export_window_y = int(self.settings.adjusted_screen_height / 2 - self.jpg_export_window_height / 2)

@@ -48,7 +48,7 @@ class Png_export(Toplevel):
 
         self.png_quality_label = ttk.Label(
             self.top_png_export_main_frame,
-            text='Choose a quality of the JPEG file:')
+            text='Choose a quality of the PNG file:')
         self.png_quality_label.place(x=15, y=10)
 
         self.quality_min_label = ttk.Label(

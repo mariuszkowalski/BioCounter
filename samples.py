@@ -10,6 +10,7 @@ class Samples:
         self.max_button_chars = 3
         self.jpg_quality = 95
         self.png_quality = 7
+        self.tif_compression = 'None'
 
         self.names = {
             1: 'Sample 1',

@@ -23,6 +23,8 @@ from gui.widgets_geometries import Widget_geometries
 from gui.misc.about_gui import About_gui
 from gui.misc.jpg_export_gui import Jpg_export
 from gui.misc.png_export_gui import Png_export
+from gui.misc.tif_export_gui import Tif_export
+
 from samples import Samples
 from settings.manage_settings import ManageSettings
 from settings.settings_utilities import SettingsUtilities
@@ -104,6 +106,7 @@ class Window:
         self.debug_menu.add_command(label='Debug analysis', command=self.debug_statistics)
         self.debug_menu.add_command(label='Debug jpg export window', command=self.debug_jpg_export_window)
         self.debug_menu.add_command(label='Debug png export window', command=self.debug_png_export_window)
+        self.debug_menu.add_command(label='Debug tif export window', command=self.debug_tif_export_window)
 
         #Main frame.
         self.main_frame = ttk.Frame(self.mainWidget,
@@ -270,7 +273,6 @@ class Window:
                     self.widget_geometries,
                     self.samples,
                     self.texts)
-                #print('JPG QUALITY: {q}'.format(q=self.samples[0].jpg_quality))
 
                 # Compression less than 95 is not recommended.
                 image_ready_to_save.save(self.file_name_to_save, 'JPEG', quality=self.samples[0].jpg_quality)
@@ -287,8 +289,13 @@ class Window:
                 image_ready_to_save.save(self.file_name_to_save, 'PNG', compress_level=self.samples[0].png_quality)
 
             elif extension[1:] == 'tif':
+                self.tif_export = Tif_export(
+                    self.mainWidget,
+                    self.widget_geometries,
+                    self.samples,
+                    self.texts)
                 # Compressions available in pillow - None, tiff_deflate, tiff_adobe_deflate.
-                image_ready_to_save.save(self.file_name_to_save, 'TIFF', compression='None')
+                image_ready_to_save.save(self.file_name_to_save, 'TIFF', compression=self.samples[0].tif_compression)
 
 
     def check_if_image_object_exists(self):
@@ -374,6 +381,13 @@ class Window:
 
     def debug_png_export_window(self):
         self.png_export = Png_export(
+            self.mainWidget,
+            self.widget_geometries,
+            self.samples,
+            self.texts)
+
+    def debug_tif_export_window(self):
+        self.tif_export = Tif_export(
             self.mainWidget,
             self.widget_geometries,
             self.samples,
