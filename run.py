@@ -104,9 +104,6 @@ class Window:
         self.debug_menu.add_command(label='Debug samples', command=self.debug_samples)
         self.debug_menu.add_command(label='Debug markers', command=self.debug_markers)
         self.debug_menu.add_command(label='Debug analysis', command=self.debug_statistics)
-        self.debug_menu.add_command(label='Debug jpg export window', command=self.debug_jpg_export_window)
-        self.debug_menu.add_command(label='Debug png export window', command=self.debug_png_export_window)
-        self.debug_menu.add_command(label='Debug tif export window', command=self.debug_tif_export_window)
 
         #Main frame.
         self.main_frame = ttk.Frame(self.mainWidget,
@@ -283,7 +280,6 @@ class Window:
                     self.widget_geometries,
                     self.samples,
                     self.texts)
-                #print('PNG QUALITY: {q}'.format(q=self.samples[0].png_quality))
 
                 # 0 - no compression, 1 - best speed, 9 - best compression.
                 image_ready_to_save.save(self.file_name_to_save, 'PNG', compress_level=self.samples[0].png_quality)
@@ -294,6 +290,7 @@ class Window:
                     self.widget_geometries,
                     self.samples,
                     self.texts)
+
                 # Compressions available in pillow - None, tiff_deflate, tiff_adobe_deflate.
                 image_ready_to_save.save(self.file_name_to_save, 'TIFF', compression=self.samples[0].tif_compression)
 
@@ -371,27 +368,6 @@ class Window:
             print(k, '-->', v)
 
         print('---  C L I C K E D    I N    M E N U  [ O F F ]  ---')
-
-    def debug_jpg_export_window(self):
-        self.jpg_export = Jpg_export(
-            self.mainWidget,
-            self.widget_geometries,
-            self.samples,
-            self.texts)
-
-    def debug_png_export_window(self):
-        self.png_export = Png_export(
-            self.mainWidget,
-            self.widget_geometries,
-            self.samples,
-            self.texts)
-
-    def debug_tif_export_window(self):
-        self.tif_export = Tif_export(
-            self.mainWidget,
-            self.widget_geometries,
-            self.samples,
-            self.texts)
 
     def show_about_window(self):
         self.about_gui = About_gui(

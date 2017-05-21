@@ -13,8 +13,6 @@ class Tif_export(Toplevel):
         self.samples = samples[0]
         self.texts = texts[0]
 
-        #self.radiobutton_variable = None
-
         self.transient(main_widget)
 
         self.main_widget = main_widget
@@ -91,12 +89,8 @@ class Tif_export(Toplevel):
         self.cancel_quality_button.bind('<Button-1>', self.pressed_cancel_handler)
         self.bind('<Escape>', self.pressed_cancel_handler)
 
-    def update_tif_quality(self):
-        self.samples.tif_compression = self.texts.tif_compression_text.get()
-        print('CHOOSED TIFF COMPRESSION: {}'.format(self.samples.tif_compression))
-
     def pressed_ok(self, event):
-        self.update_tif_quality()
+        self.samples.tif_compression = self.texts.tif_compression_text.get()
         self.withdraw()
         self.update_idletasks()
         self.destroy()
