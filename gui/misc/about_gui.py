@@ -30,26 +30,21 @@ class About_gui(Toplevel):
 
         self.geometry(window_geometry)
         self.resizable(width=0, height=0)
-        #self.wm_attributes('-topmost', 1)
 
         self.about_window_main_frame = ttk.Frame(
             self,
             width=self.widget_geometries.about_window_width,
             height=self.widget_geometries.about_window_height)
         self.about_window_main_frame.place(x=0, y=0)
-        self.about_window_main_frame.bind('<Button-1>', self.pressed_cancel)
-        self.initial_focus = self.about_window_main_frame
+        self.about_window_main_frame.bind('<Button-1>', self.pressed_cancel_event_handler)
 
         self.build_window_elements()
 
         self.grab_set()
 
-        if not self.initial_focus:
-            self.initial_focus = self
-
         self.protocol('WM_DELETE_WINDOW', self.pressed_cancel)
 
-        self.initial_focus.focus_set()
+        self.about_window_main_frame.focus_set()
         self.wait_window(self)
 
 
@@ -79,5 +74,8 @@ class About_gui(Toplevel):
             text='Created with Python 3.4')
         self.info_label_4.place(x=20, y=105)
 
-    def pressed_cancel(self, event):
+    def pressed_cancel_event_handler(self, event):
+        self.pressed_cancel()
+
+    def pressed_cancel(self):
         self.destroy()

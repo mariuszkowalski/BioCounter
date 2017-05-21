@@ -29,6 +29,9 @@ class Texts:
         self.jpg_quality_text = StringVar()
         self.jpg_quality_text.set(self.samples.jpg_quality)
 
+        self.png_quality_text = StringVar()
+        self.png_quality_text.set(self.samples.png_quality)
+
         self.sample_1_name = StringVar()
         self.sample_2_name = StringVar()
         self.sample_3_name = StringVar()

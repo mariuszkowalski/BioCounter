@@ -34,18 +34,14 @@ class Jpg_export(Toplevel):
             width=self.widget_geometries.jpg_export_window_width,
             height=self.widget_geometries.jpg_export_window_height)
         self.top_jpg_export_main_frame.place(x=0, y=0)
-        self.initial_focus = self.top_jpg_export_main_frame
 
         self.build_window_elements()
         self.button_box()
         self.grab_set()
 
-        if not self.initial_focus:
-            self.initial_focus = self
-
         self.protocol('WM_DELETE_WINDOW', self.pressed_cancel)
 
-        self.initial_focus.focus_set()
+        self.top_jpg_export_main_frame.focus_set()
         self.wait_window(self)
 
     def build_window_elements(self):
