@@ -594,7 +594,6 @@ class Markers_gui:
 
             for k, v in self.samples_colors.items():
                 if k == mode:
-                    print('Found: {}'.format(mode))
                     v.configure(bg=new_color)
 
         self.main_gui.replace_markers_of_changed_color(mode)

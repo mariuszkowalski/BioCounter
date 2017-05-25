@@ -90,6 +90,7 @@ class Tif_export(Toplevel):
         self.bind('<Escape>', self.pressed_cancel_handler)
 
     def pressed_ok(self, event):
+        self.samples.export_status = True
         self.samples.tif_compression = self.texts.tif_compression_text.get()
         self.withdraw()
         self.update_idletasks()
@@ -99,6 +100,7 @@ class Tif_export(Toplevel):
         self.pressed_cancel()
 
     def pressed_cancel(self):
+        self.samples.export_status = False
         self.samples.tif_quality = self.previous_compression
         self.main_widget.focus_set()
         self.destroy()

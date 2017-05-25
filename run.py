@@ -33,6 +33,7 @@ __author__ = 'Mariusz Kowalski'
 
 
 SETTINGS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'settings').replace('\\', '/')
+DEBUG = 1
 
 
 class Window:
@@ -98,12 +99,13 @@ class Window:
         self.about_menu.add_command(label='Info', command=self.show_about_window)
 
         #Debug menu.
-        self.debug_menu = Menu(self.drop_down_menu, tearoff=0)
-        self.drop_down_menu.add_cascade(label='Debug', menu=self.debug_menu)
+        if DEBUG:
+            self.debug_menu = Menu(self.drop_down_menu, tearoff=0)
+            self.drop_down_menu.add_cascade(label='Debug', menu=self.debug_menu)
 
-        self.debug_menu.add_command(label='Debug samples', command=self.debug_samples)
-        self.debug_menu.add_command(label='Debug markers', command=self.debug_markers)
-        self.debug_menu.add_command(label='Debug analysis', command=self.debug_statistics)
+            self.debug_menu.add_command(label='Debug samples', command=self.debug_samples)
+            self.debug_menu.add_command(label='Debug markers', command=self.debug_markers)
+            self.debug_menu.add_command(label='Debug analysis', command=self.debug_statistics)
 
         #Main frame.
         self.main_frame = ttk.Frame(self.mainWidget,
@@ -233,6 +235,7 @@ class Window:
 
     def save_photo(self):
         extension = None
+        name_exists = False
 
         if self.check_if_image_object_exists():
 
@@ -244,17 +247,24 @@ class Window:
                 filetypes=(
                     ('Graphic files', allowed_file_types_text), ('All files', '*.*')))
 
+            if len(raw_file_name_to_save) > 0:
+                name_exists = True
+            else:
+                name_exists = False
+
             self.file_name_to_save = ExportCanvasUtilities.format_export_file_name(raw_file_name_to_save, extension)
 
         try:
-            if len(self.file_name_to_save) > 0 and self.check_if_image_object_exists():
-                print(self.file_name_to_save)
+            if name_exists and len(self.file_name_to_save) > 0 and self.check_if_image_object_exists():
+                self.samples[0].export_status = False
+            else:
+                raise OSError
 
         except AttributeError:
             pass
 
         except OSError:
-            pass
+            messagebox.showinfo(message='Invalid file name')
 
         else:
             image_to_save = self.main_gui[0].raw_image_object
@@ -271,8 +281,11 @@ class Window:
                     self.samples,
                     self.texts)
 
-                # Compression less than 95 is not recommended.
-                image_ready_to_save.save(self.file_name_to_save, 'JPEG', quality=self.samples[0].jpg_quality)
+                if self.samples[0].export_status:
+                    # Compression less than 95 is not recommended.
+                    image_ready_to_save.save(self.file_name_to_save, 'JPEG', quality=self.samples[0].jpg_quality)
+                else:
+                    messagebox.showinfo(message='Canceled')
 
             elif extension[1:] == 'png':
                 self.png_export = Png_export(
@@ -281,8 +294,11 @@ class Window:
                     self.samples,
                     self.texts)
 
-                # 0 - no compression, 1 - best speed, 9 - best compression.
-                image_ready_to_save.save(self.file_name_to_save, 'PNG', compress_level=self.samples[0].png_quality)
+                if self.samples[0].export_status:
+                    # 0 - no compression, 1 - best speed, 9 - best compression.
+                    image_ready_to_save.save(self.file_name_to_save, 'PNG', compress_level=self.samples[0].png_quality)
+                else:
+                    messagebox.showinfo(message='Canceled')
 
             elif extension[1:] == 'tif':
                 self.tif_export = Tif_export(
@@ -291,8 +307,14 @@ class Window:
                     self.samples,
                     self.texts)
 
-                # Compressions available in pillow - None, tiff_deflate, tiff_adobe_deflate.
-                image_ready_to_save.save(self.file_name_to_save, 'TIFF', compression=self.samples[0].tif_compression)
+                if self.samples[0].export_status:
+                    # Compressions available in pillow - None, tiff_deflate, tiff_adobe_deflate.
+                    image_ready_to_save.save(
+                        self.file_name_to_save,
+                        'TIFF',
+                        compression=self.samples[0].tif_compression)
+                else:
+                    messagebox.showinfo(message='Canceled')
 
 
     def check_if_image_object_exists(self):
@@ -407,5 +429,3 @@ def main():
 if __name__ == '__main__':
     if platform.system() == 'Windows':
         main()
-    else:
-        print('Platform not supported.')

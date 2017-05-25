@@ -105,6 +105,7 @@ class Png_export(Toplevel):
         self.texts.png_quality_text.set(int(float(value)))
 
     def pressed_ok(self, event):
+        self.samples.export_status = True
         self.withdraw()
         self.update_idletasks()
         self.destroy()
@@ -113,6 +114,7 @@ class Png_export(Toplevel):
         self.pressed_cancel()
 
     def pressed_cancel(self):
+        self.samples.export_status = False
         self.samples.png_quality = self.previous_quality
         self.texts.png_quality_text.set(self.previous_quality)
         self.main_widget.focus_set()
