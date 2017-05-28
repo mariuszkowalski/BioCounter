@@ -214,6 +214,7 @@ class Window:
                 raise AttributeError
             else:
                 self.image_object = Image.open(self.file_name)
+                self.samples[0].file_format_in_use = self.file_name[-4:]
 
         except AttributeError:
             messagebox.showinfo(message='Not supported file type')
@@ -239,9 +240,11 @@ class Window:
 
         if self.check_if_image_object_exists():
 
-            allowed_file_types = [self.file_name[-4:].lower(), self.file_name[-4:].upper()]
+            allowed_file_types = [
+                self.samples[0].file_format_in_use.lower(),
+                self.samples[0].file_format_in_use.upper()]
             allowed_file_types_text = ' '.join(allowed_file_types)
-            extension = self.file_name[-4:].lower()
+            extension = self.samples[0].file_format_in_use.lower()
 
             raw_file_name_to_save = asksaveasfilename(
                 filetypes=(
@@ -283,7 +286,10 @@ class Window:
 
                 if self.samples[0].export_status:
                     # Compression less than 95 is not recommended.
-                    image_ready_to_save.save(self.file_name_to_save, 'JPEG', quality=self.samples[0].jpg_quality)
+                    image_ready_to_save.save(
+                        self.file_name_to_save,
+                        'JPEG',
+                        quality=self.samples[0].jpg_quality)
                 else:
                     messagebox.showinfo(message='Canceled')
 
@@ -296,7 +302,10 @@ class Window:
 
                 if self.samples[0].export_status:
                     # 0 - no compression, 1 - best speed, 9 - best compression.
-                    image_ready_to_save.save(self.file_name_to_save, 'PNG', compress_level=self.samples[0].png_quality)
+                    image_ready_to_save.save(
+                        self.file_name_to_save,
+                        'PNG',
+                        compress_level=self.samples[0].png_quality)
                 else:
                     messagebox.showinfo(message='Canceled')
 

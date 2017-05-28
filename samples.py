@@ -12,6 +12,7 @@ class Samples:
         self.png_quality = 7
         self.tif_compression = 'None'
         self.export_status = False
+        self.file_format_in_use = None
 
         self.names = {
             1: 'Sample 1',
