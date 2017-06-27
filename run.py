@@ -3,6 +3,7 @@
 
 import os
 import platform
+import sys
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
@@ -31,8 +32,11 @@ from settings.settings_utilities import SettingsUtilities
 
 __author__ = 'Mariusz Kowalski'
 
+if getattr(sys, 'frozen', False):
+    SETTINGS_PATH = os.path.join(os.path.dirname(sys.executable), 'settings').replace('\\', '/')
+else:
+    SETTINGS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'settings').replace('\\', '/')
 
-SETTINGS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'settings').replace('\\', '/')
 DEBUG = 1
 
 
