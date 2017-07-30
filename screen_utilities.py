@@ -19,6 +19,7 @@ class ScreenUtilities:
             screen_width: int - corrected width of the screen set for one monitor
             screen_height: int - corrected height of the screen set for the one monitor
         '''
+
         ratio = '{0:.2f}'.format(screen_width / screen_height)
 
         if screen_height == 1080 and screen_width > 1920 and ratio > 1.78:

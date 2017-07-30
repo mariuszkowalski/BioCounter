@@ -2,8 +2,16 @@
 
 
 class Statistics:
+    '''
+    Class used for holding the created in
+    software statistics.
+    '''
 
     def __init__(self):
+        '''
+        Container for all information corresponding to the statistics.
+        '''
+
         self.stats = {
             1: {
                 1: 0,
@@ -115,6 +123,19 @@ class Statistics:
         }
 
     def change_stat(self, mode, qualifier, increase=True):
+        '''
+        Method used for registering any change in statistics
+
+        Args:
+            mode: int - mode of the marker activated.
+                integer in range 1-8
+            qualifier: int - qualifier of the marker activated.
+                integer in range 1-4
+            increase: bool - qualifies if the number statistic
+                increases or decreases.
+                default: True.
+        '''
+
         if increase:
             self.stats[mode][qualifier] += 1 * 1
         else:
@@ -123,6 +144,10 @@ class Statistics:
         self.calculate_all()
 
     def calculate_all(self):
+        '''
+        Calculates all the statistics.
+        '''
+
         for k_1 in self.stats.keys():
             # Reset sum value
             self.stats[k_1][5] = 0
@@ -133,11 +158,15 @@ class Statistics:
 
         for k_1 in self.percents.keys():
 
-            for k_2, v_2 in self.percents[k_1].items():
+            for k_2 in self.percents[k_1].keys():
                 if self.stats[k_1][5] > 0:
                     self.percents[k_1][k_2] = round((int(self.stats[k_1][k_2]) / int(self.stats[k_1][5]) * 100), 2)
 
     def clear_all(self):
+        '''
+        Clears all the statistics.
+        '''
+
         for k_1 in self.stats.keys():
             for k_2 in self.stats[k_1].keys():
                 self.stats[k_1][k_2] = 0

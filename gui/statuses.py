@@ -2,6 +2,9 @@
 
 
 class Statuses:
+    '''
+    Class for managing statuses shown in the status bar.
+    '''
 
     def __init__(self, texts, widget_geometries):
         '''

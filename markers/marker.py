@@ -2,6 +2,9 @@
 
 
 class Marker:
+    '''
+    Class representation for single marker.
+    '''
 
     def __init__(self, canvas_index, size, mode, qualifier, position_x, position_y):
         '''

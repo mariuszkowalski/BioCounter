@@ -2,6 +2,10 @@
 
 
 class Widget_geometries:
+    '''
+    Class for holding information about
+    widnow and elements geometries.
+    '''
 
     def __init__(self, settings):
         '''

@@ -2,6 +2,10 @@
 
 
 class ManageSettings:
+    '''
+    Settings manager.
+    Allows to change main program settings.
+    '''
 
     def __init__(self, **kwargs):
         '''
@@ -32,6 +36,10 @@ class ManageSettings:
         self.calculate_additional_settings()
 
     def calculate_additional_settings(self):
+        '''
+        Calculates additional settings using provided main settings values.
+        '''
+
         self.screen_width = self.set_screen_resolution[0]
         self.screen_height = self.set_screen_resolution[1]
         self.adjusted_screen_width = self.screen_width - self.screen_horizontal_margin

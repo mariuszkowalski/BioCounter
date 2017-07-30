@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
 
-from tkinter import *
+from tkinter import Label, CENTER
 from tkinter import ttk
 from tkinter.colorchooser import askcolor
 
 class Markers_gui:
+    '''
+    Class for creating markers part of the window interface.
+    '''
 
     def __init__(self, main_gui, markers_tab, widget_geometries, samples, statistics, texts, statuses):
         '''

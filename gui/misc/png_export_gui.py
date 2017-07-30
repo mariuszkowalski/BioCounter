@@ -1,14 +1,29 @@
 #!/usr/bin/env python3
 
 
-from tkinter import *
+from tkinter import Toplevel, Label, ACTIVE
 from tkinter import ttk
 
 
 class Png_export(Toplevel):
+    '''
+    Class creates modal window to save png file
+    about the software.
+    '''
 
     def __init__(self, main_widget, widget_geometries, samples, texts):
+        '''
+        Creates top level window used for saveing png file.
+
+        Args:
+            main_widget: instance - class Tk
+            widget_geometries: instance - class Widget_geometries.
+            samples: instance - class Samples
+            texts: instance - class Texts
+        '''
+
         Toplevel.__init__(self, main_widget)
+
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
         self.texts = texts[0]
@@ -45,6 +60,10 @@ class Png_export(Toplevel):
         self.wait_window(self)
 
     def build_window_elements(self):
+        '''
+        Create additional elements used in
+        modal window.
+        '''
 
         self.png_quality_label = ttk.Label(
             self.top_png_export_main_frame,
@@ -67,7 +86,7 @@ class Png_export(Toplevel):
         self.info_label.place(x=15, y=87)
 
 
-        self.current_quality =Label(
+        self.current_quality = Label(
             self.top_png_export_main_frame,
             width=3,
             bg='white',
@@ -84,6 +103,9 @@ class Png_export(Toplevel):
         self.png_quality_slider.place(x=15, y=35)
 
     def button_box(self):
+        '''
+        Creates button box for the modal window.
+        '''
 
         self.confirm_quality_button = ttk.Button(
             self.top_png_export_main_frame,
@@ -101,19 +123,36 @@ class Png_export(Toplevel):
         self.bind('<Escape>', self.pressed_cancel_handler)
 
     def update_png_quality(self, value):
+        '''
+        Update settings for the png save quality.
+        '''
+
         self.samples.png_quality = int(float(value))
         self.texts.png_quality_text.set(int(float(value)))
 
     def pressed_ok(self, event):
+        '''
+        Handles the events after confirmation of
+        save parameters.
+        '''
+
         self.samples.export_status = True
         self.withdraw()
         self.update_idletasks()
         self.destroy()
 
     def pressed_cancel_handler(self, event):
+        '''
+        Event handle for pressed cancel method.
+        '''
+
         self.pressed_cancel()
 
     def pressed_cancel(self):
+        '''
+        Method used to destroy modal window.
+        '''
+
         self.samples.export_status = False
         self.samples.png_quality = self.previous_quality
         self.texts.png_quality_text.set(self.previous_quality)

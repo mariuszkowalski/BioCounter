@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
+'''
+Main module of the BioCounter software.
+Requires pillow package to run.
 
+author: Mariusz Kowalski
+'''
 
 import os
 import platform
 import sys
-from tkinter import *
+from tkinter import Tk, Menu, W, SUNKEN
 from tkinter import messagebox
 from tkinter import ttk
 from tkinter.filedialog import askopenfilename, asksaveasfilename
@@ -30,6 +35,7 @@ from samples import Samples
 from settings.manage_settings import ManageSettings
 from settings.settings_utilities import SettingsUtilities
 
+
 __author__ = 'Mariusz Kowalski'
 
 if getattr(sys, 'frozen', False):
@@ -41,6 +47,10 @@ DEBUG = 1
 
 
 class Window:
+    '''
+    Main class of the software.
+    Creates Window interface using Tkinter module.
+    '''
 
     def __init__(self, mainWidget, settings):
         '''
@@ -205,9 +215,18 @@ class Window:
             )
 
     def open_photo_event_handler(self, event):
+        '''
+        Handler for open photo event to allow use of
+        keyboard shortcuts.
+        '''
+
         self.open_photo()
 
     def open_photo(self):
+        '''
+        Method for openning the photo.
+        '''
+
         allowed_file_types = ['.jpg', '.png', '.tif', '.JPG', '.PNG', '.TIF']
         self.file_name = askopenfilename(filetypes=(('Graphic files', '*.jpg *.png *tif'), ('All files', '*.*')))
 
@@ -236,9 +255,18 @@ class Window:
             self.main_gui[0].place_image_on_canvas(self.image_object)
 
     def save_photo_event_handler(self, event):
+        '''
+        Handler for close photo event to allow use of
+        keyboard shortcuts.
+        '''
+
         self.save_photo()
 
     def save_photo(self):
+        '''
+        Method for saveing the photo.
+        '''
+
         extension = None
         name_exists = False
 
@@ -331,6 +359,11 @@ class Window:
 
 
     def check_if_image_object_exists(self):
+        '''
+        Method checks if the image exists, to prevent
+        a save errors.
+        '''
+
         #Attribute self.image_object has to exist first
         try:
             if self.image_object:
@@ -345,6 +378,10 @@ class Window:
         return False
 
     def change_top_mode_event_handler(self, event):
+        '''
+        Handler for always on top mode event to allow use of
+        keyboard shortcuts.
+        '''
         self.change_top_mode()
 
     def change_top_mode(self):
@@ -378,17 +415,21 @@ class Window:
         else:
             messagebox.showinfo(message='This is current resolution.')
 
-    def remove_elements(self, elements):
-        for element in elements:
-            element.destroy()
-
     def debug_statistics(self):
+        '''
+        Method for debugging the statistics.
+        '''
+
         print('Debug analysis pressed.')
 
-        for k, v in self.statistics[0].stats.items():
-            print(k, '-->', v)
+        for key, value in self.statistics[0].stats.items():
+            print(key, '-->', value)
 
     def debug_markers(self):
+        '''
+        Method for debugging the markers.
+        '''
+
         print('Debug markers pressed.')
         if len(self.samples[0].placed_markers) != 0:
             for element in self.samples[0].placed_markers:
@@ -397,23 +438,33 @@ class Window:
             print('No placed markers')
 
     def debug_samples(self):
+        '''
+        Method for debugging the samples.
+        '''
+
         print('---  C L I C K E D    I N    M E N U  [ O N ]  ---')
 
-        for k, v in vars(self.samples[0]).items():
-            print(k, '-->', v)
+        for key, value in vars(self.samples[0]).items():
+            print(key, '-->', value)
 
         print('---  C L I C K E D    I N    M E N U  [ O F F ]  ---')
 
     def show_about_window(self):
+        '''
+        Method displays modal window containing
+        information about the software.
+        '''
+
         self.about_gui = About_gui(
             self.mainWidget,
             self.widget_geometries)
 
-    def placeholder(self):
-        print('This is a simple placeholder message.')
-
 
 def main():
+    '''
+    Main function used for software Initialization.
+    '''
+
     raw_settings = SettingsUtilities.load_settings_file(SETTINGS_PATH)
     settings = ManageSettings(**raw_settings)
 
@@ -423,12 +474,12 @@ def main():
     root.title('Bio Counter')
 
 
-    if settings.always_on_top == True:
+    if settings.always_on_top:
         root.wm_attributes('-topmost', 1)
     else:
         root.wm_attributes('-topmost', 0)
 
-    if settings.window_is_resizable == True:
+    if settings.window_is_resizable:
         root.resizable(width=1, height=1)
     else:
         root.resizable(width=0, height=0)

@@ -1,14 +1,29 @@
 #!/usr/bin/env python3
 
 
-from tkinter import *
+from tkinter import Toplevel, ACTIVE
 from tkinter import ttk
 
 
 class Tif_export(Toplevel):
+    '''
+    Class creates modal window to save tif file
+    about the software.
+    '''
 
     def __init__(self, main_widget, widget_geometries, samples, texts):
+        '''
+        Creates top level window used for saveing tif file.
+
+        Args:
+            main_widget: instance - class Tk
+            widget_geometries: instance - class Widget_geometries.
+            samples: instance - class Samples
+            texts: instance - class Texts
+        '''
+
         Toplevel.__init__(self, main_widget)
+
         self.widget_geometries = widget_geometries[0]
         self.samples = samples[0]
         self.texts = texts[0]
@@ -45,6 +60,10 @@ class Tif_export(Toplevel):
         self.wait_window(self)
 
     def build_window_elements(self):
+        '''
+        Create additional elements used in
+        modal window.
+        '''
 
         self.tif_quality_label = ttk.Label(
             self.top_tif_export_main_frame,
@@ -73,6 +92,9 @@ class Tif_export(Toplevel):
         self.tif_compression_tiff_adobe_deflate.place(x=15, y=85)
 
     def button_box(self):
+        '''
+        Creates button box for the modal window.
+        '''
 
         self.confirm_quality_button = ttk.Button(
             self.top_tif_export_main_frame,
@@ -90,6 +112,11 @@ class Tif_export(Toplevel):
         self.bind('<Escape>', self.pressed_cancel_handler)
 
     def pressed_ok(self, event):
+        '''
+        Handles the events after confirmation of
+        save parameters.
+        '''
+
         self.samples.export_status = True
         self.samples.tif_compression = self.texts.tif_compression_text.get()
         self.withdraw()
@@ -97,9 +124,17 @@ class Tif_export(Toplevel):
         self.destroy()
 
     def pressed_cancel_handler(self, event):
+        '''
+        Event handle for pressed cancel method.
+        '''
+
         self.pressed_cancel()
 
     def pressed_cancel(self):
+        '''
+        Method used to destroy modal window.
+        '''
+
         self.samples.export_status = False
         self.samples.tif_quality = self.previous_compression
         self.main_widget.focus_set()

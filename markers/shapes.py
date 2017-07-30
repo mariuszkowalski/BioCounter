@@ -2,6 +2,9 @@
 
 
 class Shapes:
+    '''
+    Class representation for single shape.
+    '''
 
     @staticmethod
     def calculate_shape(qualifier, position_x, position_y, size, image_scale, redraw):

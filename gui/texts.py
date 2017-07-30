@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 
 
-from tkinter import *
+from tkinter import StringVar
 
 
 class Texts:
-    
+    '''
+    Class for holding all variable texts used in
+    window interface.
+    '''
+
     def __init__(self, samples, statistics, widget_geometries):
         '''
         Contains all the texts used in the program.

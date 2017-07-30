@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
 
-from tkinter import *
+from tkinter import Label, CENTER
 from tkinter import ttk
 
 
 class Options_gui:
+    '''
+    Class for creating options part of the window interface.
+    '''
 
     def __init__(self, main_gui, options_tab, widget_geometries, samples, texts, statuses):
         '''

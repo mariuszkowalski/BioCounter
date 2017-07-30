@@ -27,19 +27,19 @@ class SettingsUtilities:
             raw_settings = [x.replace('\n', '') for x in file_to_read.readlines()]
 
         for element in raw_settings:
-            k, v = element.split('=')
+            key, value = element.split('=')
 
-            if k == 'default_screen_resolution' or k == 'set_screen_resolution':
-                settings[k] = [int(y) for y in v.split('x')]
+            if key == 'default_screen_resolution' or key == 'set_screen_resolution':
+                settings[key] = [int(y) for y in value.split('x')]
 
-            elif k == 'screen_horizontal_margin' or k == 'screen_vertical_margin':
-                settings[k] = int(v)
+            elif key == 'screen_horizontal_margin' or key == 'screen_vertical_margin':
+                settings[key] = int(value)
 
-            elif k == 'always_on_top' or k == 'window_is_resizable':
-                if v == 'True':
-                    settings[k] = True
-                elif v == 'False':
-                    settings[k] = False
+            elif key == 'always_on_top' or key == 'window_is_resizable':
+                if value == 'True':
+                    settings[key] = True
+                elif value == 'False':
+                    settings[key] = False
 
         return settings
 
@@ -55,7 +55,7 @@ class SettingsUtilities:
         Return:
             No return in method.
         '''
-        
+
         settings_path = settings_path
         settings = settings
 
@@ -63,16 +63,15 @@ class SettingsUtilities:
         settings_full_path = os.path.join(settings_path, 'settings.txt').replace('\\', '/')
         redundant_settings = ['screen_width', 'screen_height', 'adjusted_screen_width', 'adjusted_screen_height']
 
-        for k, v in vars(settings).items():
-            if k not in redundant_settings:
-                settings_to_write[k] = v
+        for key, value in vars(settings).items():
+            if key not in redundant_settings:
+                settings_to_write[key] = value
 
         with open(settings_full_path, 'w') as file_to_write:
-            for k, v in sorted(settings_to_write.items(), key=str):
-                if isinstance(v, list):
-                    temp = '{}={}x{}\n'.format(k, v[0], v[1])
+            for key, value in sorted(settings_to_write.items(), key=str):
+                if isinstance(value, list):
+                    temp = '{}={}x{}\n'.format(key, value[0], value[1])
                 else:
-                    temp = '{}={}\n'.format(k, v)
+                    temp = '{}={}\n'.format(key, value)
 
                 file_to_write.write(temp)
-

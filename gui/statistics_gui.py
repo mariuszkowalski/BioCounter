@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-from tkinter import *
+from tkinter import CENTER, GROOVE, StringVar
 from tkinter import messagebox
 from tkinter import ttk
 from tkinter.filedialog import asksaveasfilename
@@ -9,11 +9,14 @@ from analysis.export_statistics import ExportStatistics
 
 
 class Statistics_gui:
+    '''
+    Class for creating statistics part of the window interface.
+    '''
 
     def __init__(self, main_gui, statistics_tab, widget_geometries, samples, statistics, texts, statuses):
         '''
         Building all elements of the analysis menu.
- instance - class Texts.
+        instance - class Texts.
         Args:
             statistics_tab: instance - module Tkinter class ttk.Frame.
             widget_geometries: instance - class Widget_geometries.
@@ -265,7 +268,7 @@ class Statistics_gui:
             x=self.widget_geometries.statistics_label_x,
           y=self.widget_geometries.statistics_percent_label_y)
 
-        self.statistics_2_qualifier_1_percent= ttk.Entry(
+        self.statistics_2_qualifier_1_percent = ttk.Entry(
             self.statistics_2_frame,
             width=5,
             justify=CENTER,
@@ -376,7 +379,7 @@ class Statistics_gui:
             x=self.widget_geometries.statistics_label_x,
           y=self.widget_geometries.statistics_percent_label_y)
 
-        self.statistics_3_qualifier_1_percent= ttk.Entry(
+        self.statistics_3_qualifier_1_percent = ttk.Entry(
             self.statistics_3_frame,
             width=5,
             justify=CENTER,
@@ -487,7 +490,7 @@ class Statistics_gui:
             x=self.widget_geometries.statistics_label_x,
             y=self.widget_geometries.statistics_percent_label_y)
 
-        self.statistics_4_qualifier_1_percent= ttk.Entry(
+        self.statistics_4_qualifier_1_percent = ttk.Entry(
             self.statistics_4_frame,
             width=5,
             justify=CENTER,
@@ -597,7 +600,7 @@ class Statistics_gui:
             x=self.widget_geometries.statistics_label_x,
             y=self.widget_geometries.statistics_percent_label_y)
 
-        self.statistics_5_qualifier_1_percent= ttk.Entry(
+        self.statistics_5_qualifier_1_percent = ttk.Entry(
             self.statistics_5_frame,
             width=5,
             justify=CENTER,
@@ -708,7 +711,7 @@ class Statistics_gui:
             x=self.widget_geometries.statistics_label_x,
             y=self.widget_geometries.statistics_percent_label_y)
 
-        self.statistics_6_qualifier_1_percent= ttk.Entry(
+        self.statistics_6_qualifier_1_percent = ttk.Entry(
             self.statistics_6_frame,
             width=5,
             justify=CENTER,
@@ -819,7 +822,7 @@ class Statistics_gui:
             x=self.widget_geometries.statistics_label_x,
             y=self.widget_geometries.statistics_percent_label_y)
 
-        self.statistics_7_qualifier_1_percent= ttk.Entry(
+        self.statistics_7_qualifier_1_percent = ttk.Entry(
             self.statistics_7_frame,
             width=5,
             justify=CENTER,
@@ -930,7 +933,7 @@ class Statistics_gui:
             x=self.widget_geometries.statistics_label_x,
             y=self.widget_geometries.statistics_percent_label_y)
 
-        self.statistics_8_qualifier_1_percent= ttk.Entry(
+        self.statistics_8_qualifier_1_percent = ttk.Entry(
             self.statistics_8_frame,
             width=5,
             justify=CENTER,

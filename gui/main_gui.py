@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-from tkinter import *
+from tkinter import Canvas, HORIZONTAL, VERTICAL
 from tkinter import ttk
 from PIL import ImageTk
 from markers.marker import Marker
@@ -10,6 +10,9 @@ from markers.shapes import Shapes
 
 
 class Main_gui:
+    '''
+    Class for creating main part of the window interface.
+    '''
 
     def __init__(self, picture_frame, widget_geometries, samples, statistics, texts, statuses):
         '''
@@ -64,7 +67,7 @@ class Main_gui:
             height=self.widget_geometries.canvas_frame_height,
             borderwidth=0,
             highlightthickness=0,
-            scrollregion = (
+            scrollregion=(
                 0,
                 0,
                 self.widget_geometries.canvas_frame_width,

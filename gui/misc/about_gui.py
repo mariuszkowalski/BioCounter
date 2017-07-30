@@ -1,20 +1,26 @@
 #!/usr/bin/env python3
 
 
-from tkinter import *
+from tkinter import Toplevel
 from tkinter import ttk
 
 
 class About_gui(Toplevel):
+    '''
+    Class creates modal window to show information
+    about the software.
+    '''
 
     def __init__(self, main_widget, widget_geometries):
-        Toplevel.__init__(self, main_widget)
         '''
         Creates top level window containing information about BioCounter software.
 
         Args:
             widget_geometries: instance - class Widget_geometries.
         '''
+
+        Toplevel.__init__(self, main_widget)
+
         self.widget_geometries = widget_geometries[0]
 
         self.transient(main_widget)
@@ -49,6 +55,10 @@ class About_gui(Toplevel):
 
 
     def build_window_elements(self):
+        '''
+        Create additional elements used in
+        modal window.
+        '''
 
         self.info_label_1 = ttk.Label(
             self.about_window_main_frame,
@@ -75,7 +85,15 @@ class About_gui(Toplevel):
         self.info_label_4.place(x=20, y=105)
 
     def pressed_cancel_event_handler(self, event):
+        '''
+        Event handle for pressed cancel method.
+        '''
+
         self.pressed_cancel()
 
     def pressed_cancel(self):
+        '''
+        Method used to destroy modal window.
+        '''
+
         self.destroy()

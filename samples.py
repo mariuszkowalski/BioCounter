@@ -2,11 +2,15 @@
 
 
 class Samples:
+    '''
+    Class used as main data structure.
+    '''
 
     def __init__(self):
         '''
         Holds names for the samples and qualifiers.
         '''
+
         self.max_button_chars = 3
         self.jpg_quality = 95
         self.png_quality = 7
@@ -33,11 +37,11 @@ class Samples:
         }
 
         self.qualifiers_button_texts = {}
-        for k, v in self.qualifiers.items():
-            if len(v) > 3:
-                self.qualifiers_button_texts[k] = '{}.'.format(v[:self.max_button_chars])
+        for key, value in self.qualifiers.items():
+            if len(value) > 3:
+                self.qualifiers_button_texts[key] = '{}.'.format(value[:self.max_button_chars])
             else:
-                self.qualifiers_button_texts[k] = '{}'.format(v)
+                self.qualifiers_button_texts[key] = '{}'.format(value)
 
         self.colors = {
             1: '#{:02X}{:02X}{:02X}'.format(255, 100, 100),
